@@ -21,8 +21,31 @@ buildNumber.properties
 #
 # Visual Studio Code
 #
+
 .settings/
 .classpath
 .factorypath
 .project
 .vscode/
+/.settings/
+/target/
+ 
+# built application files
+*.apk
+*.ap_
+ 
+# files for the dex VM
+*.dex
+ 
+# Java class files
+*.class
+*.jar
+ 
+# generated files
+bin/
+gen/
+ 
+# Eclipse project files
+.classpath
+.project
+.DS_Store
