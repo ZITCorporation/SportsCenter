@@ -26,7 +26,7 @@ public class LoginController {
     }
     @RequestMapping(path = "/doLogin", method = RequestMethod.POST)
     public String loginPost(@ModelAttribute("form") @Valid LoginForm form, Model model) {
-        User user = repository.findByIdAndPassword(form.getId(), form.getPassword());
+        User user = repository.findByEmailAndPassword(form.getEmail(), form.getPassword());
         if (user != null) {
             session.setAttribute("user", user);
             session.setAttribute("loginStatus", 1);
