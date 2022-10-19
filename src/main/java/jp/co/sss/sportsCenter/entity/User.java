@@ -17,18 +17,18 @@ import javax.persistence.Table;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_user_gen")
-    @SequenceGenerator(name = "seq_user_gen", sequenceName = "seq_user", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_sportscenter_user_gen")
+    @SequenceGenerator(name = "seq_sportscenter_user_gen", sequenceName = "SEQ_SPORTSCENTER_USER", allocationSize = 1)
     private Integer id;
 
     @Column
     private String name;
 
     @Column
-    private String email;
+    private String password;
 
     @Column
-    private String pass;
+    private String email;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -38,11 +38,23 @@ public class User {
 
     @Column
     private String domicile;
-    
+
     @Column
     private Integer authority;
 
     public User() {
+    }
+
+    public User(Integer id, String name, String password, String email, String phoneNumber, Integer post,
+            String domicile, Integer authority) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.post = post;
+        this.domicile = domicile;
+        this.authority = authority;
     }
 
     public Integer getId() {
@@ -61,20 +73,20 @@ public class User {
         this.name = name;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPass() {
-        return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
     }
 
     public String getPhoneNumber() {

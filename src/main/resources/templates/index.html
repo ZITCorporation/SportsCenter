@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <title></title>
@@ -6,7 +7,26 @@
   </head>
   <body>
     <p th:text="${sample}"></p>
-    <a href="/login">To Login</a>
-    <p th:text="${id}"></p>
+    <a href="${loginStatus}"></a>
+    <div th:switch="${session.loginStatus}">
+      <span th:case="null">
+        <p>
+        <a href="/login">Login</a>
+      </p>
+        <a href="/users/create/input">Create New Account</a>
+      </span>
+      <span th:case="1">
+        <div>
+          <p>
+            <span th:text="${session.user.name}"></span>
+            Welcome!
+          </p>
+          <a href="/logout">Logout</a>
+        </div>
+        <div>
+          <a href="/users/getOne/{session.user.id}">Check Account Detail</a>
+        </div>
+      </span>
+    </div>
   </body>
 </html>

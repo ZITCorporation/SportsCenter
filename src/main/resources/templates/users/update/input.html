@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+  <div>User Edit</div>
+  <form method="post" th:action="@{/users/update/complete/} +${user.id}">
+    <div>Name:<input type="text" name="name" th:value="${user.name}" /></div>
+    <div>
+      Password:<input type="password" name="password" th:value="${user.password}" />
+    </div>
+    <div>
+      email:<input type="text" name="email" th:value="${user.email}" />
+    </div>
+    <div>
+      phoneNumber:<input type="text" name="phoneNumber" th:value="${user.phoneNumber}" />
+    </div>
+    <div>
+      post:<input type="number" name="post" th:value="${user.post}" />
+    </div>
+    <div>
+      domicile:<input type="text" name="domicile" th:value="${user.domicile}" />
+    </div>
+    <div><input type="submit" value="update" /></div>
+  </form>
+</body>
+
+</html>
