@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::body/content()})}">
 
 <head>
   <title></title>
@@ -31,7 +31,7 @@
             <div class="row">
               <p>
                 <span th:text="${session.user.name}"></span>
-                <span th:text="${session.user.id}"></span>
+                <span th:text="${session.user.userId}"></span>
                 Welcome!
               </p>
             </div>

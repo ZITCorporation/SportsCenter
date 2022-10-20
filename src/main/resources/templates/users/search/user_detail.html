@@ -20,7 +20,7 @@
       <form class="center">
         <div th:if="${session.user.authority == 1}">
           <div class="input-field col offset-s3 s6">
-            <input disabled th:value="${session.user.id}" name="id" type="text" class="validate" />
+            <input disabled th:value="${session.user.userId}" name="id" type="text" class="validate" />
             <label for="id">ID</label>
           </div>
         </div>
@@ -60,8 +60,8 @@
 
     <div class="row center">
       <a class="btn waves-effect waves-light" href="/users/update/input/">更新</a>
-      <a class="btn waves-effect waves-light" th:href="@{/users/delete/confirm/}+${session.user.id}">削除</a>
-      <a class="btn waves-effect waves-light" href="/">戻る</a>
+      <a class="btn waves-effect waves-light" th:href="@{/users/delete/confirm/}+${session.user.userId}">削除</a>
+      <a class="btn waves-effect waves-light back" href="/">戻る</a>
     </div>
 </body>
 

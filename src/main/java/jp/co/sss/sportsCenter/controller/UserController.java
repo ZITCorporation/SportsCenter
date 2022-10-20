@@ -5,7 +5,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jp.co.sss.sportsCenter.entity.User;
@@ -21,32 +20,29 @@ public class UserController {
     UserRepository repository;
 
     // ---------------------------------------------------------
-    // Find
+    // Find 検索
     @RequestMapping("/users/findAll")
     public String showUserList(Model model) {
         model.addAttribute("users", repository.findAll());
-        return "/users/user_list";
+        return "/users/search/user_list"; // 管理者権限を持つ、すべてのユーザー詳細画面のhtmlファイルのパス
     }
 
-    // @RequestMapping(value = "/users/getOne/{id}")
-    // public String showUser(@PathVariable int id, Model model) {
-    // model.addAttribute("user", repository.getReferenceById(id));
-    // return "/users/user_detail";
-    // }
-
     @RequestMapping(value = "/users/detail")
-    public String showUser() {
-        return "/users/user_detail";
+    public String showUser(HttpSession session, Model model) {
+        int id = ((User) session.getAttribute("user")).getUserId();
+        User user = repository.getReferenceById(id);
+        model.addAttribute("user", user);
+        return "/users/search/user_detail"; // ユーザー詳細画面のhtmlファイルのパス
     }
 
     // ---------------------------------------------------------
-    // Create
+    // Create 新規登録
     @RequestMapping(value = "/users/create/input", method = RequestMethod.GET)
     public String createInput() {
-        return "/users/create/input";
+        return "/users/create/input"; // 新規登録入力画面のhtmlファイルのパス
     }
 
-    @RequestMapping(value = "/users/create/complete", method = RequestMethod.POST)
+    @RequestMapping(value = "/users/create/confirm", method = RequestMethod.POST)
     public String createComplete(UserForm form) {
         User user = new User();
         user.setName(form.getName());
@@ -57,19 +53,20 @@ public class UserController {
         user.setDomicile(form.getDomicile());
         user.setAuthority(0);
         repository.save(user);
-        return "redirect:/users/getOne/" + user.getId();
+        return "/users/create/complete"; // ユーザー新規登録成功画面のhtmlファイルのパス
     }
 
     // ---------------------------------------------------------
-    // Update
+    // Update 更新
     @RequestMapping(value = "/users/update/input")
     public String updateInput() {
-        return "/users/update/input";
+        return "/users/update/input"; // ユーザー情報更新の入力画面のhtmlファイルのパス
     }
 
     @RequestMapping(value = "/users/update/confirm", method = RequestMethod.POST)
     public String updateComplete(HttpSession session, UserForm form) {
-        User user = repository.getReferenceById(((User) session.getAttribute("user")).getId());
+        int id = ((User) session.getAttribute("user")).getUserId();
+        User user = repository.getReferenceById(id);
         user.setName(form.getName());
         user.setPassword(form.getPassword());
         user.setEmail(form.getEmail());
@@ -78,21 +75,22 @@ public class UserController {
         user.setDomicile(form.getDomicile());
         user.setAuthority(form.getAuthority());
         repository.save(user);
-        return "redirect:/users/detail";
+        session.setAttribute("user", user);
+        return "/users/update/complete"; // ユーザー情報更新成功画面のhtmlファイルのパス
     }
 
     // ---------------------------------------------------------
-    // Delete
-    @RequestMapping(value = "/users/delete/confirm/{id}", method = RequestMethod.GET)
-    public String delete(@PathVariable int id, Model model) {
-        model.addAttribute("id", id);
-        return "/users/delete/confirm";
+    // Delete 削除
+    @RequestMapping(value = "/users/delete/confirm", method = RequestMethod.GET)
+    public String delete() {
+        return "/users/delete/confirm"; // ユーザー削除確認画面のhtmlファイルのパス
     }
 
-    @RequestMapping(value = "/users/delete/complete/{id}", method = RequestMethod.GET)
-    public String deleteCompelete(@PathVariable int id) {
+    @RequestMapping(value = "/users/delete/complete", method = RequestMethod.GET)
+    public String deleteCompelete(HttpSession session) {
+        int id = ((User) session.getAttribute("user")).getUserId();
         repository.deleteById(id);
-        return "/users/delete/complete";
+        return "/users/delete/complete"; // ユーザー削除成功画面のhtmlファイルのパス
     }
 
 }

@@ -19,7 +19,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_sportscenter_user_gen")
     @SequenceGenerator(name = "seq_sportscenter_user_gen", sequenceName = "SEQ_SPORTSCENTER_USER", allocationSize = 1)
-    private Integer id;
+    private Integer userId;
 
     @Column
     private String name;
@@ -45,9 +45,9 @@ public class User {
     public User() {
     }
 
-    public User(Integer id, String name, String password, String email, String phoneNumber, Integer post,
+    public User(Integer userId, String name, String password, String email, String phoneNumber, Integer post,
             String domicile, Integer authority) {
-        this.id = id;
+        this.userId = userId;
         this.name = name;
         this.password = password;
         this.email = email;
@@ -57,12 +57,12 @@ public class User {
         this.authority = authority;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -120,5 +120,5 @@ public class User {
     public void setAuthority(Integer authority) {
         this.authority = authority;
     }
-
+    
 }

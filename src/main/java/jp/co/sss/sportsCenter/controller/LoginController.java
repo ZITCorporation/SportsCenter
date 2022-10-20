@@ -17,13 +17,15 @@ import jp.co.sss.sportsCenter.repository.UserRepository;
 public class LoginController {
     @Autowired
     UserRepository repository;
-    
+
     @Autowired
     HttpSession session;
+
     @RequestMapping(path = "/login", method = RequestMethod.GET)
     public String login() {
-        return "login";
+        return "/users/login/login";
     }
+
     @RequestMapping(path = "/doLogin", method = RequestMethod.POST)
     public String loginPost(@ModelAttribute("form") @Valid LoginForm form, Model model) {
         User user = repository.findByEmailAndPassword(form.getEmail(), form.getPassword());
@@ -33,7 +35,7 @@ public class LoginController {
         } else {
             model.addAttribute("errormessage", "ID、またはパスワードが間違っています。");
             System.out.println("failed!");
-            System.out.println(form.getEmail()+" "+form.getPassword());
+            System.out.println(form.getEmail() + " " + form.getPassword());
             return "login";
         }
         return "redirect:/";

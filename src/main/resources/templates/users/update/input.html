@@ -19,11 +19,11 @@
     <div class="row" th:unless="${session.user==null}">
       <div th:if="${session.user.authority == 1}">
         <div class="input-field col offset-s3 s6">
-          <input th:value="${session.user.id}" name="id" type="text" class="validate" />
+          <input th:value="${session.user.userId}" name="id" type="text" class="validate" />
           <label for="id">ID</label>
         </div>
       </div>
-      <form class="center" method="post" th:action="@{/users/update/confirm/}">
+      <form class="center" method="post" action="/users/update/confirm/">
         <div class="input-field col offset-s3 s6">
           <input th:value="${session.user.name}" name="name" type="text" class="validate" />
           <label for="name">名前</label>
@@ -59,7 +59,7 @@
         <div class="row center">
           <div class="input-field col offset-s3 s6">
             <button class="btn waves-effect waves-light" type="submit">確認</button>
-            <a class="btn waves-effect waves-light" href="/users/detail">戻る</a>
+            <a class="btn waves-effect waves-light back" href="/users/detail">戻る</a>
           </div>
         </div>
       </form>

@@ -15,7 +15,7 @@ public class LendingTool {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_tool_gen")
     @SequenceGenerator(name = "seq_tool_gen", sequenceName = "seq_tool", allocationSize = 1)
-    private Integer id;
+    private Integer toolId;
     
     @Column(name = "tool_name")
     private String toolName;
@@ -23,12 +23,12 @@ public class LendingTool {
     public LendingTool() {
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getToolId() {
+        return toolId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setToolId(Integer toolId) {
+        this.toolId = toolId;
     }
 
     public String getToolName() {
@@ -38,5 +38,7 @@ public class LendingTool {
     public void setToolName(String toolName) {
         this.toolName = toolName;
     }
+
+    
 
 }

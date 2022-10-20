@@ -1,20 +1,59 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <title></title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </head>
-  <body>
-    <div>User Create</div>
-    <form method="post" th:action="@{/users/create/complete}">
-      <div>Name:<input type="text" name="name" /></div>
-      <div>Password:<input type="password" name="password" /></div>
-      <div>email:<input type="text" name="email" /></div>
-      <div>phoneNumber:<input type="text" name="phoneNumber" /></div>
-      <div>post:<input type="number" name="post" /></div>
-      <div>domicile:<input type="text" name="domicile" /></div>
-      <div><input type="submit" value="Create" /></div>
+
+<head>
+  <title></title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="row center">
+      <h3>ユーザー新規登録</h3>
+    </div>
+
+    <form class="center" method="post" action="/users/create/confirm">
+      <div class="input-field col offset-s3 s6">
+        <input name="name" type="text" class="validate" />
+        <label for="name">名前</label>
+      </div>
+      <div class="input-field col offset-s3 s6">
+        <input name="password" type="password" class="validate" />
+        <label for="password">パスワード</label>
+      </div>
+      <div class="input-field col offset-s3 s6">
+        <input name="email" type="email" class="validate" />
+        <label for="email">メールアドレス</label>
+      </div>
+      <div class="input-field col offset-s3 s6">
+        <input name="phoneNumber" type="number" class="validate" />
+        <label for="phoneNumber">電話番号</label>
+      </div>
+      <div class="input-field col offset-s3 s6">
+        <input name="post" type="text" class="number" />
+        <label for="post">郵便番号</label>
+      </div>
+      <div class="input-field col offset-s3 s6">
+        <input name="domicile" type="text" class="validate" />
+        <label for="domicile">住所</label>
+      </div>
+
+      <div th:if="${session.user.authority == 1}">
+        <div class="input-field col offset-s3 s6">
+          <input name="authority" type="number" class="validate" />
+          <label for="authority">権限</label>
+        </div>
+      </div>
+
+      <div class="row center">
+        <div class="input-field col offset-s3 s6">
+          <button class="btn waves-effect waves-light" type="submit">確認</button>
+          <a class="btn waves-effect waves-light back" href="/">戻る</a>
+        </div>
+      </div>
     </form>
-  </body>
+  </div>
+</body>
+
 </html>

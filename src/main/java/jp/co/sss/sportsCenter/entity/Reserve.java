@@ -20,12 +20,12 @@ public class Reserve {
     private Integer reserveId;
 
     @ManyToOne
-    @JoinColumn(name = "management_id", referencedColumnName = "id")
-    private ReserveManagement managementId;
+    @JoinColumn(name = "management_id", referencedColumnName = "reserveManagementId")
+    private ReserveManagement reserveManagementId;
 
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id")
-    private LendingTool id;
+    @JoinColumn(name = "tool_id", referencedColumnName = "toolId")
+    private LendingTool toolId;
     
     @Column
     private Integer number;
@@ -42,19 +42,19 @@ public class Reserve {
     }
 
     public ReserveManagement getManagementId() {
-        return managementId;
+        return reserveManagementId;
     }
 
-    public void setManagementId(ReserveManagement managementId) {
-        this.managementId = managementId;
+    public void setManagementId(ReserveManagement reserveManagementId) {
+        this.reserveManagementId = reserveManagementId;
     }
 
-    public LendingTool getId() {
-        return id;
+    public LendingTool getToolId() {
+        return toolId;
     }
 
-    public void setId(LendingTool id) {
-        this.id = id;
+    public void setToolId(LendingTool toolId) {
+        this.toolId = toolId;
     }
 
     public Integer getNumber() {

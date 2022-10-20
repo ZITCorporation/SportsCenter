@@ -19,11 +19,11 @@ public class ReserveManagement {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_reserve_management_gen")
     @SequenceGenerator(name = "seq_reserve_management_gen", sequenceName = "seq_reserve_management", allocationSize = 1)
-    private Integer managementId;
+    private Integer reserveManagementId;
 
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id")
-    private User id;
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    private User userId;
 
     @Column
     private Date date;
@@ -32,26 +32,26 @@ public class ReserveManagement {
     private String lendingTime;
 
     @ManyToOne
-    @JoinColumn(name = "facility_id", referencedColumnName = "id")
+    @JoinColumn(name = "facility_id", referencedColumnName = "facilityId")
     private LendingFacility facilityId;
 
     public ReserveManagement() {
     }
 
-    public Integer getManagementId() {
-        return managementId;
+    public Integer getReserveManagementId() {
+        return reserveManagementId;
     }
 
-    public void setManagementId(Integer managementId) {
-        this.managementId = managementId;
+    public void setReserveManagementId(Integer reserveManagementId) {
+        this.reserveManagementId = reserveManagementId;
     }
 
-    public User getId() {
-        return id;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setId(User id) {
-        this.id = id;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     public Date getDate() {
@@ -77,5 +77,7 @@ public class ReserveManagement {
     public void setFacilityId(LendingFacility facilityId) {
         this.facilityId = facilityId;
     }
+
+    
 
 }
