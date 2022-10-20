@@ -12,26 +12,31 @@
 <body>
 
   <div class="container">
-    <h3>ログイン</h3>
+    <div class="row center">
+      <h3>ログイン</h3>
+    </div>
+    <div class="row center">
+      <p class="materialize-red-text text-lighten-2 " th:text="${errormessage}" ></p>
+    </div>
 
-    <form class="center" method="post" th:action="@{/doLogin}">
+    <form class="center" method="post" action="/doLogin">
 
       <div class="row center">
-        <div class="input-field col offset-s4 s4">
+        <div class="input-field col offset-s3 s6">
           <input name="email" type="email" class="validate" />
           <label for="email">メールアドレス</label>
         </div>
       </div>
 
       <div class="row center">
-        <div class="input-field col offset-s4 s4">
+        <div class="input-field col offset-s3 s6">
           <input name="password" type="password" class="validate" />
           <label for="password">パスワード</label>
         </div>
       </div>
 
       <div class="row center">
-        <div class="input-field col offset-s4 s4">
+        <div class="input-field col offset-s3 s6">
           <button class="btn waves-effect waves-light" type="submit">ログイン
           </button>
           <a class="btn waves-effect waves-light back" href="/">戻る</a>

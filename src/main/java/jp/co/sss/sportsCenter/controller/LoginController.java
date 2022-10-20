@@ -33,10 +33,10 @@ public class LoginController {
             session.setAttribute("user", user);
             session.setAttribute("loginStatus", 1);
         } else {
-            model.addAttribute("errormessage", "ID、またはパスワードが間違っています。");
+            model.addAttribute("errormessage", "メールアドレス、またはパスワードが間違っています。");
             System.out.println("failed!");
             System.out.println(form.getEmail() + " " + form.getPassword());
-            return "login";
+            return "/users/login/login";
         }
         return "redirect:/";
     }
