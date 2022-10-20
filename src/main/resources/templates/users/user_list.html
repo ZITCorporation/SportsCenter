@@ -1,33 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <title></title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </head>
-  <body>
-    <div>User List</div>
-    <table>
-        <tr>
-            <th>id</th>
-            <th>name</th>
-            <th>password</th>
-            <th>email</th>
-            <th>phoneNumber</th>
-            <th>post</th>
-            <th>domicile</th>
-            <th>authority</th>
+
+<head>
+  <title></title>
+  <link type="text/css" rel="stylesheet" href="/css/materialize.css" />
+  <script type="text/javascript" src="/js/materialize.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="row center">
+
+      <h3>ユーザー一覧</h3>
+
+    </div>
+    <div class="row">
+
+      <table class="highlight ">
+        <tr class="center">
+          <th>ID</th>
+          <th>名前</th>
+          <th>パスワード</th>
+          <th>メールアドレス</th>
+          <th>電話番号</th>
+          <th>郵便番号</th>
+          <th>住所</th>
+          <th>権限</th>
         </tr>
         <tr th:each="user: ${users}">
-            <td th:text="${user.id}"></td>
-            <td th:text="${user.name}"></td>
-            <td th:text="${user.password}"></td>
-            <td th:text="${user.email}"></td>
-            <td th:text="${user.phoneNumber}"></td>
-            <td th:text="${user.post}"></td>
-            <td th:text="${user.domicile}"></td>
-            <td th:text="${user.authority}"></td>
+          <td th:text="${user.id}"></td>
+          <td th:text="${user.name}"></td>
+          <td th:text="${user.password}"></td>
+          <td th:text="${user.email}"></td>
+          <td th:text="${user.phoneNumber}"></td>
+          <td th:text="${user.post}"></td>
+          <td th:text="${user.domicile}"></td>
+          <td th:text="${user.authority}"></td>
         </tr>
-    </table>
-  </body>
+      </table>
+    </div>
+  </div>
+</body>
+
 </html>

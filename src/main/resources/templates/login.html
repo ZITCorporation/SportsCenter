@@ -1,41 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <title></title>
-    <link type="text/css" rel="stylesheet" href="css/materialize.css" />
-    <script type="text/javascript" src="js/materialize.js"></script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </head>
 
-  <body>
-    <div class="row">
-      <form class="col s6" method="post" th:action="@{/doLogin}">
-        <div class="row">
-          <div class="input-field col s6">
-            <input id="email" type="email" class="validate" />
-            <label for="email">Email</label>
-          </div>
+<head>
+  <title></title>
+  <link type="text/css" rel="stylesheet" href="css/materialize.css" />
+  <script type="text/javascript" src="js/materialize.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+
+  <div class="container">
+
+    <form class="center" method="post" th:action="@{/doLogin}">
+
+      <div class="row center">
+        <div class="input-field col offset-s4 s4">
+          <input name="email" type="email" class="validate" />
+          <label for="email">メールアドレス</label>
         </div>
-        <div class="row">
-          <div class="input-field col s6">
-            <input id="password" type="password" class="validate" />
-            <label for="password">Password</label>
-          </div>
+      </div>
+
+      <div class="row center">
+        <div class="input-field col offset-s4 s4">
+          <input name="password" type="password" class="validate" />
+          <label for="password">パスワード</label>
         </div>
-        <div class="row">
-          <div class="input-field col s6">
-            <input
-              class="btn waves-effect waves-light"
-              type="submit"
-              value="Confirm" />
-              <button class="btn waves-effect waves-light" type="submit" name="action">
-                <i class="material-icons ">send</i>
-              </button>
-            <a class="btn waves-effect waves-light" href="/">BACK</a>
-          </div>
+      </div>
+
+      <div class="row center">
+        <div class="input-field col offset-s4 s4">
+          <button class="btn waves-effect waves-light" type="submit">ログイン
+          </button>
+          <a class="btn waves-effect waves-light back" href="/">戻る</a>
         </div>
-      </form>
-    </div>
-  </body>
+      </div>
+
+    </form>
+
+  </div>
+
+</body>
+
 </html>

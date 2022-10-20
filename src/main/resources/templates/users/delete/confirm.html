@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title></title>
+  <link type="text/css" rel="stylesheet" href="/css/materialize.css" />
+  <script type="text/javascript" src="/js/materialize.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="row center">
+      <h3>ユーザー削除</h3>
+    </div>
+
+    <div class="row center">
+      <form method="get" th:action="@{/users/delete/complete/}+${id}">
+        <div class="row">
+          <div class="input-field">
+            <button class="btn waves-effect waves-light" type="submit">確認</button>
+            <a class="btn waves-effect waves-light back" th:href="@{/users/getOne/}+${id}">戻る</a>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+</body>
+
+</html>

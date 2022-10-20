@@ -1,32 +1,54 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <title></title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </head>
-  <body>
-    <p th:text="${sample}"></p>
-    <a href="${loginStatus}"></a>
-    <div th:switch="${session.loginStatus}">
-      <span th:case="null">
-        <p>
-        <a href="/login">Login</a>
-      </p>
-        <a href="/users/create/input">Create New Account</a>
-      </span>
-      <span th:case="1">
-        <div>
-          <p>
-            <span th:text="${session.user.name}"></span>
-            Welcome!
-          </p>
-          <a href="/logout">Logout</a>
-        </div>
-        <div>
-          <a href="/users/getOne/{session.user.id}">Check Account Detail</a>
-        </div>
-      </span>
+
+<head>
+  <title></title>
+  <link type="text/css" rel="stylesheet" href="css/materialize.css" />
+  <script type="text/javascript" src="js/materialize.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="row center">
+      <h3 th:text="${sample}"></h3>
     </div>
-  </body>
+
+    <div class="section">
+      <div class="row center">
+        <div th:switch="${session.user}">
+
+          <span th:if="${session.user == null}">
+            <div class="row" th:if="${session.user == null}">
+              <a class="btn waves-effect waves-light" href="/login">ログイン</a>
+              <a class="btn waves-effect waves-light" href="/users/create/input">新規登録</a>
+            </div>
+          </span>
+
+          <span th:unless="${session.user == null}">
+            <div class="row">
+              <p>
+                <span th:text="${session.user.name}"></span>
+                <span th:text="${session.user.id}"></span>
+                Welcome!
+              </p>
+            </div>
+            <div class="row">
+              <a class="btn waves-effect waves-light" href="/users/detail/">ユーザー詳細</a>
+            </div>
+            <div class="row">
+              <a class="btn waves-effect waves-light back" href="/logout">ログアウト</a>
+            </div>
+          </span>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+
 </html>

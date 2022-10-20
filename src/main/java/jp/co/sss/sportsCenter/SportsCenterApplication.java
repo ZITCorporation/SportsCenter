@@ -1,6 +1,6 @@
 package jp.co.sss.sportsCenter;
 
-
+import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
@@ -10,7 +10,11 @@ import org.springframework.stereotype.Controller;
 public class SportsCenterApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SportsCenterApplication.class, args);
+		try {
+			SpringApplication.run(SportsCenterApplication.class, args);
+		} catch (BeanCreationException e) {
+			System.out.println("AWSのRDSデータベースを開いて、または接続を確認してください。\n");
+		}
 	}
 
 }
