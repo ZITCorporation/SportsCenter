@@ -1,9 +1,65 @@
-<meta charset="UTF-8"/>
-<div id="header" th:fragment="layout-header">
-<header>
-<link th:href="@{/css/layout/header.css}" rel="stylesheet"/>
-スポーツセンター(仮)
-<li><a href="/users/create/input">新規登録</a></li>
-<li><a href="/login">ログイン</a></li>
-</header>
+<meta charset="UTF-8" />
+
+<div class="nav-bar-fixed" id="header" th:fragment="layout-header">
+    <header >
+        <div class="navbar-fixed grey">
+            <nav class="nav-extended">
+                <div class="nav-wrapper">
+                    <a href="/" class="brand-logo">スポーツセンター(仮)</a>
+                    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <div th:switch="${session.user}">
+                            <span th:if="${session.user == null}">
+                                <li><a class="btn waves-effect waves-light" href="/users/create/input">新規登録</a></li>
+                                <li><a class="btn waves-effect waves-light" href="/login">ログイン</a></li>
+                            </span>
+                            <span th:unless="${session.user == null}">
+                                <li><a class="btn waves-effect waves-light" href="/users/detail/"
+                                        th:text="${session.user.name}"></a></li>
+                                <li><a class="btn waves-effect waves-light back" href="/logout">ログアウト</a></li>
+                            </span>
+                        </div>
+                    </ul>
+                </div>
+
+                <div class="nav-content">
+                    <ul class="tabs tabs-transparent">
+                        <li class="tab"><a class="active" href="/">HOME</a></li>
+                        <li class="tab"><a href="/facility/listFacilities">施設</a></li>
+                        <li class="tab"><a href="#test3">リンク3</a></li>
+                        <li class="tab"><a href="#test4">リンク4</a></li>
+                        <li class="tab"><a href="#test4">リンク5</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <ul class="sidenav" id="mobile-demo">
+            <div th:switch="${session.user}">
+                <span th:if="${session.user == null}">
+                    <li><a href="/login">ログイン</a></li>
+                    <li><a href="/users/create/input">新規登録</a></li>
+                </span>
+                <span th:unless="${session.user == null}">
+                    <li class="center">
+                        <h5>WELCOME</h5>
+                    </li>
+                    <li><a href="/users/detail/" th:text="${session.user.name}"></a></li>
+                    <!-- <li><a href="/users/detail/">ユーザー詳細</a></li> -->
+                    <li><a href="/logout">ログアウト</a></li>
+                </span>
+            </div>
+        </ul>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var elems = document.querySelectorAll('.sidenav');
+                var instances = M.Sidenav.init(elems, {});
+            });
+        </script>
+        <!-- <div id="test1" class="col s12">HOME</div>
+        <div id="test2" class="col s12">施設</div>
+        <div id="test3" class="col s12">リンク3</div>
+        <div id="test4" class="col s12">リンク4</div>
+        <div id="test4" class="col s12">リンク5</div> -->
+    </header>
 </div>

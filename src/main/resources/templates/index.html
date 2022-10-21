@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" >
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::body/content()})}">
 
-<!-- th:replace="~{layout/layout :: layout(~{::body/content()})}" -->
+<!--  -->
+
 <head>
   <title></title>
   <link type="text/css" rel="stylesheet" href="/css/materialize.css" />
@@ -21,28 +22,6 @@
       <div class="row center">
         <div th:switch="${session.user}">
 
-          <span th:if="${session.user == null}">
-            <div class="row" th:if="${session.user == null}">
-              <a class="btn waves-effect waves-light" href="/login">ログイン</a>
-              <a class="btn waves-effect waves-light" href="/users/create/input">新規登録</a>
-            </div>
-          </span>
-
-          <span th:unless="${session.user == null}">
-            <div class="row">
-              <p>
-                <span th:text="${session.user.name}"></span>
-                <span th:text="${session.user.userId}"></span>
-                Welcome!
-              </p>
-            </div>
-            <div class="row">
-              <a class="btn waves-effect waves-light" href="/users/detail/">ユーザー詳細</a>
-            </div>
-            <div class="row">
-              <a class="btn waves-effect waves-light back" href="/logout">ログアウト</a>
-            </div>
-          </span>
 
         </div>
 
