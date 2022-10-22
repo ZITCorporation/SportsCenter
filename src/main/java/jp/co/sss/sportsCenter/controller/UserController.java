@@ -22,9 +22,14 @@ public class UserController {
     // ---------------------------------------------------------
     // Find 検索
     @RequestMapping("/users/findAll")
-    public String showUserList(Model model) {
-        model.addAttribute("users", repository.findAll());
-        return "/users/search/user_list"; // 管理者権限を持つ、すべてのユーザー詳細画面のhtmlファイルのパス
+    public String showUserList(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        if (user.getAuthority() == 1) {
+            model.addAttribute("users", repository.findAll());
+            return "/users/search/user_list"; // 管理者権限を持つ、すべてのユーザー詳細画面のhtmlファイルのパス
+        } else {
+            return "/error";
+        }
     }
 
     @RequestMapping(value = "/users/detail")
@@ -43,6 +48,34 @@ public class UserController {
     }
 
     @RequestMapping(value = "/users/create/confirm", method = RequestMethod.POST)
+    public String createConfirm(UserForm form, Model model) {
+        User user = new User();
+        user.setName(form.getName());
+        user.setPassword(form.getPassword());
+        user.setEmail(form.getEmail());
+        user.setPhoneNumber(form.getPhoneNumber());
+        user.setPost(form.getPost());
+        user.setDomicile(form.getDomicile());
+        user.setAuthority(0);
+        model.addAttribute("user", user);
+        return "/users/create/confirm"; // ユーザー新規登録確認画面のhtmlファイルのパス
+    }
+
+    @RequestMapping(value = "/users/create/back", method = RequestMethod.POST)
+    public String backToCreateInput(UserForm form, Model model) {
+        User user = new User();
+        user.setName(form.getName());
+        user.setPassword(form.getPassword());
+        user.setEmail(form.getEmail());
+        user.setPhoneNumber(form.getPhoneNumber());
+        user.setPost(form.getPost());
+        user.setDomicile(form.getDomicile());
+        user.setAuthority(0);
+        model.addAttribute("user", user);
+        return "/users/create/input"; // ユーザー新規登録入力画面のhtmlファイルのパス
+    }
+
+    @RequestMapping(value = "/users/create/complete", method = RequestMethod.POST)
     public String createComplete(UserForm form) {
         User user = new User();
         user.setName(form.getName());
@@ -64,7 +97,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/users/update/confirm", method = RequestMethod.POST)
-    public String updateComplete(HttpSession session, UserForm form) {
+    public String updateConfirm(HttpSession session, UserForm form, Model model) {
         int id = ((User) session.getAttribute("user")).getUserId();
         User user = repository.getReferenceById(id);
         user.setName(form.getName());
@@ -74,6 +107,35 @@ public class UserController {
         user.setPost(form.getPost());
         user.setDomicile(form.getDomicile());
         user.setAuthority(form.getAuthority());
+        model.addAttribute("user", user);
+        return "/users/update/confirm"; // ユーザー情報更新確認画面のhtmlファイルのパス
+    }
+
+    @RequestMapping(value = "/users/update/back", method = RequestMethod.POST)
+    public String backToUpdateInput(UserForm form, Model model) {
+        User user = new User();
+        user.setName(form.getName());
+        user.setPassword(form.getPassword());
+        user.setEmail(form.getEmail());
+        user.setPhoneNumber(form.getPhoneNumber());
+        user.setPost(form.getPost());
+        user.setDomicile(form.getDomicile());
+        user.setAuthority(0);
+        model.addAttribute("user_back", user);
+        return "/users/update/input"; // ユーザー情報更新入力画面のhtmlファイルのパス
+    }
+
+    @RequestMapping(value = "/users/update/complete", method = RequestMethod.POST)
+    public String updateComplete(HttpSession session, UserForm form) {
+        int id = ((User) session.getAttribute("user")).getUserId();
+        User user = repository.getReferenceById(id);
+        user.setName(form.getName());
+        user.setPassword(form.getPassword());
+        user.setEmail(form.getEmail());
+        user.setPhoneNumber(form.getPhoneNumber());
+        user.setPost(form.getPost());
+        user.setDomicile(form.getDomicile());
+        user.setAuthority(0);
         repository.save(user);
         session.setAttribute("user", user);
         return "/users/update/complete"; // ユーザー情報更新成功画面のhtmlファイルのパス

@@ -18,7 +18,7 @@ public class ReserveManagement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_reserve_management_gen")
-    @SequenceGenerator(name = "seq_reserve_management_gen", sequenceName = "seq_reserve_management", allocationSize = 1)
+    @SequenceGenerator(name = "seq_reserve_management_gen", sequenceName = "SEQ_RESERVE_MANAGEMENT", allocationSize = 1)
     private Integer reserveManagementId;
 
     @ManyToOne

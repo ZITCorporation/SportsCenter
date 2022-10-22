@@ -1,77 +1,97 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::body/content()})}">
-<head>
-<meta charset="UTF-8">
-<title></title>
-<link rel="stylesheet" href="style.css">
-</head>
+
 <body>
+    <main>
+        <div class="container">
+            <div class="row center">
+                <h3>テニスコート</h3>
+            </div>
 
-<main>
-<h1>テニスコート</h1>
-<ul>
-    <form action="" method="post">
-        <li>テニスラケット</li><input type="text">
-        <li>テニスボール</li><input type="text">
-    </form>
-</ul>
-<p>予約時間</p>
-<p>開始</p>
-<select name="start">
-    <option value="">9:00</option>
-    <option value="">9:30</option>
-    <option value="">10:00</option>
-    <option value="">10:30</option>
-    <option value="">11:00</option>
-    <option value="">11:30</option>
-    <option value="">12:00</option>
-    <option value="">12:30</option>
-    <option value="">13:00</option>
-    <option value="">13:30</option>
-    <option value="">14:00</option>
-    <option value="">14:30</option>
-    <option value="">15:00</option>
-    <option value="">15:30</option>
-    <option value="">16:00</option>
-    <option value="">16:30</option>
-    <option value="">17:00</option>
-    <option value="">17:30</option>
-    <option value="">18:00</option>
-    <option value="">18:30</option>
-    <option value="">19:00</option>
-    <option value="">19:30</option>
-    <option value="">20:00</option>
-</select>
-<p>終了</p>
-<select name="end">
-    <option value="">9:00</option>
-    <option value="">9:30</option>
-    <option value="">10:00</option>
-    <option value="">10:30</option>
-    <option value="">11:00</option>
-    <option value="">11:30</option>
-    <option value="">12:00</option>
-    <option value="">12:30</option>
-    <option value="">13:00</option>
-    <option value="">13:30</option>
-    <option value="">14:00</option>
-    <option value="">14:30</option>
-    <option value="">15:00</option>
-    <option value="">15:30</option>
-    <option value="">16:00</option>
-    <option value="">16:30</option>
-    <option value="">17:00</option>
-    <option value="">17:30</option>
-    <option value="">18:00</option>
-    <option value="">18:30</option>
-    <option value="">19:00</option>
-    <option value="">19:30</option>
-    <option value="">20:00</option>
-</select>
-<p></p>
-<button type="button">戻る</button>
-<button type="button">予約</button>
-</main>
+            <div class="row center">
+                <form>
 
+                    <div class="row">
+                        <div class="input-field col offset-s3 s6">
+                            <input name="text1" type="text" class="validate" />
+                            <label for="text1">テニスラケット</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col offset-s3 s6">
+                            <input name="tennisBall" type="text" class="validate" />
+                            <label for="tennisBall">テニスボール</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col offset-s3 s6">
+                            <input type="text" class="datepicker" name="date">
+                            <label for="startTime">日付</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col offset-s3 s6">
+                            <input type="text" class="timepicker" name="startTime">
+                            <label for="startTime">開始時間</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col offset-s3 s6">
+                            <input type="text" class="timepicker" name="endTime">
+                            <label for="endTime">終了時間</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col offset-s3 s6">
+                            <button class="btn waves-effect waves-light" type="submit"
+                                formaction="#">予約</button>
+                            <button class="btn waves-effect waves-light back" type="submit"
+                                formaction="/facilities">戻る</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.timepicker');
+            var instances = M.Timepicker.init(elems, {
+                showClearBtn: true,
+                i18n: {
+                    clear: '消去',
+                    cancel: '閉める',
+                    done: '確認',
+                },
+
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.datepicker');
+            var instances = M.Datepicker.init(elems, {
+                i18n: {
+                    months: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                    monthsShort: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                    weekdays: ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'],
+                    weekdaysShort: ['日', '月', '火', '水', '木', '金', '土'],
+                    weekdaysAbbrev: ['日', '月', '火', '水', '木', '金', '土'],
+                    today: '今日',
+                    clear: '消去',
+                    cancel: '閉める',
+                    done: '確認',
+                    firstDay: 1
+                },
+                format: 'yyyy年/mmmm/dd日(ddd)',
+                formatSubmit: 'yyyy/mm/dd',
+                showClearBtn: true,
+            })
+        });
+
+    </script>
 </body>
+
 </html>

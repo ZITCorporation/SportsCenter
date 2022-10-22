@@ -1,6 +1,26 @@
-<meta charset="UTF-8"/><div id="footer" th:fragment="layout-footer">
-<link th:href="@{/css/layout/footer.css}" rel="stylesheet"/>
-<footer>
-Copyright(C) 2022 ZIT Corporation, ALL Rights Reserved
-</footer>
+<meta charset="UTF-8" />
+<div id="footer" th:fragment="layout-footer">
+    <footer th:class="${session.user == null or session.user.authority == 0} ? ${'page-footer grey darken-2'} : ${'page-footer'}">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Footer Content</h5>
+                    <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer
+                        content.</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Links</h5>
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                        <!-- <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="foot-copyright">
+            <div class="container center">
+                Copyright(C) 2022 ZIT Corporation, ALL Rights Reserved
+            </div>
+        </div>
+    </footer>
 </div>

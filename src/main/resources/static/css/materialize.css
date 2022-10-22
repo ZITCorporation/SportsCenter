@@ -4334,6 +4334,7 @@ nav .brand-logo {
   display: inline-block;
   font-size: 2.1rem;
   padding: 0;
+  margin-left: 20px;
 }
 
 nav .brand-logo.center {
@@ -5252,7 +5253,8 @@ small {
 .btn, .btn-large, .btn-small {
   text-decoration: none;
   color: #fff;
-  background-color: #26a69a;
+  /* background-color: #26a69a; */
+  background-color: #5c6bc0    ;
   text-align: center;
   letter-spacing: .5px;
   -webkit-transition: background-color .2s ease-out;
@@ -6502,8 +6504,8 @@ textarea.materialize-textarea + label:after, .select-wrapper + label:after {
 
 .input-field {
   position: relative;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
 }
 
 .input-field.inline {
@@ -9086,4 +9088,14 @@ input[type=range]::-ms-thumb {
 
 .back {
   background-color: #ee6e73 !important;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
 }

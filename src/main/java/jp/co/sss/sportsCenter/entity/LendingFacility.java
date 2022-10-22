@@ -14,7 +14,7 @@ public class LendingFacility {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_facility_gen")
-    @SequenceGenerator(name = "seq_facility_gen", sequenceName = "seq_facility", allocationSize = 1)
+    @SequenceGenerator(name = "seq_facility_gen", sequenceName = "SEQ_FACILITY", allocationSize = 1)
     private Integer facilityId;
     
     @Column(name = "facility_name")

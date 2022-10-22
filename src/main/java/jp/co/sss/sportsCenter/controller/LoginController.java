@@ -32,13 +32,13 @@ public class LoginController {
         if (user != null) {
             session.setAttribute("user", user);
             session.setAttribute("loginStatus", 1);
+            return "redirect:/";
         } else {
             model.addAttribute("errormessage", "メールアドレス、またはパスワードが間違っています。");
             System.out.println("failed!");
             System.out.println(form.getEmail() + " " + form.getPassword());
             return "/users/login/login";
         }
-        return "redirect:/";
     }
 
     @RequestMapping(path = "/logout", method = RequestMethod.GET)
