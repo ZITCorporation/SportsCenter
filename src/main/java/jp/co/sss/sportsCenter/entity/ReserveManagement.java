@@ -28,8 +28,14 @@ public class ReserveManagement {
     @Column
     private Date date;
 
-    @Column(name = "lending_time")
-    private String lendingTime;
+    // @Column(name = "lending_time")
+    // private String lendingTime;
+
+    @Column(name = "start_time")
+    private String startTime;
+
+    @Column(name = "ending_time")
+    private String endingTime;
 
     @ManyToOne
     @JoinColumn(name = "facility_id", referencedColumnName = "facilityId")
@@ -62,12 +68,20 @@ public class ReserveManagement {
         this.date = date;
     }
 
-    public String getLendingTime() {
-        return lendingTime;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setLendingTime(String lendingTime) {
-        this.lendingTime = lendingTime;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getendingTime() {
+        return endingTime;
+    }
+
+    public void setendingTime(String endingTime) {
+        this.endingTime = endingTime;
     }
 
     public LendingFacility getFacilityId() {
@@ -77,7 +91,6 @@ public class ReserveManagement {
     public void setFacilityId(LendingFacility facilityId) {
         this.facilityId = facilityId;
     }
-
     
 
 }

@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="input-field col offset-s3 s6">
+                        <div class="input-field col offset-s3 s6" th:if="${session.user != null}">
                             <button class="btn waves-effect waves-light" type="submit"
                                 formaction="#">予約</button>
                             <button class="btn waves-effect waves-light back" type="submit"

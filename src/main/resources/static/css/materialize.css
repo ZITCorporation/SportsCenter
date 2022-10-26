@@ -9089,6 +9089,9 @@ input[type=range]::-ms-thumb {
 .back {
   background-color: #ee6e73 !important;
 }
+.picker{
+  background-color: #e8eaf6  !important;
+}
 
 body {
   display: flex;

@@ -4,7 +4,8 @@
     <header>
         <div class="navbar-fixed">
             <nav class="nav-extended">
-                <div th:class="${session.user == null or session.user.authority == 0} ? ${'nav-wrapper grey darken-2'} : ${'nav-wrapper'}">
+                <div
+                    th:class="${session.user == null or session.user.authority == 0} ? ${'nav-wrapper grey darken-2'} : ${'nav-wrapper'}">
                     <a href="/" class="brand-logo">スポーツセンター(仮)</a>
                     <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                     <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -26,7 +27,8 @@
                 <div th:unless="${session.user == null}">
                 </div> -->
 
-                <div th:class="${session.user == null or session.user.authority == 0} ? ${'nav-content grey darken-2'} : ${'nav-content'}">
+                <div
+                    th:class="${session.user == null or session.user.authority == 0} ? ${'nav-content grey darken-2'} : ${'nav-content'}">
                     <ul class="tabs tabs-transparent">
                         <li class="tab"><a class="active" href="/">HOME</a></li>
                         <li class="tab"><a href="facilities">施設</a></li>
