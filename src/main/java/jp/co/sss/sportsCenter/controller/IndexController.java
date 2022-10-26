@@ -25,24 +25,67 @@ public class IndexController {
         return "index";
     }
 
-    @RequestMapping(value="/error", method=RequestMethod.GET)
-    public String errorPage() {
-        return "/error";
-    }
+    // @RequestMapping(value="/error", method=RequestMethod.GET)
+    // public String errorPage() {
+    //     return "/error";
+    // }
     
 
     @RequestMapping("/listFacilities")
     public String listFacilities() {
         return "/facility/listFacilities";
     }
-
-    @RequestMapping("/pool")
-    public String pool() {
-        return "/facility/pool";
+    
+    // アーチェリー
+    @RequestMapping("/archeryExplanation")
+    public String archeryExplanation() {
+        return "/facility/archeryExplanation";
     }
-
+    @RequestMapping("/archery")
+    public String archery() {
+        return "/facility/archery";
+    }
+    
+    // ジム
+    @RequestMapping("/gymExplanation")
+    public String gymExplanation() {
+        return "/facility/gymExplanation";
+    }
+    @RequestMapping("/gym")
+    public String gym() {
+        return "/facility/gym";
+    }
+    
+    // テニス
+    @RequestMapping("/tennisExplanation")
+    public String tennisExplanation() {
+        return "/facility/tennisExplanation";
+    }
     @RequestMapping("/tennis")
     public String tennis() {
         return "/facility/tennis";
     }
+    
+    // バスケットボール
+    @RequestMapping("/basketballExplanation")
+    public String basketballExplanation() {
+        return "/facility/basketballExplanation";
+    }
+     @RequestMapping("/basketball")
+    public String basketball() {
+        return "/facility/basketball";
+    }
+    
+    // プール
+    @RequestMapping("/poolExplanation")
+    public String poolExplanation() {
+        return "/facility/poolExplanation";
+    }
+    @RequestMapping("/pool")
+    public String pool() {
+        return "/facility/pool";
+    }
+    
+    
+
 }
