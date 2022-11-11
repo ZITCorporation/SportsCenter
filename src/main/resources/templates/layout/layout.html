@@ -2,27 +2,26 @@
 <html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(body)">
 
 <head>
-	<meta charset="UTF-8" />
-	<title>layout</title>
-	<!--Import Google Icon Font-->
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link type="text/css" rel="stylesheet" href="/css/materialize.css" />
-	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js">
-	</script>
-	<script type="text/javascript" src="/js/materialize.js"></script>
-	<!-- <link href="/css/layout/layout.css" rel="stylesheet" /> -->
+    <meta charset="UTF-8" />
+    <title>layout</title>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="/css/materialize.css" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js">
+    </script>
+    <!-- <link href="/css/layout/layout.css" rel="stylesheet" /> -->
 </head>
 
 <body>
-	<div id="header" th:replace="~{layout/header :: layout-header}"></div>
-	<!-- <div id="container"> -->
-	<!-- <div th:replace="~{layout/navigation :: layout-navigation}"></div> -->
-	<div id="main" th:replace="${body}"></div>
-	<!-- </div> -->
-	<div id="footer" th:replace="~{layout/footer :: layout-footer}"></div>
-	
-	<script>
-     
+    <div id="header" th:replace="~{layout/header :: layout-header}"></div>
+    <!-- <div id="container"> -->
+    <!-- <div th:replace="~{layout/navigation :: layout-navigation}"></div> -->
+    <div id="main" th:replace="${body}"></div>
+    <!-- </div> -->
+    <div id="footer" th:replace="~{layout/footer :: layout-footer}"></div>
+
+    <script>
+
         document.addEventListener('DOMContentLoaded', function () {
             var elems = document.querySelectorAll('.timepicker');
             var instances = M.Timepicker.init(elems, {
@@ -32,7 +31,7 @@
                     cancel: '閉める',
                     done: '確認',
                 },
-                twelveHour:false,
+                twelveHour: false,
 
             });
         });
@@ -58,7 +57,7 @@
         });
 
     </script>
-    
+
 </body>
 
 </html>

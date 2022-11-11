@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jp.co.sss.sportsCenter.entity.User;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 
 @Controller

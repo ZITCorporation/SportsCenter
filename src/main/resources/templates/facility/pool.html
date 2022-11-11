@@ -2,53 +2,52 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::body/content()})}">
 
 <body>
-    <main>
-        <div class="container">
-            <div class="row center">
-                <h3>プール</h3>
-            </div>
-         
-            <div class="row">
-                        <div class="input-field col offset-s3 s6">
-                            <input name="text1" type="text" class="validate" />
-                            <label for="text1">道具</label>
-                        </div>
-                    </div>
+  <main>
+    <div class="container">
+      <div class="row center">
+        <h3>プール</h3>
+      </div>
 
-            <div class="row center">
-                <form>
-                    <div class="row">
-                        <div class="input-field col offset-s3 s6">
-                            <input type="text" class="datepicker" name="date">
-                            <label for="startTime">日付</label>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="input-field col offset-s3 s6">
-                            <input type="text" class="timepicker" name="startTime">
-                            <label for="startTime">開始時間</label>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="input-field col offset-s3 s6">
-                            <input type="text" class="timepicker" name="endTime">
-                            <label for="endTime">終了時間</label>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="input-field col offset-s3 s6" th:if="${session.user != null}">
-                            <button class="btn waves-effect waves-light" type="submit"
-                                formaction="#">予約</button>
-                            <button class="btn waves-effect waves-light back" type="submit"
-                                formaction="/poolExplanation">戻る</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+      <div class="row">
+        <div class="input-field col offset-s3 s6">
+          <input name="text1" type="text" class="validate" />
+          <label for="text1">道具</label>
         </div>
-    </main>
+      </div>
+
+      <div class="row center">
+        <form>
+          <div class="row">
+            <div class="input-field col offset-s3 s6">
+              <input type="text" class="datepicker" name="date" />
+              <label for="startTime">日付</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-field col offset-s3 s6">
+              <input type="text" class="timepicker" name="startTime" />
+              <label for="startTime">開始時間</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-field col offset-s3 s6">
+              <input type="text" class="timepicker" name="endTime" />
+              <label for="endTime">終了時間</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-field col offset-s3 s6" th:if="${session.user != null}">
+              <button class="btn waves-effect waves-light" type="submit" formaction="#">予約</button>
+              <button class="btn waves-effect waves-light back" type="submit" formaction="/poolExplanation">戻る</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
 </body>
+
 </html>

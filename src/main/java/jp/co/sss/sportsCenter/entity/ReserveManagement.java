@@ -36,10 +36,18 @@ public class ReserveManagement {
     @JoinColumn(name = "facility_id", referencedColumnName = "facilityId")
     private LendingFacility facilityId;
 
+    public ReserveManagement(User userId, Timestamp startTime, Timestamp endingTime, LendingFacility facilityId) {
+        this.userId = userId;
+        this.startTime = startTime;
+        this.endingTime = endingTime;
+        this.facilityId = facilityId;
+    }
+
     public ReserveManagement() {
     }
-    
-    public ReserveManagement(Integer reserveManagementId, User userId, Timestamp startTime, Timestamp endingTime, LendingFacility facilityId) {
+
+    public ReserveManagement(Integer reserveManagementId, User userId, Timestamp startTime, Timestamp endingTime,
+            LendingFacility facilityId) {
         this.reserveManagementId = reserveManagementId;
         this.userId = userId;
         this.startTime = startTime;
@@ -50,6 +58,7 @@ public class ReserveManagement {
     public Integer getReserveManagementId() {
         return reserveManagementId;
     }
+
     public void setReserveManagementId(Integer reserveManagementId) {
         this.reserveManagementId = reserveManagementId;
     }
@@ -57,6 +66,7 @@ public class ReserveManagement {
     public User getUserId() {
         return userId;
     }
+
     public void setUserId(User userId) {
         this.userId = userId;
     }
@@ -64,6 +74,7 @@ public class ReserveManagement {
     public Timestamp getStartTime() {
         return startTime;
     }
+
     public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
@@ -71,6 +82,7 @@ public class ReserveManagement {
     public Timestamp getEndingTime() {
         return endingTime;
     }
+
     public void setEndingTime(Timestamp endingTime) {
         this.endingTime = endingTime;
     }
@@ -78,8 +90,9 @@ public class ReserveManagement {
     public LendingFacility getFacilityId() {
         return facilityId;
     }
+
     public void setFacilityId(LendingFacility facilityId) {
         this.facilityId = facilityId;
     }
-    
+
 }
