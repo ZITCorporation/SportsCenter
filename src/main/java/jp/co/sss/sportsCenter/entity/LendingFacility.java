@@ -22,6 +22,10 @@ public class LendingFacility {
 
     public LendingFacility() {
     }
+    public LendingFacility(Integer facilityId, String facilityName) {
+        this.facilityId = facilityId;
+        this.facilityName = facilityName;
+    }
 
     public Integer getFacilityId() {
         return facilityId;
@@ -38,7 +42,4 @@ public class LendingFacility {
     public void setFacilityName(String facilityName) {
         this.facilityName = facilityName;
     }
-
-    
-
 }

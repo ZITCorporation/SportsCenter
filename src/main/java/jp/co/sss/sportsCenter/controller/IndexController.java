@@ -13,7 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class IndexController {
+    
+// cd sportsCenter
+// mvn spring-boot:run
 
+    // ホーム
     @RequestMapping("/")
     public String index(HttpSession session, Model model) {
         if (session.getAttribute("user") != null) {
@@ -25,10 +29,11 @@ public class IndexController {
         return "index";
     }
 
-    // @RequestMapping(value="/error", method=RequestMethod.GET)
-    // public String errorPage() {
-    //     return "/error";
-    // }
+    // エラー
+    @RequestMapping(value="/error", method=RequestMethod.GET)
+    public String errorPage() {
+        return "/error";
+     }
     
 
     @RequestMapping("/listFacilities")
@@ -85,7 +90,5 @@ public class IndexController {
     public String pool() {
         return "/facility/pool";
     }
-    
-    
 
 }

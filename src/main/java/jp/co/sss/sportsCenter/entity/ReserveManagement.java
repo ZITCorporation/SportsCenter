@@ -1,5 +1,6 @@
 package jp.co.sss.sportsCenter.entity;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -25,17 +26,11 @@ public class ReserveManagement {
     @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private User userId;
 
-    @Column
-    private Date date;
-
-    // @Column(name = "lending_time")
-    // private String lendingTime;
-
     @Column(name = "start_time")
-    private String startTime;
+    private Timestamp startTime;
 
     @Column(name = "ending_time")
-    private String endingTime;
+    private Timestamp endingTime;
 
     @ManyToOne
     @JoinColumn(name = "facility_id", referencedColumnName = "facilityId")
@@ -43,11 +38,18 @@ public class ReserveManagement {
 
     public ReserveManagement() {
     }
+    
+    public ReserveManagement(Integer reserveManagementId, User userId, Timestamp startTime, Timestamp endingTime, LendingFacility facilityId) {
+        this.reserveManagementId = reserveManagementId;
+        this.userId = userId;
+        this.startTime = startTime;
+        this.endingTime = endingTime;
+        this.facilityId = facilityId;
+    }
 
     public Integer getReserveManagementId() {
         return reserveManagementId;
     }
-
     public void setReserveManagementId(Integer reserveManagementId) {
         this.reserveManagementId = reserveManagementId;
     }
@@ -55,42 +57,29 @@ public class ReserveManagement {
     public User getUserId() {
         return userId;
     }
-
     public void setUserId(User userId) {
         this.userId = userId;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getStartTime() {
+    public Timestamp getStartTime() {
         return startTime;
     }
-
-    public void setStartTime(String startTime) {
+    public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
 
-    public String getendingTime() {
+    public Timestamp getEndingTime() {
         return endingTime;
     }
-
-    public void setendingTime(String endingTime) {
+    public void setEndingTime(Timestamp endingTime) {
         this.endingTime = endingTime;
     }
 
     public LendingFacility getFacilityId() {
         return facilityId;
     }
-
     public void setFacilityId(LendingFacility facilityId) {
         this.facilityId = facilityId;
     }
     
-
 }

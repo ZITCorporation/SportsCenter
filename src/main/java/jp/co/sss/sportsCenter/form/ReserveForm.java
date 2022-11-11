@@ -1,13 +1,16 @@
 package jp.co.sss.sportsCenter.form;
 
+import jp.co.sss.sportsCenter.entity.LendingFacility;
+import jp.co.sss.sportsCenter.entity.LendingTool;
+
 public class ReserveForm {
     private int reserveManagementId;
-    private int userId;
-    private int facilityId;
+    private Integer facilityId;
+    private String date;
     private String startTime;
     private String endingTime;
-    private int toolId;
-    private int toolNum;
+    private Integer toolId;
+    private Integer toolNumber;
 
     public int getReserveManagementId() {
         return reserveManagementId;
@@ -17,51 +20,47 @@ public class ReserveForm {
         this.reserveManagementId = reserveManagementId;
     }
 
-    public int getUserId() {
-        return userId;
-    }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getFacilityId() {
+    public Integer getFacilityId() {
         return facilityId;
     }
 
-    public void setFacilityId(int facilityId) {
+    public void setFacilityId(Integer facilityId) {
         this.facilityId = facilityId;
     }
 
     public String getStartTime() {
         return startTime;
     }
-
     public void setStartTime(String startTime) {
         this.startTime = startTime;
+    }
+    
+    public String getDate() {
+        return date;
+    }
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getEndingTime() {
         return endingTime;
     }
-
     public void setEndingTime(String endingTime) {
         this.endingTime = endingTime;
     }
 
-    public int getToolId() {
+    public Integer getToolId() {
         return toolId;
     }
-
-    public void setToolId(int toolId) {
+    public void setToolId(Integer toolId) {
         this.toolId = toolId;
     }
 
-    public int getToolNum() {
-        return toolNum;
+    public Integer getToolNumber() {
+        return toolNumber;
     }
-
-    public void setToolNum(int toolNum) {
-        this.toolNum = toolNum;
+    public void setToolNumber(Integer toolNumber) {
+        this.toolNumber = toolNumber;
     }
 }

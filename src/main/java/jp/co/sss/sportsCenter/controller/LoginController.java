@@ -1,5 +1,7 @@
 package jp.co.sss.sportsCenter.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,10 @@ import jp.co.sss.sportsCenter.repository.UserRepository;
 public class LoginController {
     @Autowired
     UserRepository repository;
-
     @Autowired
     HttpSession session;
-
+    
+    // ログイン
     @RequestMapping(path = "/login", method = RequestMethod.GET)
     public String login() {
         return "/users/login/login";
@@ -30,6 +32,7 @@ public class LoginController {
     public String loginPost(@ModelAttribute("form") @Valid LoginForm form, Model model) {
         User user = repository.findByEmailAndPassword(form.getEmail(), form.getPassword());
         if (user != null) {
+            session.setAttribute("id", user.getUserId());
             session.setAttribute("user", user);
             session.setAttribute("loginStatus", 1);
             return "redirect:/";
@@ -41,6 +44,7 @@ public class LoginController {
         }
     }
 
+    // セッション破棄
     @RequestMapping(path = "/logout", method = RequestMethod.GET)
     public String logout(HttpSession session) {
         session.invalidate();
