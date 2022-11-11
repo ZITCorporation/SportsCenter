@@ -1,11 +1,212 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::body/content()})}">
   <head>
-    <title></title>
+    <title>新規登録</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
+
   <body>
-    <div>予約</div>
+    <main>
+      <div class="container">
+        <div class="row center">
+          <h3>予約 新規登録</h3>
+        </div>
+
+        <div class="row">
+          <form class="center" method="post" action="/reserve/input">
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <select name="name" id="facilityId" tabindex="-1" onchange="change()">
+                  <option value="" selected>予約したい施設を選んでくだいさい</option>
+                  <option value="1">アーチェリー</option>
+                  <option value="2">ジム</option>
+                  <option value="3">テニスコート</option>
+                  <option value="4">バスケットボール</option>
+                  <option value="5">プール</option>
+                </select>
+                <label>施設</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input type="text" class="datepicker" name="date" />
+                <label for="startTime">日付</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input type="text" class="timepicker" name="startTime" />
+                <label for="startTime">開始時間</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input type="text" class="timepicker" name="endTime" />
+                <label for="endTime">終了時間</label>
+              </div>
+            </div>
+
+            <span id="toolField"> </span>
+
+            <div class="row">
+              <!-- <div class="input-field col offset-s3 s6" th:if="${session.user != null}"> -->
+              <button class="btn waves-effect waves-light" type="submit" formaction="#">予約</button>
+              <button class="btn waves-effect waves-light back" type="submit" formaction="/poolExplanation">戻る</button>
+              <!-- </div> -->
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <script>
+        $(document).ready(function () {
+          M.updateTextFields();
+        });
+        $(document).ready(function () {
+          $("input#input_text, textarea#textarea2").characterCounter();
+        });
+      </script>
+
+      <script src="/js/jquery-3.6.1.js"></script>
+      <script>
+        // $(function change() {
+        // 获取所有省
+        // $.get("/getFacility", function (data) {
+        //   console.log(data);
+        //   if (data != null) {
+        //     var str = "\n";
+        //     for (var i = 0; i < data.length; i++) {
+        //       str += "<option value=" + data[i].facilityId + ">" + data[i].facilityName + "</option>\n";
+        //     }
+        //     $("#facilityId").html(str);
+        //     $("#facilityId").append($str);
+        //   }
+        // });
+        // 获取所有市
+        // $.get("getAllTool", function (data) {
+        //   console.log(data);
+        //   if (data != null) {
+        //     var str = "\n";
+        //     for (var i = 0; i < data.length; i++) {
+        //       str +=
+        //         "<div class='row'>\n<div class='input-field col offset-s3 s6'>\n" +
+        //         "<input placeholder='個数を入力してください' name='tool" +
+        //         data[i].toolId +
+        //         "' type='number' class='validate' />\n" +
+        //         "<label for='tool" +
+        //         data[i].toolId +
+        //         "'>" +
+        //         data[i].toolName +
+        //         "</label>\n</div>\n</div>";
+        //     }
+        //     $("#toolField").html(str);
+        //   }
+        // });
+
+        // $("#facilityId").change(function () {
+        //   var id = $("#facilityId").val();
+        //   if (id == "") {
+        //     return;
+        //   }
+        //   $.ajax({
+        //     type: "get",
+        //     url: "getSpecTool/" + id,
+        //     success: function (data) {
+        //       console.log(data);
+        //       var tool = $("#toolField").empty();
+        //       for (let i = 0; i < data.length; i++) {
+        //         tool.append("<input placeholder='個数を入力してください' name='tool" + data[i].toolId + "' type='text' class='validate' />");
+        //         tool.append("<label for='tool" + data[i].toolId + "'>" + data[i].toolName + "</label>");
+        //       }
+        //     },
+        //   });
+        // });
+        // });
+
+        function change() {
+          var value = $("#facilityId").val();
+          if (value == "") {
+            return;
+          }
+          $.ajax({
+            type: "get",
+            url: "getSpecTool",
+            data: { id: value },
+            success: function (data) {
+              // console.log(data);
+              // var tool = $("#toolField").empty();
+              // for (let i = 0; i < data.length; i++) {
+              //   tool.append(
+              //     "<div class='row'>\n<div class='input-field col offset-s3 s6'>\n<input placeholder='個数を入力してください' name='tool" +
+              //       data[i].toolId +
+              //       "' type='text' class='validate' />\n<label for='tool" +
+              //       data[i].toolId +
+              //       "'>" +
+              //       data[i].toolName +
+              //       "</label>\n</div>\n</div>"
+              //   );
+              // }
+              var str = "\n";
+              var tool = $("#toolField").empty();
+              for (var i = data.length - 1; i > -1; i--) {
+                str +=
+                  '<div class="row">\n' +
+                    '<div class="col offset-s3 s1">\n' +
+                      '<p>' + data[i].toolName + '</p>' +
+                    '</div>' +
+                    '<div class="col s5">\n' +
+                      '<div class="input-field">\n' +
+                        '<input placeholder="個数を入力してください" name="tool' + data[i].toolId + '" type="number" class="validate" />\n' +
+                      "</div>\n" +
+                    '</div>' +
+                  "</div>";
+              }
+              $("#toolField").html(str);
+            },
+          });
+        }
+      </script>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          var elems = document.querySelectorAll(".timepicker");
+          var instances = M.Timepicker.init(elems, {
+            showClearBtn: true,
+            i18n: {
+              clear: "消去",
+              cancel: "閉める",
+              done: "確認",
+            },
+          });
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+          var elems = document.querySelectorAll(".datepicker");
+          var instances = M.Datepicker.init(elems, {
+            i18n: {
+              months: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+              monthsShort: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+              weekdays: ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"],
+              weekdaysShort: ["日", "月", "火", "水", "木", "金", "土"],
+              weekdaysAbbrev: ["日", "月", "火", "水", "木", "金", "土"],
+              today: "今日",
+              clear: "消去",
+              cancel: "閉める",
+              done: "確認",
+              firstDay: 1,
+            },
+            format: "yyyy年/mmmm/dd日(ddd)",
+            formatSubmit: "yyyy/mm/dd",
+            showClearBtn: true,
+          });
+        });
+        $(document).ready(function () {
+          $("select").formSelect();
+        });
+      </script>
+    </main>
   </body>
 </html>

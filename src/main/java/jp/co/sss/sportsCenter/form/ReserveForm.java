@@ -1,8 +1,5 @@
 package jp.co.sss.sportsCenter.form;
 
-import jp.co.sss.sportsCenter.entity.LendingFacility;
-import jp.co.sss.sportsCenter.entity.LendingTool;
-
 public class ReserveForm {
     private int reserveManagementId;
     private Integer facilityId;
@@ -16,11 +13,6 @@ public class ReserveForm {
         return reserveManagementId;
     }
 
-    public void setReserveManagementId(int reserveManagementId) {
-        this.reserveManagementId = reserveManagementId;
-    }
-
-
     public Integer getFacilityId() {
         return facilityId;
     }
@@ -32,13 +24,15 @@ public class ReserveForm {
     public String getStartTime() {
         return startTime;
     }
+
     public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
-    
+
     public String getDate() {
         return date;
     }
+
     public void setDate(String date) {
         this.date = date;
     }
@@ -46,6 +40,7 @@ public class ReserveForm {
     public String getEndingTime() {
         return endingTime;
     }
+
     public void setEndingTime(String endingTime) {
         this.endingTime = endingTime;
     }
@@ -53,6 +48,7 @@ public class ReserveForm {
     public Integer getToolId() {
         return toolId;
     }
+
     public void setToolId(Integer toolId) {
         this.toolId = toolId;
     }
@@ -60,6 +56,7 @@ public class ReserveForm {
     public Integer getToolNumber() {
         return toolNumber;
     }
+
     public void setToolNumber(Integer toolNumber) {
         this.toolNumber = toolNumber;
     }
