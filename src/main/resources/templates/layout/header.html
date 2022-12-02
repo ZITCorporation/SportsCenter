@@ -14,7 +14,7 @@
                             <li><a class="btn waves-effect waves-light" href="/login">ログイン</a></li>
                         </div>
                         <div th:unless="${session.user == null}">
-                            <li><a class="btn waves-effect waves-light" href="/users/detail/"
+                            <li><a class="btn waves-effect waves-light" th:href="@{/users/detail/}"
                                     th:text="${session.user.name}"></a></li>
                             <li><a class="btn waves-effect waves-light back" href="/logout">ログアウト</a></li>
                         </div>
@@ -30,12 +30,12 @@
                 <div
                     th:class="${session.user == null or session.user.authority == 0} ? ${'nav-content grey darken-2'} : ${'nav-content'}">
                     <ul class="tabs tabs-transparent">
-                        <li class="tab"><a class="active" href="/">HOME</a></li>
-                        <li class="tab"><a href="facilities">施設</a></li>
+                        <li class="tab"><a class="active" th:href="@{/}">HOME</a></li>
+                        <li class="tab"><a th:href="@{/facilities}">施設</a></li>
                         <li class="tab"><a href="#test3">掲示板</a></li>
                         <li class="tab"><a href="#test4">Q&A</a></li>
                         <span th:if="${session.user != null && session.user.authority == 0}">
-                            <li class="tab"><a href="#test4">予約確認</a></li>
+                            <li class="tab"><a href="/users/reserve">予約確認</a></li>
                         </span>
                         <span th:if="${session.user != null && session.user.authority == 1}">
                             <li class="tab"><a href="/users/findAll">ユーザー一覧</a></li>

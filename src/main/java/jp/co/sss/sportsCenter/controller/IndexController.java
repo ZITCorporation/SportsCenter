@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jp.co.sss.sportsCenter.entity.User;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 
 @Controller
@@ -15,6 +16,7 @@ public class IndexController {
     
 // cd sportsCenter
 // mvn spring-boot:run
+// http://localhost:7777/
 
     // ホーム
     @RequestMapping("/")
@@ -29,10 +31,10 @@ public class IndexController {
     }
 
     // エラー
-    @RequestMapping(value="/error", method=RequestMethod.GET)
-    public String errorPage() {
-        return "/error";
-     }
+    // @RequestMapping(value="/error", method=RequestMethod.GET)
+    // public String errorPage() {
+    //     return "/error";
+    //  }
     
 
     @RequestMapping("/listFacilities")

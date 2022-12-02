@@ -19,10 +19,10 @@ import jp.co.sss.sportsCenter.repository.UserRepository;
 public class LoginController {
     @Autowired
     UserRepository repository;
+
     @Autowired
     HttpSession session;
     
-    // ログイン
     @RequestMapping(path = "/login", method = RequestMethod.GET)
     public String login() {
         return "/users/login/login";
