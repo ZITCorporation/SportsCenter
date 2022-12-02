@@ -26,7 +26,7 @@ public class IndexController {
             User user = ((User) session.getAttribute("user"));
             model.addAttribute("sample", "Welcome Back, " + user.getName());
         } else {
-            model.addAttribute("sample", "テスト画面だよ");
+            model.addAttribute("sample", "ログインしましょう！");
         }
         return "index";
     }

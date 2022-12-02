@@ -1,76 +1,72 @@
 <meta charset="UTF-8" />
 
 <div class="nav-bar-fixed" id="header" th:fragment="layout-header">
-    <header>
-        <div class="navbar-fixed">
-            <nav class="nav-extended">
-                <div
-                    th:class="${session.user == null or session.user.authority == 0} ? ${'nav-wrapper grey darken-2'} : ${'nav-wrapper'}">
-                    <a href="/" class="brand-logo">スポーツセンター(仮)</a>
-                    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                    <ul id="nav-mobile" class="right hide-on-med-and-down">
-                        <div th:if="${session.user == null}">
-                            <li><a class="btn waves-effect waves-teal" href="/users/create/input">新規登録</a></li>
-                            <li><a class="btn waves-effect waves-light" href="/login">ログイン</a></li>
-                        </div>
-                        <div th:unless="${session.user == null}">
-                            <li><a class="btn waves-effect waves-light" th:href="@{/users/detail/}"
-                                    th:text="${session.user.name}"></a></li>
-                            <li><a class="btn waves-effect waves-light back" href="/logout">ログアウト</a></li>
-                        </div>
-                    </ul>
-                </div>
+  <header>
+    <div class="navbar-fixed">
+      <nav class="nav-extended">
+        <div th:class="${session.user == null or session.user.authority == 0} ? ${'nav-wrapper grey darken-2'} : ${'nav-wrapper'}">
+          <a href="/" class="brand-logo">スポーツセンター(仮)</a>
+          <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <div th:if="${session.user == null}">
+              <li><a class="btn waves-effect waves-teal" href="/users/create/input">新規登録</a></li>
+              <li><a class="btn waves-effect waves-light" href="/login">ログイン</a></li>
+            </div>
+            <div th:unless="${session.user == null}">
+              <li><a class="btn waves-effect waves-light" th:href="@{/users/detail/}" th:text="${session.user.name}"></a></li>
+              <li><a class="btn waves-effect waves-light back" href="/logout">ログアウト</a></li>
+            </div>
+          </ul>
+        </div>
 
-
-                <!-- <div th:if="${session.user == null}">
+        <!-- <div th:if="${session.user == null}">
                 </div>
                 <div th:unless="${session.user == null}">
                 </div> -->
 
-                <div
-                    th:class="${session.user == null or session.user.authority == 0} ? ${'nav-content grey darken-2'} : ${'nav-content'}">
-                    <ul class="tabs tabs-transparent">
-                        <li class="tab"><a class="active" th:href="@{/}">HOME</a></li>
-                        <li class="tab"><a th:href="@{/facilities}">施設</a></li>
-                        <li class="tab"><a href="#test3">掲示板</a></li>
-                        <li class="tab"><a href="#test4">Q&A</a></li>
-                        <span th:if="${session.user != null && session.user.authority == 0}">
-                            <li class="tab"><a href="/users/reserve">予約確認</a></li>
-                        </span>
-                        <span th:if="${session.user != null && session.user.authority == 1}">
-                            <li class="tab"><a href="/users/findAll">ユーザー一覧</a></li>
-                        </span>
-                    </ul>
-                </div>
-            </nav>
+        <div th:class="${session.user == null or session.user.authority == 0} ? ${'nav-content grey darken-2'} : ${'nav-content'}">
+          <ul class="tabs tabs-transparent  no-autoinit">
+            <li class="tab"><a href="/">HOME</a></li>
+            <li class="tab"><a href="/listFacilities">施設</a></li>
+            <li class="tab"><a href="#test3">掲示板</a></li>
+            <li class="tab"><a href="#test4">Q&A</a></li>
+            <span th:if="${session.user != null && session.user.authority == 0}">
+              <li class="tab"><a href="/users/reserve">予約確認</a></li>
+            </span>
+            <span th:if="${session.user != null && session.user.authority == 1}">
+              <li class="tab"><a href="/users/findAll">ユーザー一覧</a></li>
+            </span>
+          </ul>
         </div>
-        <ul class="sidenav" id="mobile-demo">
-            <div th:switch="${session.user}">
-                <span th:if="${session.user == null}">
-                    <li><a href="/login">ログイン</a></li>
-                    <li><a href="/users/create/input">新規登録</a></li>
-                </span>
-                <span th:unless="${session.user == null}">
-                    <li class="center">
-                        <h5>WELCOME</h5>
-                    </li>
-                    <li><a href="/users/detail/" th:text="${session.user.name}"></a></li>
-                    <!-- <li><a href="/users/detail/">ユーザー詳細</a></li> -->
-                    <li><a href="/logout">ログアウト</a></li>
-                </span>
-            </div>
-        </ul>
+      </nav>
+    </div>
+    <ul class="sidenav" id="mobile-demo">
+      <div th:switch="${session.user}">
+        <span th:if="${session.user == null}">
+          <li><a href="/login">ログイン</a></li>
+          <li><a href="/users/create/input">新規登録</a></li>
+        </span>
+        <span th:unless="${session.user == null}">
+          <li class="center">
+            <h5>WELCOME</h5>
+          </li>
+          <li><a href="/users/detail/" th:text="${session.user.name}"></a></li>
+          <!-- <li><a href="/users/detail/">ユーザー詳細</a></li> -->
+          <li><a href="/logout">ログアウト</a></li>
+        </span>
+      </div>
+    </ul>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var elems = document.querySelectorAll('.sidenav');
-                var instances = M.Sidenav.init(elems, {});
-            });
-        </script>
-        <!-- <div id="test1" class="col s12">HOME</div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var elems = document.querySelectorAll(".sidenav");
+        var instances = M.Sidenav.init(elems, {});
+      });
+    </script>
+    <!-- <div id="test1" class="col s12">HOME</div>
         <div id="test2" class="col s12">施設</div>
         <div id="test3" class="col s12">リンク3</div>
         <div id="test4" class="col s12">リンク4</div>
         <div id="test4" class="col s12">リンク5</div> -->
-    </header>
+  </header>
 </div>

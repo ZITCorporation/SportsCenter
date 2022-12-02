@@ -36,6 +36,7 @@ import jp.co.sss.sportsCenter.repository.UserRepository;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -186,7 +187,13 @@ public class ReserveController {
         return toolList;
     }
 
-    @RequestMapping(value = "/reserve/create/input", method = RequestMethod.GET)
+    @RequestMapping(value = "/reserve/create/{id}", method = RequestMethod.GET)
+    public String createInputWithId(Model model, @PathVariable("id") int id) {
+        model.addAttribute("preSelectFacilityId", id);
+        return "/reserve/create/input";
+    }
+
+    @RequestMapping(value = "/reserve/create", method = RequestMethod.GET)
     public String createInput() {
         return "/reserve/create/input";
     }
@@ -200,7 +207,7 @@ public class ReserveController {
     @RequestMapping(value = "/reserve/create/back", method = RequestMethod.POST)
     public String backToCreateInput(@ModelAttribute("form") @Valid ReserveForm form, Model model, HttpSession session) {
         model.addAttribute("form", form);
-        return "/reserve/create/input";
+        return "/reserve/create";
     }
 
     @RequestMapping(value = "/reserve/create/complete", method = RequestMethod.POST)

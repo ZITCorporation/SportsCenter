@@ -18,15 +18,28 @@
             <div class="row">
               <div class="input-field col offset-s3 s6">
                 <span th:if="${form}==null">
-                  <select class="validate" name="facilityId" id="facilityId" tabindex="-1" onchange="change()">
-                    <option value="" selected>予約したい施設を選んでくだいさい</option>
-                    <option value="1">アーチェリー</option>
-                    <option value="2">ジム</option>
-                    <option value="3">テニスコート</option>
-                    <option value="4">バスケットボール</option>
-                    <option value="5">プール</option>
-                  </select>
-                  <label>施設</label>
+                  <span th:if="${preSelectFacilityId}==null">
+                    <select class="validate" name="facilityId" id="facilityId" tabindex="-1" onchange="change()">
+                      <option value="" selected>予約したい施設を選んでくだいさい</option>
+                      <option value="1">アーチェリー</option>
+                      <option value="2">ジム</option>
+                      <option value="3">テニスコート</option>
+                      <option value="4">バスケットボール</option>
+                      <option value="5">プール</option>
+                    </select>
+                    <label>施設</label>
+                  </span>
+                  <span th:unless="${preSelectFacilityId}==null">
+                    <select class="validate" name="facilityId" id="facilityId" tabindex="-1" onchange="change()">
+                      <option value="" selected>予約したい施設を選んでくだいさい</option>
+                      <option value="1" th:selected="${preSelectFacilityId==1}">アーチェリー</option>
+                      <option value="2" th:selected="${preSelectFacilityId==2}">ジム</option>
+                      <option value="3" th:selected="${preSelectFacilityId==3}">テニスコート</option>
+                      <option value="4" th:selected="${preSelectFacilityId==4}">バスケットボール</option>
+                      <option value="5" th:selected="${preSelectFacilityId==5}">プール</option>
+                    </select>
+                    <label>施設</label>
+                  </span>
                 </span>
                 <span th:unless="${form}==null">
                   <select class="validate" name="facilityId" id="facilityId" tabindex="-1" onchange="change()">
@@ -122,6 +135,10 @@
         </div>
       </div>
       <script>
+        window.onload = function () {
+          change();
+        };
+
         function change() {
           var value = $("#facilityId").val();
           if (value == "") {
