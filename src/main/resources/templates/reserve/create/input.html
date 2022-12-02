@@ -14,198 +14,203 @@
         </div>
 
         <div class="row">
-          <form class="center" method="post" action="/reserve/input">
+          <form class="center" method="post" action="/reserve/create/confirm">
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <select name="name" id="facilityId" tabindex="-1" onchange="change()">
-                  <option value="" selected>予約したい施設を選んでくだいさい</option>
-                  <option value="1">アーチェリー</option>
-                  <option value="2">ジム</option>
-                  <option value="3">テニスコート</option>
-                  <option value="4">バスケットボール</option>
-                  <option value="5">プール</option>
-                </select>
-                <label>施設</label>
+                <span th:if="${form}==null">
+                  <span th:if="${preSelectFacilityId}==null">
+                    <select class="validate" name="facilityId" id="facilityId" tabindex="-1" onchange="change()">
+                      <option value="" selected>予約したい施設を選んでくだいさい</option>
+                      <option value="1">アーチェリー</option>
+                      <option value="2">ジム</option>
+                      <option value="3">テニスコート</option>
+                      <option value="4">バスケットボール</option>
+                      <option value="5">プール</option>
+                    </select>
+                    <label>施設</label>
+                  </span>
+                  <span th:unless="${preSelectFacilityId}==null">
+                    <select class="validate" name="facilityId" id="facilityId" tabindex="-1" onchange="change()">
+                      <option value="" selected>予約したい施設を選んでくだいさい</option>
+                      <option value="1" th:selected="${preSelectFacilityId==1}">アーチェリー</option>
+                      <option value="2" th:selected="${preSelectFacilityId==2}">ジム</option>
+                      <option value="3" th:selected="${preSelectFacilityId==3}">テニスコート</option>
+                      <option value="4" th:selected="${preSelectFacilityId==4}">バスケットボール</option>
+                      <option value="5" th:selected="${preSelectFacilityId==5}">プール</option>
+                    </select>
+                    <label>施設</label>
+                  </span>
+                </span>
+                <span th:unless="${form}==null">
+                  <select class="validate" name="facilityId" id="facilityId" tabindex="-1" onchange="change()">
+                    <option value="">予約したい施設を選んでくだいさい</option>
+                    <option value="1" th:selected="${form.facilityId==1}">アーチェリー</option>
+                    <option value="2" th:selected="${form.facilityId==2}">ジム</option>
+                    <option value="3" th:selected="${form.facilityId==3}">テニスコート</option>
+                    <option value="4" th:selected="${form.facilityId==4}">バスケットボール</option>
+                    <option value="5" th:selected="${form.facilityId==5}">プール</option>
+                  </select>
+                  <label>施設</label>
+                </span>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input type="text" class="datepicker" name="date" />
+                <input name="date" type="text" class="datepicker validate" th:unless="${form == null}" th:value="${form.date}" />
+                <input name="date" type="text" class="datepicker validate" th:if="${form == null}" />
                 <label for="startTime">日付</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input type="text" class="timepicker" name="startTime" />
+                <input name="startTime" type="text" class="timepicker validate" th:unless="${form == null}" th:value="${form.startTime}" />
+                <input name="startTime" type="text" class="timepicker validate" th:if="${form == null}" />
                 <label for="startTime">開始時間</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input type="text" class="timepicker" name="endTime" />
+                <input name="endingTime" type="text" class="timepicker validate" th:unless="${form == null}" th:value="${form.endingTime}" />
+                <input name="endingTime" type="text" class="timepicker validate" th:if="${form == null}" />
                 <label for="endTime">終了時間</label>
               </div>
             </div>
 
-            <span id="toolField"> </span>
+            <div class="row center">
+              <h5>道具</h5>
+            </div>
+            <div class="row center" id="toolHint" th:if="${form==null}">
+              <p>予約したい施設を選んでくだいさい</p>
+            </div>
 
-            <div class="row">
+            <div id="toolLoading" class="col offset-s3 s6">
+              <div class="indeterminate"></div>
+            </div>
+
+            <span id="toolField">
+              <div th:unless="${form==null}">
+                <div th:each="tool,toolStat:${form.toolList}">
+                  <div class="row">
+                    <div class="col offset-s3 s1">
+                      <p th:text="${tool.toolName}"></p>
+                    </div>
+                    <div class="col s5">
+                      <div class="input-field">
+                        <input
+                          readonly
+                          th:name="'toolList[' + ${toolStat.index} + '].toolName'"
+                          type="hidden"
+                          class="validate toolInfo"
+                          th:value="${tool.toolName}" />
+                        <input
+                          readonly
+                          th:name="'toolList[' + ${toolStat.index} + '].toolId'"
+                          type="hidden"
+                          class="validate toolInfo"
+                          th:value="${tool.toolId}" />
+                        <input
+                          readonly
+                          th:name="'toolList[' + ${toolStat.index} + '].toolNum'"
+                          type="number"
+                          class="validate toolInfo"
+                          th:value="${tool.toolNum}"
+                          placeholder="個数を入力してください" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </span>
+
+            <div class="row col offset-s3 s6">
               <!-- <div class="input-field col offset-s3 s6" th:if="${session.user != null}"> -->
-              <button class="btn waves-effect waves-light" type="submit" formaction="#">予約</button>
+              <button id="confirm" class="btn waves-effect waves-light" type="submit">確認</button>
               <button class="btn waves-effect waves-light back" type="submit" formaction="/poolExplanation">戻る</button>
               <!-- </div> -->
             </div>
           </form>
         </div>
       </div>
-
       <script>
-        $(document).ready(function () {
-          M.updateTextFields();
-        });
-        $(document).ready(function () {
-          $("input#input_text, textarea#textarea2").characterCounter();
-        });
-      </script>
-
-      <script src="/js/jquery-3.6.1.js"></script>
-      <script>
-        // $(function change() {
-        // 获取所有省
-        // $.get("/getFacility", function (data) {
-        //   console.log(data);
-        //   if (data != null) {
-        //     var str = "\n";
-        //     for (var i = 0; i < data.length; i++) {
-        //       str += "<option value=" + data[i].facilityId + ">" + data[i].facilityName + "</option>\n";
-        //     }
-        //     $("#facilityId").html(str);
-        //     $("#facilityId").append($str);
-        //   }
-        // });
-        // 获取所有市
-        // $.get("getAllTool", function (data) {
-        //   console.log(data);
-        //   if (data != null) {
-        //     var str = "\n";
-        //     for (var i = 0; i < data.length; i++) {
-        //       str +=
-        //         "<div class='row'>\n<div class='input-field col offset-s3 s6'>\n" +
-        //         "<input placeholder='個数を入力してください' name='tool" +
-        //         data[i].toolId +
-        //         "' type='number' class='validate' />\n" +
-        //         "<label for='tool" +
-        //         data[i].toolId +
-        //         "'>" +
-        //         data[i].toolName +
-        //         "</label>\n</div>\n</div>";
-        //     }
-        //     $("#toolField").html(str);
-        //   }
-        // });
-
-        // $("#facilityId").change(function () {
-        //   var id = $("#facilityId").val();
-        //   if (id == "") {
-        //     return;
-        //   }
-        //   $.ajax({
-        //     type: "get",
-        //     url: "getSpecTool/" + id,
-        //     success: function (data) {
-        //       console.log(data);
-        //       var tool = $("#toolField").empty();
-        //       for (let i = 0; i < data.length; i++) {
-        //         tool.append("<input placeholder='個数を入力してください' name='tool" + data[i].toolId + "' type='text' class='validate' />");
-        //         tool.append("<label for='tool" + data[i].toolId + "'>" + data[i].toolName + "</label>");
-        //       }
-        //     },
-        //   });
-        // });
-        // });
+        window.onload = function () {
+          change();
+        };
 
         function change() {
           var value = $("#facilityId").val();
           if (value == "") {
             return;
           }
+          $("#toolLoading").show();
+          $("#toolLoading").attr("class", "progress col offset-s3 s6");
+          $("#confirm").attr("class", "btn waves-effect waves-light disabled");
           $.ajax({
             type: "get",
             url: "getSpecTool",
             data: { id: value },
             success: function (data) {
-              // console.log(data);
-              // var tool = $("#toolField").empty();
-              // for (let i = 0; i < data.length; i++) {
-              //   tool.append(
-              //     "<div class='row'>\n<div class='input-field col offset-s3 s6'>\n<input placeholder='個数を入力してください' name='tool" +
-              //       data[i].toolId +
-              //       "' type='text' class='validate' />\n<label for='tool" +
-              //       data[i].toolId +
-              //       "'>" +
-              //       data[i].toolName +
-              //       "</label>\n</div>\n</div>"
-              //   );
-              // }
               var str = "\n";
               var tool = $("#toolField").empty();
-              for (var i = data.length - 1; i > -1; i--) {
-                str +=
-                  '<div class="row">\n' +
+              if (data.length > 0) {
+                $("#toolHint").hide();
+                $("#toolLoading").hide();
+                $("#confirm").attr("class", "btn waves-effect waves-light");
+                for (var i = 0; i < data.length; i++) {
+                  str +=
+                    '<div class="row">\n' +
                     '<div class="col offset-s3 s1">\n' +
-                      '<p>' + data[i].toolName + '</p>' +
-                    '</div>' +
+                    "<p>" +
+                    data[i].toolName +
+                    "</p>" +
+                    "</div>" +
                     '<div class="col s5">\n' +
-                      '<div class="input-field">\n' +
-                        '<input placeholder="個数を入力してください" name="tool' + data[i].toolId + '" type="number" class="validate" />\n' +
-                      "</div>\n" +
-                    '</div>' +
-                  "</div>";
+                    '<div class="input-field">\n' +
+                    '<input name="toolList[' +
+                    i +
+                    '].toolName" type="hidden" class="validate toolInfo" value="' +
+                    data[i].toolName +
+                    '"/>\n' +
+                    '<input name="toolList[' +
+                    i +
+                    '].toolId" type="hidden" class="validate toolInfo" value="' +
+                    data[i].toolId +
+                    '"/>\n' +
+                    '<input placeholder="個数を入力してください" name="toolList[' +
+                    i +
+                    '].toolNum" type="number" class="validate toolInfo" />\n' +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+                }
+              } else {
+                $("#toolHint").show();
               }
+
               $("#toolField").html(str);
             },
           });
         }
-      </script>
 
-      <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          var elems = document.querySelectorAll(".timepicker");
-          var instances = M.Timepicker.init(elems, {
-            showClearBtn: true,
-            i18n: {
-              clear: "消去",
-              cancel: "閉める",
-              done: "確認",
-            },
-          });
-        });
-        document.addEventListener("DOMContentLoaded", function () {
-          var elems = document.querySelectorAll(".datepicker");
-          var instances = M.Datepicker.init(elems, {
-            i18n: {
-              months: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
-              monthsShort: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
-              weekdays: ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"],
-              weekdaysShort: ["日", "月", "火", "水", "木", "金", "土"],
-              weekdaysAbbrev: ["日", "月", "火", "水", "木", "金", "土"],
-              today: "今日",
-              clear: "消去",
-              cancel: "閉める",
-              done: "確認",
-              firstDay: 1,
-            },
-            format: "yyyy年/mmmm/dd日(ddd)",
-            formatSubmit: "yyyy/mm/dd",
-            showClearBtn: true,
-          });
-        });
-        $(document).ready(function () {
-          $("select").formSelect();
-        });
+        // function confirm() {
+        //   var saveDataAry = new Array();
+        //   $(".toolInfo").each(function () {
+        //     saveDataAry.push(this.name, this.value)
+        //   })
+        //   console.log(saveDataAry.toString())
+        //   $.ajax({
+        //     type: "POST",
+        //     url: "/sendData.json",
+        //     dataType: "json",//必须json
+        //     contentType: "application/json", // 指定这个协议很重要
+        //     data: JSON.stringify(saveDataAry),
+        //     success: function (res) {
+        //       alert("后端返回请求数据为：" + JSON.stringify(res));
+        //     }
+        //   });
+        // }
       </script>
     </main>
   </body>

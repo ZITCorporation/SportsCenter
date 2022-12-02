@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import jp.co.sss.sportsCenter.entity.User;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,7 +26,7 @@ public class IndexController {
             User user = ((User) session.getAttribute("user"));
             model.addAttribute("sample", "Welcome Back, " + user.getName());
         } else {
-            model.addAttribute("sample", "テスト画面だよ");
+            model.addAttribute("sample", "ログインしましょう！");
         }
         return "index";
     }

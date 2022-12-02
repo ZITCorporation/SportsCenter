@@ -50,13 +50,7 @@ public class UserController {
     @RequestMapping(value = "/users/create/confirm", method = RequestMethod.POST)
     public String createConfirm(UserForm form, Model model) {
         User user = new User();
-        user.setName(form.getName());
-        user.setPassword(form.getPassword());
-        user.setEmail(form.getEmail());
-        user.setPhoneNumber(form.getPhoneNumber());
-        user.setPost(form.getPost());
-        user.setDomicile(form.getDomicile());
-        user.setAuthority(0);
+        user = formtoUser(user, form);
         model.addAttribute("user", user);
         return "/users/create/confirm"; // ユーザー新規登録確認画面のhtmlファイルのパス
     }
@@ -64,13 +58,7 @@ public class UserController {
     @RequestMapping(value = "/users/create/back", method = RequestMethod.POST)
     public String backToCreateInput(UserForm form, Model model) {
         User user = new User();
-        user.setName(form.getName());
-        user.setPassword(form.getPassword());
-        user.setEmail(form.getEmail());
-        user.setPhoneNumber(form.getPhoneNumber());
-        user.setPost(form.getPost());
-        user.setDomicile(form.getDomicile());
-        user.setAuthority(0);
+        user = formtoUser(user, form);
         model.addAttribute("user", user);
         return "/users/create/input"; // ユーザー新規登録入力画面のhtmlファイルのパス
     }
@@ -78,13 +66,7 @@ public class UserController {
     @RequestMapping(value = "/users/create/complete", method = RequestMethod.POST)
     public String createComplete(UserForm form) {
         User user = new User();
-        user.setName(form.getName());
-        user.setPassword(form.getPassword());
-        user.setEmail(form.getEmail());
-        user.setPhoneNumber(form.getPhoneNumber());
-        user.setPost(form.getPost());
-        user.setDomicile(form.getDomicile());
-        user.setAuthority(0);
+        user = formtoUser(user, form);
         repository.save(user);
         return "/users/create/complete"; // ユーザー新規登録成功画面のhtmlファイルのパス
     }
@@ -100,12 +82,7 @@ public class UserController {
     public String updateConfirm(HttpSession session, UserForm form, Model model) {
         int id = ((User) session.getAttribute("user")).getUserId();
         User user = repository.getReferenceById(id);
-        user.setName(form.getName());
-        user.setPassword(form.getPassword());
-        user.setEmail(form.getEmail());
-        user.setPhoneNumber(form.getPhoneNumber());
-        user.setPost(form.getPost());
-        user.setDomicile(form.getDomicile());
+        user = formtoUser(user, form);
         user.setAuthority(form.getAuthority());
         model.addAttribute("user", user);
         return "/users/update/confirm"; // ユーザー情報更新確認画面のhtmlファイルのパス
@@ -114,13 +91,7 @@ public class UserController {
     @RequestMapping(value = "/users/update/back", method = RequestMethod.POST)
     public String backToUpdateInput(UserForm form, Model model) {
         User user = new User();
-        user.setName(form.getName());
-        user.setPassword(form.getPassword());
-        user.setEmail(form.getEmail());
-        user.setPhoneNumber(form.getPhoneNumber());
-        user.setPost(form.getPost());
-        user.setDomicile(form.getDomicile());
-        user.setAuthority(0);
+        user = formtoUser(user, form);
         model.addAttribute("user_back", user);
         return "/users/update/input"; // ユーザー情報更新入力画面のhtmlファイルのパス
     }
@@ -129,13 +100,7 @@ public class UserController {
     public String updateComplete(HttpSession session, UserForm form) {
         int id = ((User) session.getAttribute("user")).getUserId();
         User user = repository.getReferenceById(id);
-        user.setName(form.getName());
-        user.setPassword(form.getPassword());
-        user.setEmail(form.getEmail());
-        user.setPhoneNumber(form.getPhoneNumber());
-        user.setPost(form.getPost());
-        user.setDomicile(form.getDomicile());
-        user.setAuthority(0);
+        user = formtoUser(user, form);
         repository.save(user);
         session.setAttribute("user", user);
         return "/users/update/complete"; // ユーザー情報更新成功画面のhtmlファイルのパス
@@ -155,4 +120,14 @@ public class UserController {
         return "/users/delete/complete"; // ユーザー削除成功画面のhtmlファイルのパス
     }
 
+    private User formtoUser(User user, UserForm form) {
+        user.setName(form.getName());
+        user.setPassword(form.getPassword());
+        user.setEmail(form.getEmail());
+        user.setPhoneNumber(form.getPhoneNumber());
+        user.setPost(form.getPost());
+        user.setDomicile(form.getDomicile());
+        user.setAuthority(0);
+        return user;
+    }
 }

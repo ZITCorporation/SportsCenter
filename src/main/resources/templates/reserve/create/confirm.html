@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::body/content()})}">
+  <head>
+    <title>新規登録</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body>
+    <main>
+      <div class="container">
+        <div class="row center">
+          <h3>予約 確認</h3>
+        </div>
+
+        <div class="row">
+          <form class="center confirm" method="post">
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <select name="facilityId" id="facilityId" tabindex="-1" th:switch="${form.facilityId}">
+                  <option th:case="1" value="1" selected>アーチェリー</option>
+                  <option th:case="2" value="2" selected>ジム</option>
+                  <option th:case="3" value="3" selected>テニスコート</option>
+                  <option th:case="4" value="4" selected>バスケットボール</option>
+                  <option th:case="5" value="5" selected>プール</option>
+                </select>
+                <label>施設</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input readonly type="text" name="date" th:value="${form.date}" />
+                <label for="startTime">日付</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input readonly type="text" name="startTime" th:value="${form.startTime}" />
+                <label for="startTime">開始時間</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input readonly type="text" name="endingTime" th:value="${form.endingTime}" />
+                <label for="endTime">終了時間</label>
+              </div>
+            </div>
+
+            <div class="row center">
+              <h5>道具</h5>
+            </div>
+
+            <span id="toolField">
+              <div th:each="tool,toolStat:${form.toolList}">
+                <div class="row">
+                  <div class="col offset-s3 s1">
+                    <p th:text="${tool.toolName}"></p>
+                  </div>
+                  <div class="col s5">
+                    <div class="input-field">
+                      <input readonly th:name="'toolList[' + ${toolStat.index} + '].toolName'" type="hidden" th:value="${tool.toolName}" />
+                      <input readonly th:name="'toolList[' + ${toolStat.index} + '].toolId'" type="hidden" th:value="${tool.toolId}" />
+                      <input
+                        readonly
+                        th:name="'toolList[' + ${toolStat.index} + '].toolNum'"
+                        type="number"
+                        th:value="${tool.toolNum}"
+                        placeholder="個数を入力してください" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </span>
+
+            <div class="row">
+              <!-- <div class="input-field col offset-s3 s6" th:if="${session.user != null}"> -->
+              <button class="btn waves-effect waves-light" type="submit" formaction="/reserve/create/complete">確認</button>
+              <!-- <button id="confirm" class="btn waves-effect waves-light" type="submit" onsubmit="return confirm()">確認</button> -->
+              <button class="btn waves-effect waves-light back" type="submit" formaction="/reserve/create/back">戻る</button>
+              <!-- </div> -->
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- <script>
+        function confirm() {
+          var saveDataAry = new Array();
+          $(".toolInfo").each(function () {
+            saveDataAry.push(this.name, this.value);
+          });
+          console.log(saveDataAry.toString());
+          $.ajax({
+            type: "POST",
+            url: "/sendData.json",
+            dataType: "json", //必须json
+            contentType: "application/json", // 指定这个协议很重要
+            data: JSON.stringify(saveDataAry),
+            success: function (res) {
+              alert("后端返回请求数据为：" + JSON.stringify(res));
+            },
+          });
+        }
+      </script> -->
+    </main>
+  </body>
+</html>
