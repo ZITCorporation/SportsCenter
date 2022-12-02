@@ -1,7 +1,6 @@
 package jp.co.sss.sportsCenter.entity;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,19 +35,10 @@ public class ReserveManagement {
     @JoinColumn(name = "facility_id", referencedColumnName = "facilityId")
     private LendingFacility facilityId;
 
-    public ReserveManagement(User userId, Timestamp startTime, Timestamp endingTime, LendingFacility facilityId) {
-        this.userId = userId;
-        this.startTime = startTime;
-        this.endingTime = endingTime;
-        this.facilityId = facilityId;
-    }
-
     public ReserveManagement() {
     }
 
-    public ReserveManagement(Integer reserveManagementId, User userId, Timestamp startTime, Timestamp endingTime,
-            LendingFacility facilityId) {
-        this.reserveManagementId = reserveManagementId;
+    public ReserveManagement(User userId, Timestamp startTime, Timestamp endingTime, LendingFacility facilityId) {
         this.userId = userId;
         this.startTime = startTime;
         this.endingTime = endingTime;

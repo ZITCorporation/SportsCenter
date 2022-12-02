@@ -1,16 +1,21 @@
 package jp.co.sss.sportsCenter.form;
 
+import java.util.List;
+
 public class ReserveForm {
     private int reserveManagementId;
     private Integer facilityId;
     private String date;
     private String startTime;
     private String endingTime;
-    private Integer toolId;
-    private Integer toolNumber;
+    private List<ToolForm> toolList;
 
     public int getReserveManagementId() {
         return reserveManagementId;
+    }
+
+    public void setReserveManagementId(int reserveManagementId) {
+        this.reserveManagementId = reserveManagementId;
     }
 
     public Integer getFacilityId() {
@@ -21,20 +26,20 @@ public class ReserveForm {
         this.facilityId = facilityId;
     }
 
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
     public String getDate() {
         return date;
     }
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
     public String getEndingTime() {
@@ -45,19 +50,11 @@ public class ReserveForm {
         this.endingTime = endingTime;
     }
 
-    public Integer getToolId() {
-        return toolId;
+    public List<ToolForm> getToolList() {
+        return toolList;
     }
 
-    public void setToolId(Integer toolId) {
-        this.toolId = toolId;
-    }
-
-    public Integer getToolNumber() {
-        return toolNumber;
-    }
-
-    public void setToolNumber(Integer toolNumber) {
-        this.toolNumber = toolNumber;
+    public void setToolList(List<ToolForm> toolList) {
+        this.toolList = toolList;
     }
 }
