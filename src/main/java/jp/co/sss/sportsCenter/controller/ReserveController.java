@@ -1,9 +1,6 @@
 package jp.co.sss.sportsCenter.controller;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,10 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -34,11 +28,9 @@ import jp.co.sss.sportsCenter.repository.ReserveManegementRepository;
 import jp.co.sss.sportsCenter.repository.ToolManagementRepository;
 import jp.co.sss.sportsCenter.repository.UserRepository;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ReserveController {
@@ -181,7 +173,6 @@ public class ReserveController {
             toolList = lendingToolRepository.findByFacilityId(facility);
             session.setAttribute("toolList", toolList);
         } catch (Exception e) {
-            // TODO: handle exception
             System.out.println("failed to get toolList");
         }
         return toolList;
