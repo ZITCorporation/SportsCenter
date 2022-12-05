@@ -1,29 +1,93 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::body/content()})}">
+  <body>
+    <main>
+      <div class="container">
+        <div class="row center">
+          <h3>施設一覧</h3>
+        </div>
 
-<body>
-  <main>
-    <div class="container">
-      <div class="row center">
-        <h3>施設一覧</h3>
+        <div class="row">
+          <div class="col s4">
+            <div class="card small">
+              <div class="card-image">
+                <img src="picture/archery.png" />
+                <span class="card-title">アーチェリー</span>
+              </div>
+              <div class="card-content">
+                <p>アーチェリー簡単紹介を入力してください</p>
+              </div>
+              <div class="card-action">
+                <a href="/archeryExplanation">アーチェリー</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col s4">
+            <div class="card small">
+              <div class="card-image">
+                <img src="picture/gym.png" />
+                <span class="card-title">ジム</span>
+              </div>
+              <div class="card-content">
+                <p>ジム簡単紹介を入力してください</p>
+              </div>
+              <div class="card-action">
+                <a href="/gymExplanation">ジム</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col s4">
+            <div class="card small">
+              <div class="card-image">
+                <img src="picture/tennis_m.jpg" />
+                <span class="card-title">テニスコート</span>
+              </div>
+              <div class="card-content">
+                <p>テニスコート簡単紹介を入力してください</p>
+              </div>
+              <div class="card-action">
+                <a href="/tennisExplanation">テニスコート</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col s4">
+            <div class="card small">
+              <div class="card-image">
+                <img src="picture/basketball_m.jpg" />
+                <span class="card-title">バスケットボール</span>
+              </div>
+              <div class="card-content">
+                <p>バスケットボール簡単紹介を入力してください</p>
+              </div>
+              <div class="card-action">
+                <a href="/basketballExplanation">バスケットボール</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col s4">
+            <div class="card small">
+              <div class="card-image">
+                <img src="picture/pool_m.jpg" />
+                <span class="card-title">プール</span>
+              </div>
+              <div class="card-content">
+                <p>プール簡単紹介を入力してください</p>
+              </div>
+              <div class="card-action">
+                <a href="/poolExplanation">プール</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col s4 card-like valign-wrapper">
+            <a class="col s4 offset-s4 btn waves-effect waves-light back btn-large" href="/">戻る</a>
+          </div>
+        </div>
       </div>
-
-      <div class="row center">
-        <ul>
-          <li><a href="/archeryExplanation">アーチェリー</a></li>
-          <li><a href="/gymExplanation">ジム</a></li>
-          <li><a href="/tennisExplanation">テニスコート</a></li>
-          <li><a href="/basketballExplanation">バスケットボール</a></li>
-          <li><a href="/poolExplanation">プール</a></li>
-        </ul>
-      </div>
-
-      <div class="row center">
-        <a class="btn waves-effect waves-light back" href="/">戻る</a>
-      </div>
-    </div>
-  </main>
-
-</body>
-
+    </main>
+  </body>
 </html>

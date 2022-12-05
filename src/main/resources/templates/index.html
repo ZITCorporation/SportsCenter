@@ -1,27 +1,205 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::body/content()})}">
+  <head>
+    <title>HOME</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
 
-<head>
-  <title>HOME</title>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-</head>
-
-<body>
-  <main>
-    <div class="container">
-      <div class="row center">
-        <h3 th:text="${sample}"></h3>
-      </div>
-
-      <div class="section">
+  <body>
+    <main>
+      <div class="container">
         <div class="row center">
-          <div th:switch="${session.user}">
+          <h3 th:text="${sample}"></h3>
+        </div>
+
+        <div class="section">
+          <div class="row center">
+            <div th:switch="${session.user}"></div>
           </div>
         </div>
-      </div>
-    </div>
-  </main>
-</body>
 
+        <div class="row">
+          <div class="col s12 m6 l4">
+            <div class="card blue-grey lighten-4">
+              <div class="card-content dark-text">
+                <span class="card-title">情報新規登録</span>
+                <a class="btn-floating halfway-fab waves-effect waves-light red btn-large modal-trigger modal-close" href="#modal1">
+                  <i class="material-icons">add</i>
+                </a>
+                <p>右下のボタンをクリックしてください</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal Structure -->
+          <div id="modal1" class="modal">
+            <form id="modalForm" method="post">
+              <div class="modal-content">
+                <h3 class="center row">情報新規登録</h3>
+                <div class="row">
+                  <div class="input-field col offset-s2 s8">
+                    <input id="bbsTitle" name="bbsTitle" type="text" class="validate" data-length="20" />
+                    <label for="bbsTitle">タイトル</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col offset-s2 s8">
+                    <input id="bbsAuthor" name="bbsAuthor" type="text" class="validate" data-length="20" />
+                    <label for="bbsAuthor">署名</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col offset-s2 s8">
+                    <textarea id="bbsContent" class="materialize-textarea validate" data-length="200"></textarea>
+                    <label for="bbsContent">内容</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row center">
+                <a href="#!" class="modal-close waves-effect waves-red btn back">戻る</a>
+                <button id="submitButton" class="modal-close waves-effect waves-green btn" type="submit">登録</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="bbsLoading" class="col s12 m6 l4 card-like-loading valign-wrapper" style="padding-left: 100px">
+            <div class="preloader-wrapper big active">
+              <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                  <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                  <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                  <div class="circle"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <span id="bbsField"> </span>
+
+          <!-- <div class="col s12 m6 l4">
+            <div class="card blue-grey darken-1">
+              <div class="card-content white-text">
+                <span class="card-title">2022/12/2</span>
+                <p>
+                  こちらの内容は管理者権限として登録できます。このパーツ最後は掲示板に移行する。自分で追加された機能をこちらで記録したほうがいいお思います。
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col s12 m6 l4">
+            <div class="card blue-grey darken-1">
+              <div class="card-content white-text">
+                <span class="card-title">2022/12/2</span>
+                <p>sessionの有効期限は1分から30分に変更しました</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col s12 m6 l4">
+            <div class="card blue-grey darken-1">
+              <div class="card-content white-text">
+                <span class="card-title">2022/12/2</span>
+                <p>施設一覧リニューアルしました（ジムの写真、とほかの施設の説明を頼む）</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col s12 m6 l4">
+            <div class="card blue-grey darken-1">
+              <div class="card-content white-text">
+                <span class="card-title">2022/12/2</span>
+                <p>新規予約登録に複数の道具を追加可能になり、そしてすべての施設予約ページを一つにまとめました。入口は「施設‐施設選択‐予約」</p>
+              </div>
+            </div>
+          </div> -->
+
+          <script>
+            window.onload = function () {
+              $("#bbsLoading").show();
+              $.ajax({
+                type: "get",
+                url: "/bbs/listAllBBS",
+                data: {},
+                success: function (data) {
+                  var str = "\n";
+                  var bbs = $("#bbsField").empty();
+                  if (data.length > 0) {
+                    $("#bbsLoading").hide();
+                    for (var i = 0; i < data.length; i++) {
+                      str +=
+                        '<div class="col s12 m6 l4">\n' +
+                        '<div class="card blue-grey darken-1">\n' +
+                        '<div class="card-content white-text">\n' +
+                        '<span class="card-title">' +
+                        data[i].bbsTitle +
+                        "</span>\n" +
+                        "<p>" +
+                        timestamp2String(data[i].createTime) +
+                        "\t" +
+                        data[i].bbsAuthor +
+                        "</p>\n" +
+                        "<p>" +
+                        data[i].bbsContent +
+                        "</p>\n" +
+                        "</div>\n" +
+                        "</div>\n" +
+                        "</div>\n";
+                    }
+                  }
+                  $("#bbsField").html(str);
+                },
+              });
+            };
+
+            $(submitButton).click(function () {
+              var bbsTitle = $("#bbsTitle").val();
+              var bbsAuthor = $("#bbsAuthor").val();
+              var bbsContent = $("#bbsContent").val();
+              var createTime = new Date().getTime();
+              $.ajax({
+                type: "post",
+                url: "/bbs/create",
+                dataType: "json",
+                data: {
+                  bbsTitle: bbsTitle,
+                  bbsAuthor: bbsAuthor,
+                  bbsContent: bbsContent,
+                  createTime: createTime,
+                },
+                success: function (data) {
+                  //接收后台返回的结果
+                  if (data > 0) {
+                    alert("提交成功");
+                  } else {
+                    alert("操作失败" + data);
+                  }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                  /*弹出jqXHR对象的信息*/
+                  alert(jqXHR.responseText);
+                  alert(jqXHR.status);
+                  alert(jqXHR.readyState);
+                  alert(jqXHR.statusText);
+                  /*弹出其他两个参数的信息*/
+                  alert(textStatus);
+                  alert(errorThrown);
+                },
+              });
+            });
+
+            function timestamp2String(ts) {
+              var date = new Date(ts); // 参数需要毫秒数，所以这里将秒数乘于 1000
+              return date.toLocaleDateString();
+            }
+          </script>
+        </div>
+      </div>
+    </main>
+  </body>
 </html>
