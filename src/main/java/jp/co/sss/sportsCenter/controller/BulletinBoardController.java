@@ -23,14 +23,13 @@ public class BulletinBoardController {
     BulletinBoardRepository bulletinBoardRepository;
 
     @RequestMapping(value = "/bbs/create", method = RequestMethod.POST)
-    public String recordNewBBS(HttpServletRequest request) {
+    public void recordNewBBS(HttpServletRequest request) {
         BulletinBoard bb = new BulletinBoard();
         bb.setBbsAuthor(request.getParameter("bbsAuthor"));
         bb.setBbsContent(request.getParameter("bbsContent"));
         bb.setBbsTitle(request.getParameter("bbsTitle"));
-        bb.setCreateTime(new Timestamp(new Date().getTime()) );
+        bb.setCreateTime(new Timestamp(new Date().getTime()));
         bulletinBoardRepository.save(bb);
-        return "success";
     }
 
     @ResponseBody
@@ -38,6 +37,14 @@ public class BulletinBoardController {
     public List<BulletinBoard> listAllBBS() {
         List<BulletinBoard> list = bulletinBoardRepository.findAll(Sort.by("createTime").descending());
         return list;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/bbs/delete", method = RequestMethod.GET)
+    public String deleteBBS(HttpServletRequest request) {
+        String index = request.getParameter("index");
+        bulletinBoardRepository.deleteById(Integer.parseInt(index));
+        return "success";
     }
 
 }

@@ -20,14 +20,14 @@
         </div>
 
         <div class="row">
-          <div class="col s12 m6 l4">
-            <div class="card blue-grey lighten-4">
+          <div class="col s12 m6 l4" th:if="${session.user != null && session.user.authority == 1}">
+            <div class="card-panel blue-grey lighten-4 ">
+              <a class="btn-floating right waves-effect waves-light red btn-large modal-trigger modal-close" href="#modal1">
+                <i class="material-icons">add</i>
+              </a>
               <div class="card-content dark-text">
                 <span class="card-title">情報新規登録</span>
-                <a class="btn-floating halfway-fab waves-effect waves-light red btn-large modal-trigger modal-close" href="#modal1">
-                  <i class="material-icons">add</i>
-                </a>
-                <p>右下のボタンをクリックしてください</p>
+                <p>ボタンをクリック</p>
               </div>
             </div>
           </div>
@@ -81,46 +81,9 @@
 
           <span id="bbsField"> </span>
 
-          <!-- <div class="col s12 m6 l4">
-            <div class="card blue-grey darken-1">
-              <div class="card-content white-text">
-                <span class="card-title">2022/12/2</span>
-                <p>
-                  こちらの内容は管理者権限として登録できます。このパーツ最後は掲示板に移行する。自分で追加された機能をこちらで記録したほうがいいお思います。
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col s12 m6 l4">
-            <div class="card blue-grey darken-1">
-              <div class="card-content white-text">
-                <span class="card-title">2022/12/2</span>
-                <p>sessionの有効期限は1分から30分に変更しました</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col s12 m6 l4">
-            <div class="card blue-grey darken-1">
-              <div class="card-content white-text">
-                <span class="card-title">2022/12/2</span>
-                <p>施設一覧リニューアルしました（ジムの写真、とほかの施設の説明を頼む）</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col s12 m6 l4">
-            <div class="card blue-grey darken-1">
-              <div class="card-content white-text">
-                <span class="card-title">2022/12/2</span>
-                <p>新規予約登録に複数の道具を追加可能になり、そしてすべての施設予約ページを一つにまとめました。入口は「施設‐施設選択‐予約」</p>
-              </div>
-            </div>
-          </div> -->
-
           <script>
-            window.onload = function () {
+            window.onload = initBBS();
+            function initBBS() {
               $("#bbsLoading").show();
               $.ajax({
                 type: "get",
@@ -135,6 +98,11 @@
                       str +=
                         '<div class="col s12 m6 l4">\n' +
                         '<div class="card blue-grey darken-1">\n' +
+                          
+                       ' <a th:if="${session.user != null && session.user.authority == 1}" class="right" onclick="bbsDelete('+data[i].bulletinBoardId+')">\n' +
+                          '<i class="material-icons">clear</i>\n' +
+                        '</a>\n' +
+
                         '<div class="card-content white-text">\n' +
                         '<span class="card-title">' +
                         data[i].bbsTitle +
@@ -165,6 +133,7 @@
               $.ajax({
                 type: "post",
                 url: "/bbs/create",
+                async: false,
                 dataType: "json",
                 data: {
                   bbsTitle: bbsTitle,
@@ -173,29 +142,49 @@
                   createTime: createTime,
                 },
                 success: function (data) {
-                  //接收后台返回的结果
-                  if (data > 0) {
-                    alert("提交成功");
-                  } else {
-                    alert("操作失败" + data);
-                  }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                  /*弹出jqXHR对象的信息*/
-                  alert(jqXHR.responseText);
-                  alert(jqXHR.status);
-                  alert(jqXHR.readyState);
-                  alert(jqXHR.statusText);
-                  /*弹出其他两个参数的信息*/
-                  alert(textStatus);
-                  alert(errorThrown);
                 },
               });
             });
 
+            function bbsDelete(index) {
+              if(confirmDelete()){
+                $.ajax(
+                  {
+                  type: "get",
+                  url: "/bbs/delete",
+                  async: false,
+                  dataType: "text",
+                  data: {index: index},
+                  success: function (data) {
+                    if (data>0) {
+                    }
+                  },
+                  }
+                )
+              initBBS();
+              }
+            }
+
+            function confirmDelete() {
+              if (confirm('削除をご確認ください')) {
+                return true;
+              }else{
+                return false;
+              }
+            }
+
             function timestamp2String(ts) {
               var date = new Date(ts); // 参数需要毫秒数，所以这里将秒数乘于 1000
               return date.toLocaleDateString();
+            }
+
+            function checkUnauthority(authority) {
+              if (user.authority == 1) {
+                return false;
+              }else{
+                alert('管理者アカウントにログインしてください');
+                return true;
+              }
             }
           </script>
         </div>
