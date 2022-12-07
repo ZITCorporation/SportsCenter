@@ -194,6 +194,7 @@ public class ReserveController {
         model.addAttribute("rm", rm);
             return "/reserve/search/reserve_list";
     }
+    
     // 予約詳細
     @RequestMapping("/users/reserveDetail")
     public String usersReserveDetail(HttpSession session, Model model) {

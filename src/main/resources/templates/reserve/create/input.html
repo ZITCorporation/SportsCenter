@@ -147,13 +147,13 @@
           $("#toolLoading").show();
           $("#toolLoading").attr("class", "progress col offset-s3 s6");
           $("#confirm").attr("class", "btn waves-effect waves-light disabled");
+          var tool = $("#toolField").empty();
           $.ajax({
             type: "get",
             url: "getSpecTool",
             data: { id: value },
             success: function (data) {
               var str = "\n";
-              var tool = $("#toolField").empty();
               if (data.length > 0) {
                 $("#toolHint").hide();
                 $("#toolLoading").hide();

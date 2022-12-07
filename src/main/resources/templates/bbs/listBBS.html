@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::body/content()})}">
+  <head>
+    <title>HOME</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body>
+    <main>
+      <div class="container">
+        <div class="row center">
+          <h3>掲示板</h3>
+        </div>
+        <div class="row">
+          <div class="col s12 m6 l4" th:if="${session.user != null && session.user.authority == 1}">
+            <div class="card-panel blue-grey lighten-4 valign-wrapper">
+                <h5 class="col s6" display="inline">情報新規登録</h5>
+                <div class="col s6">
+                  <a class="btn-floating right waves-effect waves-light red btn-large modal-trigger modal-close tooltipped" data-position="top" data-tooltip="新規" href="#modal1">
+                    <i class="material-icons">add</i>
+                  </a>
+                </div>
+            </div>
+          </div>
+
+          <!-- Modal Structure -->
+          <div id="modal1" class="modal" th:if="${session.user != null && session.user.authority == 1}">
+            <form id="modalForm" method="post">
+              <div class="modal-content">
+                <h3 class="center row">情報新規登録</h3>
+                <div class="row">
+                  <div class="input-field col offset-s2 s8">
+                    <input id="bbsTitle" name="bbsTitle" type="text" class="validate" data-length="20" />
+                    <label for="bbsTitle">タイトル</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col offset-s2 s8">
+                    <input id="bbsAuthor" name="bbsAuthor" type="text" class="validate" data-length="20" />
+                    <label for="bbsAuthor">署名</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col offset-s2 s8">
+                    <textarea id="bbsContent" class="materialize-textarea validate" data-length="200"></textarea>
+                    <label for="bbsContent">内容</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row center">
+                <a href="#!" class="modal-close waves-effect waves-red btn back">戻る</a>
+                <button id="submitButton" class="modal-close waves-effect waves-green btn" type="submit">登録</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="bbsLoading">
+            <div class="preloader-wrapper big active">
+              <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                  <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                  <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                  <div class="circle"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <span th:each="bbs:${list}">
+            <div class="col s12 m6 l4">
+              <div class="card blue-grey darken-1">
+                <a th:if="${session.user != null && session.user.authority == 1}" class="right tooltipped" style='color:white' data-position="top" data-tooltip="削除" href="#" th:onclick="bbsDelete([[${bbs.bulletinBoardId}]])">
+                  <i class="material-icons">clear</i>
+                </a>
+                <div class="card-content white-text">
+                  <span class="card-title" th:text="${bbs.bbsTitle}"></span>
+                  <p id="createTime" th:text="${bbs.createTime}"></p>
+                  <p th:text="${bbs.bbsAuthor}"></p>
+                  <p th:text="${bbs.bbsContent}"></p>
+                </div>
+              </div>
+            </div>
+          </span>
+
+          <script>
+            window.onload = initBBS();
+
+            function initBBS() {
+              $("#bbsLoading").hide();
+              $(".card-content p:first-of-type").each(function (index, element) {
+                var str = element.innerHTML;
+                str = timestamp2String(str);
+                element.textContent=str;
+              });
+            }
+
+            $(submitButton).click(function () {
+              if (confirmCreate()) {
+                var bbsTitle = $("#bbsTitle").val();
+                var bbsAuthor = $("#bbsAuthor").val();
+                var bbsContent = $("#bbsContent").val();
+                var createTime = new Date().getTime();
+                $("#bbsLoading").show();
+                $.ajax({
+                  type: "post",
+                  url: "/bbs/create",
+                  async: false,
+                  dataType: "json",
+                  data: {
+                    bbsTitle: bbsTitle,
+                    bbsAuthor: bbsAuthor,
+                    bbsContent: bbsContent,
+                    createTime: createTime,
+                  },
+                  success: function (data) {},
+                });
+                $("#bbsLoading").hide();
+              }
+            });
+
+            function bbsDelete(index) {
+              if (confirmDelete()) {
+                $("#bbsLoading").show();
+                $.ajax({
+                  type: "get",
+                  url: "/bbs/delete",
+                  async: false,
+                  dataType: "text",
+                  data: { index: index },
+                  success: function (data) {
+                    if (data > 0) {
+                      location.reload();
+                    }
+                  },
+                });
+                $("#bbsLoading").show();
+              }
+            }
+
+            function confirmDelete() {
+              if (confirm("削除をご確認ください")) {
+                return true;
+              } else {
+                return false;
+              }
+            }
+            function confirmCreate() {
+              if (confirm("情報新規をご確認ください")) {
+                return true;
+              } else {
+                return false;
+              }
+            }
+
+            function timestamp2String(ts) {
+              var date = new Date(ts);
+              date=date.toLocaleString();
+              return date;
+            }
+
+            function checkUnauthority(authority) {
+              if (user.authority == 1) {
+                return false;
+              } else {
+                alert("管理者アカウントにログインしてください");
+                return true;
+              }
+            }
+          </script>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
