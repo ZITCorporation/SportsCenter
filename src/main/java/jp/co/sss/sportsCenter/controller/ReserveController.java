@@ -45,121 +45,35 @@ public class ReserveController {
     @Autowired
     ToolManagementRepository toolManagementRepository;
 
-    @RequestMapping(value = "/facilities", method = RequestMethod.GET)
+    // 施設一覧
+    @RequestMapping(value = "/listFacilities", method = RequestMethod.GET)
     public String toFacility(HttpSession session) {
         return "facility/listFacilities";
     }
-
     // アーチェリー
-    @RequestMapping(value = "/facilities/archeryExplanation", method = RequestMethod.GET)
+    @RequestMapping(value = "/archeryExplanation", method = RequestMethod.GET)
     public String toArcheryExplanation(HttpSession session) {
         return "facility/archeryExplanation";
     }
-
-    // 予約
-    @RequestMapping(value = "/facility/archery", method = RequestMethod.POST)
-    public String createConfirmOld(ReserveForm form, Model model, HttpSession session) {
-        ReserveManagement reserveManagement = new ReserveManagement();
-        ToolManagement toolManagement = new ToolManagement();
-
-        String s = form.getStartTime();
-        String e = form.getEndingTime();
-
-        // 日付と時刻を結合
-        String d = form.getDate();
-        s = d + " " + s + ":00";
-        e = d + " " + e + ":00";
-
-        // String型からTimestamp型に変換
-        Timestamp timestamp1 = Timestamp.valueOf(s);
-        Timestamp timestamp2 = Timestamp.valueOf(e);
-        System.out.println("時間:" + s);
-        System.out.println("時間:" + e);
-
-        // 外部参照の為の準備
-        User user = userRepository.getOne((Integer) session.getAttribute("id"));
-        System.out.println("ユーザーID:" + user.getUserId());
-        LendingFacility facility = lendingFacilityRepository.getOne(form.getFacilityId());
-        System.out.println("施設ID:" + facility.getFacilityId());
-        // LendingTool tool = lendingToolRepository.getOne(form.getToolId());
-        // System.out.println("道具ID:" + tool.getToolId());
-
-        // 予約情報を登録
-        reserveManagement.setReserveManagementId(form.getReserveManagementId());
-        reserveManagement.setUserId(user);
-        reserveManagement.setFacilityId(facility);
-        reserveManagement.setStartTime(timestamp1);
-        reserveManagement.setEndingTime(timestamp2);
-
-        // 登録
-        model.addAttribute("reserveManagement", reserveManagement);
-        reserveManegementRepository.save(reserveManagement);
-        System.out.println("ok");
-
-        // 外部参照の為の準備
-        reserveManagement = reserveManegementRepository.findByUserIdAndStartTimeAndEndingTime(
-                reserveManagement.getUserId(), reserveManagement.getStartTime(), reserveManagement.getEndingTime());
-
-        // 道具情報を登録
-        toolManagement.setReserveManagementId(reserveManagement);
-        // toolManagement.setToolId(tool);
-        // toolManagement.setToolNumber(form.getToolNumber());
-
-        // 登録
-        model.addAttribute("toolManagement", toolManagement);
-        toolManagementRepository.save(toolManagement);
-        System.out.println("ok");
-
-        return "y";
-    }
-
     // ジム
-    @RequestMapping(value = "/facilities/zymExplanation", method = RequestMethod.GET)
+    @RequestMapping(value = "/gymExplanation", method = RequestMethod.GET)
     public String toGymExplanation(HttpSession session) {
         return "facility/gymExplanation";
     }
-
-    @RequestMapping(value = "/facilities/gym", method = RequestMethod.GET)
-    public String toGym(HttpSession session) {
-        return "facility/gym";
-    }
-
     // テニス
-    @RequestMapping(value = "/facilities/tennisExplanation", method = RequestMethod.GET)
+    @RequestMapping(value = "/tennisExplanation", method = RequestMethod.GET)
     public String toTennisExplanation(HttpSession session) {
         return "facility/tennisExplanation";
     }
-
-    @RequestMapping(value = "/facilities/tennis", method = RequestMethod.GET)
-    public String toTennis(HttpSession session) {
-        return "facility/tennis";
-    }
-
     // バスケットボール
-    @RequestMapping(value = "/facilities/basketballExplanation", method = RequestMethod.GET)
+    @RequestMapping(value = "/basketballExplanation", method = RequestMethod.GET)
     public String toBasketballExplanation(HttpSession session) {
         return "facility/basketballExplanation";
     }
-
-    @RequestMapping(value = "/facilities/basketball", method = RequestMethod.GET)
-    public String toBasketball(HttpSession session) {
-        return "facility/basketball";
-    }
-
     // プール
-    @RequestMapping(value = "/facilities/poolExplanation", method = RequestMethod.GET)
+    @RequestMapping(value = "/poolExplanation", method = RequestMethod.GET)
     public String toPoolExplanation(HttpSession session) {
         return "facility/poolExplanation";
-    }
-
-    @RequestMapping(value = "/facilities/pool", method = RequestMethod.GET)
-    public String toPool(HttpSession session) {
-        return "facility/pool";
-    }
-
-    @RequestMapping(value = "y", method = RequestMethod.GET)
-    public String y() {
-        return "facility/y";
     }
 
     @ResponseBody
@@ -271,4 +185,20 @@ public class ReserveController {
         }
         return list;
     }
+    
+    // 予約一覧
+    @RequestMapping("/users/reserve")
+    public String usersReserve(HttpSession session, Model model) {
+        User user = userRepository.getOne((Integer)session.getAttribute("id"));
+        List<ReserveManagement> rm = reserveManegementRepository.findByUserId(user);
+        model.addAttribute("rm", rm);
+            return "/reserve/search/reserve_list";
+    }
+    // 予約詳細
+    @RequestMapping("/users/reserveDetail")
+    public String usersReserveDetail(HttpSession session, Model model) {
+        
+            return "/reserve/search/user_detail";
+    }
+    
 }

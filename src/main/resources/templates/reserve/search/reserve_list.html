@@ -5,10 +5,6 @@
   <title></title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script>
-    $('nav a:contains("HOME")').removeClass('active');
-    $('nav a:contains("ユーザー一覧")').addClass('active');
-  </script>
 </head>
 
 <body>
@@ -23,24 +19,21 @@
       <div class="row" >
         <table class="highlight ">
           <tr class="center">
-            <th>ID</th>
-            <th>名前</th>
-            <th>パスワード</th>
-            <th>メールアドレス</th>
-            <th>電話番号</th>
-            <th>郵便番号</th>
-            <th>住所</th>
-            <th>権限</th>
+            <th>施設名</th>
+            <th>日付</th>
+            <th>開始時間</th>
+            <th>終了時間</th>
           </tr>
-          <tr th:each="user: ${users}">
-            <td th:text="${user.userId}"></td>
-            <td th:text="${user.name}"></td>
-            <td th:text="${user.password}"></td>
-            <td th:text="${user.email}"></td>
-            <td th:text="${user.phoneNumber}"></td>
-            <td th:text="${user.post}"></td>
-            <td th:text="${user.domicile}"></td>
-            <td th:text="${user.authority == 0} ? ${'なし'} : ${'あり'}"></td>
+          <tr th:each="rm: ${rm}">
+            <td th:text="${rm.facilityId.facilityName}"></td>
+            <td th:text="${#dates.format(rm.startTime,'yyyy-MM-dd')}"></td>
+            <td th:text="${#dates.format(rm.startTime,'HH:MM')}"></td>
+            <td th:text="${#dates.format(rm.endingTime,'HH:MM')}"></td>
+            <form th:action ="@{/users/reserveDetail}" class="center">
+            <input type="hidden" name="reserveManagementId" th:value="${rm.reserveManagementId}">
+            <td> 
+            <input type="submit" value="詳細"/></td>
+            </form>
           </tr>
         </table>
       </div>
