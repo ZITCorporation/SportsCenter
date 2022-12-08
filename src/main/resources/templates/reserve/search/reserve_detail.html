@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::body/content()})}">
-
   <head>
     <title>予約詳細</title>
     <meta charset="UTF-8" />
@@ -15,37 +14,32 @@
         </div>
 
         <div class="row">
-          <form class="center confirm" method="post">
+          <form class="center" method="post">
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <select name="facilityId" id="facilityId" tabindex="-1" th:switch="${form.facilityId}">
-                  <option th:case="1" value="1" selected>アーチェリー</option>
-                  <option th:case="2" value="2" selected>ジム</option>
-                  <option th:case="3" value="3" selected>テニスコート</option>
-                  <option th:case="4" value="4" selected>バスケットボール</option>
-                  <option th:case="5" value="5" selected>プール</option>
-                </select>
+                <input readonly hidden type="text" name="facilityId" th:value="${rm.facilityId.facilityId}" />
+                <input readonly type="text" name="facilityName" th:value="${rm.facilityId.facilityName}" />
                 <label>施設</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input readonly type="text" name="date" th:value="${form.date}" />
+                <input readonly type="text" name="date" th:value="${#dates.format(rm.startTime,'yyyy-MM-dd')}" />
                 <label for="startTime">日付</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input readonly type="text" name="startTime" th:value="${form.startTime}" />
+                <input readonly type="text" name="startTime" th:value="${#dates.format(rm.startTime,'HH:MM')}" />
                 <label for="startTime">開始時間</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input readonly type="text" name="endingTime" th:value="${form.endingTime}" />
+                <input readonly type="text" name="endingTime" th:value="${#dates.format(rm.endingTime,'HH:MM')}" />
                 <label for="endTime">終了時間</label>
               </div>
             </div>
@@ -55,21 +49,16 @@
             </div>
 
             <span id="toolField">
-              <div th:each="tool,toolStat:${form.toolList}">
+              <div th:each="tool,toolStat:${toolList}">
                 <div class="row">
                   <div class="col offset-s3 s1">
-                    <p th:text="${tool.toolName}"></p>
+                    <p th:text="${tool.toolId.toolName}"></p>
                   </div>
                   <div class="col s5">
                     <div class="input-field">
-                      <input readonly th:name="'toolList[' + ${toolStat.index} + '].toolName'" type="hidden" th:value="${tool.toolName}" />
+                      <input readonly th:name="'toolList[' + ${toolStat.index} + '].toolName'" type="hidden" th:value="${tool.toolId.toolName}" />
                       <input readonly th:name="'toolList[' + ${toolStat.index} + '].toolId'" type="hidden" th:value="${tool.toolId}" />
-                      <input
-                        readonly
-                        th:name="'toolList[' + ${toolStat.index} + '].toolNum'"
-                        type="number"
-                        th:value="${tool.toolNum}"
-                        placeholder="個数を入力してください" />
+                      <input readonly th:name="'toolList[' + ${toolStat.index} + '].toolNum'" type="number" th:value="${tool.toolNumber}" />
                     </div>
                   </div>
                 </div>
@@ -77,34 +66,14 @@
             </span>
 
             <div class="row">
-              <!-- <div class="input-field col offset-s3 s6" th:if="${session.user != null}"> -->
-              <button class="btn waves-effect waves-light" type="submit" formaction="/reserve/create/complete">確認</button>
-              <!-- <button id="confirm" class="btn waves-effect waves-light" type="submit" onsubmit="return confirm()">確認</button> -->
-              <button class="btn waves-effect waves-light back" type="submit" formaction="/reserve/create/back">戻る</button>
-              <!-- </div> -->
+              <button class="btn waves-effect waves-light" type="submit" formaction="/reserve/create/complete">変更</button>
+              <button class="btn waves-effect waves-light" type="submit" formaction="/reserve/create/complete">削除</button>
+              <button th:if="${session.user.authority==1}" class="btn waves-effect waves-light back" type="submit" formaction="/reserve/findAll">戻る</button>
+              <button th:if="${session.user.authority==0}" class="btn waves-effect waves-light back" type="submit" formaction="/reserve/findByUser">戻る</button>
             </div>
           </form>
         </div>
       </div>
-      <!-- <script>
-        function confirm() {
-          var saveDataAry = new Array();
-          $(".toolInfo").each(function () {
-            saveDataAry.push(this.name, this.value);
-          });
-          console.log(saveDataAry.toString());
-          $.ajax({
-            type: "POST",
-            url: "/sendData.json",
-            dataType: "json", //必须json
-            contentType: "application/json", // 指定这个协议很重要
-            data: JSON.stringify(saveDataAry),
-            success: function (res) {
-              alert("后端返回请求数据为：" + JSON.stringify(res));
-            },
-          });
-        }
-      </script> -->
     </main>
   </body>
 </html>
