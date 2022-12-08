@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -194,16 +195,29 @@ public class ReserveController {
     // 予約一覧
     @RequestMapping("/reserve/findAll")
     public String usersReserve(HttpSession session, Model model) {
-        User user = userRepository.getOne((Integer) session.getAttribute("id"));
-        List<ReserveManagement> rm = reserveManegementRepository.findByUserId(user);
+        List<ReserveManagement> rm = reserveManegementRepository.findAll(Sort.by("startTime").descending());
+        model.addAttribute("rm", rm);
+        return "/reserve/search/reserve_list";
+    }
+
+    // 予約一覧
+    @RequestMapping("/reserve/findByUser")
+    public String findByUser(HttpSession session, Model model) {
+        User user = userRepository.getReferenceById(Integer.parseInt(String.valueOf(session.getAttribute("id"))));
+        List<ReserveManagement> rm = reserveManegementRepository.findByUserId(user,Sort.by("startTime").descending());
         model.addAttribute("rm", rm);
         return "/reserve/search/reserve_list";
     }
 
     // 予約詳細
-    @RequestMapping("/reserve/reserveDetail")
-    public String usersReserveDetail(HttpSession session, Model model) {
-        return "/reserve/search/user_detail";
+    @RequestMapping("/reserve/reserveDetail/{id}")
+    public String usersReserveDetail(HttpSession session, Model model,@PathVariable("id") int id) {
+        Optional<ReserveManagement> op =reserveManegementRepository.findById(id);
+        ReserveManagement rm = op.get();
+        List<ToolManagement> toolList =  toolManagementRepository.findByReserveManagementId(rm);
+        model.addAttribute("rm", rm);
+        model.addAttribute("toolList", toolList);
+        return "/reserve/search/reserve_detail";
     }
 
 }

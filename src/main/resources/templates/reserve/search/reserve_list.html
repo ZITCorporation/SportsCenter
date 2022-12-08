@@ -1,44 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::body/content()})}">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
 
-<head>
-  <title></title>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-</head>
+  <body>
+    <main>
+      <div class="container">
+        <div class="row center">
+          <h3>予約一覧</h3>
+        </div>
 
-<body>
-  <main>
-    <div class="container">
-      <div class="row center">
-
-        <h3>予約一覧</h3>
-
+        <div class="row">
+          <table class="highlight">
+            <tr class="center">
+              <th th:if="${session.user != null && session.user.authority == 1}">ユーザーID</th>
+              <th th:if="${session.user != null && session.user.authority == 1}">ユーザー名</th>
+              <th>施設名</th>
+              <th>日付</th>
+              <th>開始時間</th>
+              <th>終了時間</th>
+            </tr>
+            <tr th:each="rm: ${rm}">
+              <td th:text="${rm.userId.userId}" th:if="${session.user != null && session.user.authority == 1}"></td>
+              <td th:text="${rm.userId.name}" th:if="${session.user != null && session.user.authority == 1}"></td>
+              <td th:text="${rm.facilityId.facilityName}"></td>
+              <td th:text="${#dates.format(rm.startTime,'yyyy-MM-dd')}"></td>
+              <td th:text="${#dates.format(rm.startTime,'HH:MM')}"></td>
+              <td th:text="${#dates.format(rm.endingTime,'HH:MM')}"></td>
+              <td><a class="waves-effect waves-light btn" th:href="@{'/reserve/reserveDetail/'+${rm.reserveManagementId}}">詳細</a></td>
+              <!-- <form th:action="@{/users/reserveDetail}" class="center">
+                <input hidden name="reserveManagementId" th:value="${rm.reserveManagementId}" />
+                <td>
+                  <input type="submit" value="詳細" />
+                </td>
+              </form> -->
+            </tr>
+          </table>
+        </div>
       </div>
-
-      <div class="row" >
-        <table class="highlight ">
-          <tr class="center">
-            <th>施設名</th>
-            <th>日付</th>
-            <th>開始時間</th>
-            <th>終了時間</th>
-          </tr>
-          <tr th:each="rm: ${rm}">
-            <td th:text="${rm.facilityId.facilityName}"></td>
-            <td th:text="${#dates.format(rm.startTime,'yyyy-MM-dd')}"></td>
-            <td th:text="${#dates.format(rm.startTime,'HH:MM')}"></td>
-            <td th:text="${#dates.format(rm.endingTime,'HH:MM')}"></td>
-            <form th:action ="@{/users/reserveDetail}" class="center">
-            <input type="hidden" name="reserveManagementId" th:value="${rm.reserveManagementId}">
-            <td> 
-            <input type="submit" value="詳細"/></td>
-            </form>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </main>
-</body>
-
+    </main>
+  </body>
 </html>
