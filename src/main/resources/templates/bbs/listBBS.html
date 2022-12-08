@@ -15,12 +15,16 @@
         <div class="row">
           <div class="col s12 m6 l4" th:if="${session.user != null && session.user.authority == 1}">
             <div class="card-panel blue-grey lighten-4 valign-wrapper">
-                <h5 class="col s6" display="inline">情報新規登録</h5>
-                <div class="col s6">
-                  <a class="btn-floating right waves-effect waves-light red btn-large modal-trigger modal-close tooltipped" data-position="top" data-tooltip="新規" href="#modal1">
-                    <i class="material-icons">add</i>
-                  </a>
-                </div>
+              <h5 class="col s6" display="inline">情報新規登録</h5>
+              <div class="col s6">
+                <a
+                  class="btn-floating right waves-effect waves-light red btn-large modal-trigger modal-close tooltipped"
+                  data-position="top"
+                  data-tooltip="新規"
+                  href="#modal1">
+                  <i class="material-icons">add</i>
+                </a>
+              </div>
             </div>
           </div>
 
@@ -74,7 +78,14 @@
           <span th:each="bbs:${list}">
             <div class="col s12 m6 l4">
               <div class="card blue-grey darken-1">
-                <a th:if="${session.user != null && session.user.authority == 1}" class="right tooltipped" style='color:white' data-position="top" data-tooltip="削除" href="#" th:onclick="bbsDelete([[${bbs.bulletinBoardId}]])">
+                <a
+                  th:if="${session.user != null && session.user.authority == 1}"
+                  class="right tooltipped"
+                  style="color: white"
+                  data-position="top"
+                  data-tooltip="削除"
+                  href="#"
+                  th:onclick="bbsDelete([[${bbs.bulletinBoardId}]])">
                   <i class="material-icons">clear</i>
                 </a>
                 <div class="card-content white-text">
@@ -95,7 +106,7 @@
               $(".card-content p:first-of-type").each(function (index, element) {
                 var str = element.innerHTML;
                 str = timestamp2String(str);
-                element.textContent=str;
+                element.textContent = str;
               });
             }
 
@@ -133,12 +144,10 @@
                   dataType: "text",
                   data: { index: index },
                   success: function (data) {
-                    if (data > 0) {
-                      location.reload();
-                    }
+                    $("#bbsLoading").hide();
+                    location.reload();
                   },
                 });
-                $("#bbsLoading").show();
               }
             }
 
@@ -159,7 +168,7 @@
 
             function timestamp2String(ts) {
               var date = new Date(ts);
-              date=date.toLocaleString();
+              date = date.toLocaleString();
               return date;
             }
 

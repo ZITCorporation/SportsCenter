@@ -50,30 +50,35 @@ public class ReserveController {
     public String toFacility(HttpSession session) {
         return "facility/listFacilities";
     }
+
     // アーチェリー
     @RequestMapping(value = "/archeryExplanation", method = RequestMethod.GET)
     public String toArcheryExplanation(HttpSession session) {
-        return "facility/archeryExplanation";
+        return "facility/explanation/archery";
     }
+
     // ジム
     @RequestMapping(value = "/gymExplanation", method = RequestMethod.GET)
     public String toGymExplanation(HttpSession session) {
-        return "facility/gymExplanation";
+        return "facility/explanation/gym";
     }
+
     // テニス
     @RequestMapping(value = "/tennisExplanation", method = RequestMethod.GET)
     public String toTennisExplanation(HttpSession session) {
-        return "facility/tennisExplanation";
+        return "facility/explanation/tennis";
     }
+
     // バスケットボール
     @RequestMapping(value = "/basketballExplanation", method = RequestMethod.GET)
     public String toBasketballExplanation(HttpSession session) {
-        return "facility/basketballExplanation";
+        return "facility/explanation/basketball";
     }
+
     // プール
     @RequestMapping(value = "/poolExplanation", method = RequestMethod.GET)
     public String toPoolExplanation(HttpSession session) {
-        return "facility/poolExplanation";
+        return "facility/explanation/pool";
     }
 
     @ResponseBody
@@ -185,21 +190,20 @@ public class ReserveController {
         }
         return list;
     }
-    
+
     // 予約一覧
-    @RequestMapping("/users/reserve")
+    @RequestMapping("/reserve/findAll")
     public String usersReserve(HttpSession session, Model model) {
-        User user = userRepository.getOne((Integer)session.getAttribute("id"));
+        User user = userRepository.getOne((Integer) session.getAttribute("id"));
         List<ReserveManagement> rm = reserveManegementRepository.findByUserId(user);
         model.addAttribute("rm", rm);
-            return "/reserve/search/reserve_list";
+        return "/reserve/search/reserve_list";
     }
-    
+
     // 予約詳細
-    @RequestMapping("/users/reserveDetail")
+    @RequestMapping("/reserve/reserveDetail")
     public String usersReserveDetail(HttpSession session, Model model) {
-        
-            return "/reserve/search/user_detail";
+        return "/reserve/search/user_detail";
     }
-    
+
 }

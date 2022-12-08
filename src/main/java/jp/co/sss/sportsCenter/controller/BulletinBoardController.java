@@ -24,7 +24,7 @@ public class BulletinBoardController {
     @Autowired
     BulletinBoardRepository bulletinBoardRepository;
 
-    @RequestMapping(value = "/bbs/listAllBBS", method = RequestMethod.GET)
+    @RequestMapping(value = "/bbs/listAllBBS")
     public String listAllBBS(Model model) {
         List<BulletinBoard> list = bulletinBoardRepository.findAll(Sort.by("createTime").descending());
         model.addAttribute("list", list);
@@ -40,7 +40,7 @@ public class BulletinBoardController {
         bb.setBbsTitle(request.getParameter("bbsTitle"));
         bb.setCreateTime(new Timestamp(new Date().getTime()));
         bulletinBoardRepository.save(bb);
-        return"/bbs/listAllBBS";
+        return "/bbs/listAllBBS";
     }
 
     @ResponseBody
