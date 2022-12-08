@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::body/content()})}">
+  <head>
+    <title>新規登録</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body>
+    <main>
+      <div class="container">
+        <div class="row center">
+          <h3 th:if="${session.reserveStatus=='create'}">予約 新規登録 確認</h3>
+          <h3 th:if="${session.reserveStatus=='update'}">予約変更 確認</h3>
+        </div>
+
+        <div class="row">
+          <form class="center confirm" method="post">
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input th:if="${form}!=null" readonly name="reserveManagementId" type="text" th:value="${form.reserveManagementId}" hidden />
+                <input th:if="${form}!=null" readonly name="facilityId" type="text" th:value="${form.facilityId}" hidden />
+                <input th:if="${form}!=null" readonly name="facilityName" type="text" th:value="${form.facilityName}" />
+                <label th:if="${form}!=null" readonly for="facilityName">施設</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input readonly name="date" type="text" class="datepicker validate" th:value="${form == null ? '' : form.date}" />
+                <label for="date">日付</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input readonly name="startTime" type="text" class="timepicker validate" th:value="${form == null ? '' : form.startTime}" />
+                <label for="startTime">開始時間</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input readonly name="endingTime" type="text" class="timepicker validate" th:value="${form == null ? '' : form.endingTime}" />
+                <label for="endingTime">終了時間</label>
+              </div>
+            </div>
+
+            <div class="row center">
+              <h5>道具</h5>
+            </div>
+            <div class="row center" id="toolHint" th:if="${form==null}">
+              <p>予約したい施設を選んでくだいさい</p>
+            </div>
+
+            <div id="toolLoading" class="col offset-s3 s6">
+              <div class="indeterminate"></div>
+            </div>
+
+            <span id="toolField">
+              <div th:if="${form!=null}">
+                <div th:each="tool,toolStat:${form.toolList}">
+                  <div class="row">
+                    <div class="col offset-s3 s1">
+                      <p th:text="${tool.toolName}"></p>
+                    </div>
+                    <div class="col s5">
+                      <div class="input-field">
+                        <input
+                          readonly
+                          th:name="'toolList[' + ${toolStat.index} + '].toolName'"
+                          type="hidden"
+                          class="validate toolInfo"
+                          th:value="${tool.toolName}" />
+                        <input
+                          readonly
+                          th:name="'toolList[' + ${toolStat.index} + '].toolId'"
+                          type="hidden"
+                          class="validate toolInfo"
+                          th:value="${tool.toolId}" />
+                        <input
+                          readonly
+                          th:name="'toolList[' + ${toolStat.index} + '].toolNum'"
+                          type="number"
+                          class="validate toolInfo"
+                          th:value="${tool.toolNum}"
+                          placeholder="個数を入力してください" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </span>
+
+            <div class="row col offset-s3 s6">
+              <button
+                class="btn waves-effect waves-light"
+                type="submit"
+                th:formaction="${session.reserveStatus=='create'} ? '/reserve/create/complete' : '/reserve/update/complete'"
+                th:text="${session.reserveStatus=='create'} ? '新規' : '更新'">
+              </button>
+              <button
+                class="btn waves-effect waves-light back"
+                type="submit"
+                th:formaction="${session.reserveStatus=='create'} ? '/reserve/create/back' : '/reserve/update/back'">
+                戻る
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <script>
+        var status = "${reserveStatus}"; // 入口を判断する、新規はcreate、更新はupdate
+
+        window.onload = function () {
+          if (status == "create") {
+            change();
+          }
+        };
+
+        function change() {
+          var value = $("#facilityId").val();
+          if (value == "") {
+            return;
+          }
+          $("#toolLoading").show();
+          $("#toolLoading").attr("class", "progress col offset-s3 s6");
+          $("#confirm").attr("class", "btn waves-effect waves-light disabled");
+          var tool = $("#toolField").empty();
+          $.ajax({
+            type: "get",
+            url: "getSpecTool",
+            data: { id: value },
+            success: function (data) {
+              var str = "\n";
+              if (data.length > 0) {
+                $("#toolHint").hide();
+                $("#toolLoading").hide();
+                $("#confirm").attr("class", "btn waves-effect waves-light");
+                for (var i = 0; i < data.length; i++) {
+                  str +=
+                    '<div class="row">\n' +
+                    '<div class="col offset-s3 s1">\n' +
+                    "<p>" +
+                    data[i].toolName +
+                    "</p>" +
+                    "</div>" +
+                    '<div class="col s5">\n' +
+                    '<div class="input-field">\n' +
+                    '<input name="toolList[' +
+                    i +
+                    '].toolName" type="hidden" class="validate toolInfo" value="' +
+                    data[i].toolName +
+                    '"/>\n' +
+                    '<input name="toolList[' +
+                    i +
+                    '].toolId" type="hidden" class="validate toolInfo" value="' +
+                    data[i].toolId +
+                    '"/>\n' +
+                    '<input placeholder="個数を入力してください" name="toolList[' +
+                    i +
+                    '].toolNum" type="number" class="validate toolInfo" />\n' +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+                }
+              } else {
+                $("#toolHint").show();
+              }
+
+              $("#toolField").html(str);
+            },
+          });
+        }
+      </script>
+    </main>
+  </body>
+</html>

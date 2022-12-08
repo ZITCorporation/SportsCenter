@@ -5,6 +5,7 @@ import java.util.List;
 public class ReserveForm {
     private int reserveManagementId;
     private Integer facilityId;
+    private String facilityName;
     private String date;
     private String startTime;
     private String endingTime;
@@ -12,6 +13,14 @@ public class ReserveForm {
 
     public int getReserveManagementId() {
         return reserveManagementId;
+    }
+
+    public String getFacilityName() {
+        return facilityName;
+    }
+
+    public void setFacilityName(String facilityName) {
+        this.facilityName = facilityName;
     }
 
     public void setReserveManagementId(int reserveManagementId) {

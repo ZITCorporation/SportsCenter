@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::body/content()})}">
+  <head>
+    <title>新規登録</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body>
+    <main>
+      <div class="container">
+        <div class="row center">
+          <h3 th:if="${session.reserveStatus=='create'}">予約 新規登録</h3>
+          <h3 th:if="${session.reserveStatus=='update'}">予約変更</h3>
+        </div>
+
+        <div class="row">
+          <form class="center" method="post" th:action="${session.reserveStatus=='create'} ? '/reserve/create/confirm' : '/reserve/update/confirm'">
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <span th:if="${form}==null">
+                  <span th:if="${preSelectFacilityId}==null">
+                    <select class="validate" name="facilityId" id="facilityId" tabindex="-1" onchange="change()">
+                      <option value="" selected>予約したい施設を選んでくだいさい</option>
+                      <option value="1">アーチェリー</option>
+                      <option value="2">ジム</option>
+                      <option value="3">テニスコート</option>
+                      <option value="4">バスケットボール</option>
+                      <option value="5">プール</option>
+                    </select>
+                    <label>施設</label>
+                  </span>
+                  <span th:unless="${preSelectFacilityId}==null">
+                    <select class="validate" name="facilityId" id="facilityId" tabindex="-1" onchange="change()">
+                      <option value="" selected>予約したい施設を選んでくだいさい</option>
+                      <option value="1" th:selected="${preSelectFacilityId==1}">アーチェリー</option>
+                      <option value="2" th:selected="${preSelectFacilityId==2}">ジム</option>
+                      <option value="3" th:selected="${preSelectFacilityId==3}">テニスコート</option>
+                      <option value="4" th:selected="${preSelectFacilityId==4}">バスケットボール</option>
+                      <option value="5" th:selected="${preSelectFacilityId==5}">プール</option>
+                    </select>
+                    <label>施設</label>
+                  </span>
+                </span>
+                <input th:if="${form}!=null" readonly name="reserveManagementId" type="text" th:value="${form.reserveManagementId}" hidden />
+                <input th:if="${form}!=null" readonly name="facilityId" type="text" th:value="${form.facilityId}" hidden />
+                <input th:if="${form}!=null" readonly name="facilityName" type="text" th:value="${form.facilityName}" class="confirm" />
+                <label th:if="${form}!=null" for="facilityName">施設</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input name="date" type="text" class="datepicker validate" th:value="${form == null ? '' : form.date}" />
+                <!-- <input name="date" type="text" class="datepicker validate" th:if="${form == null}" /> -->
+                <label for="date">日付</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input name="startTime" type="text" class="timepicker validate" th:value="${form == null ? '' : form.startTime}" />
+                <!-- <input name="startTime" type="text" class="timepicker validate" th:if="${form == null}" /> -->
+                <label for="startTime">開始時間</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input name="endingTime" type="text" class="timepicker validate" th:value="${form == null ? '' : form.endingTime}" />
+                <!-- <input name="endingTime" type="text" class="timepicker validate" th:if="${form == null}" /> -->
+                <label for="endingTime">終了時間</label>
+              </div>
+            </div>
+
+            <div class="row center">
+              <h5>道具</h5>
+            </div>
+            <div class="row center" id="toolHint" th:if="${form==null}">
+              <p>予約したい施設を選んでくだいさい</p>
+            </div>
+
+            <div id="toolLoading" class="col offset-s3 s6">
+              <div class="indeterminate"></div>
+            </div>
+
+            <span id="toolField">
+              <div th:if="${form!=null}">
+                <div th:each="tool,toolStat:${form.toolList}">
+                  <div class="row">
+                    <div class="col offset-s3 s1">
+                      <p th:text="${tool.toolName}"></p>
+                    </div>
+                    <div class="col s5">
+                      <div class="input-field">
+                        <input
+                          readonly
+                          th:name="'toolList[' + ${toolStat.index} + '].toolName'"
+                          type="hidden"
+                          class="validate toolInfo"
+                          th:value="${tool.toolName}" />
+                        <input
+                          readonly
+                          th:name="'toolList[' + ${toolStat.index} + '].toolId'"
+                          type="hidden"
+                          class="validate toolInfo"
+                          th:value="${tool.toolId}" />
+                        <input
+                          th:name="'toolList[' + ${toolStat.index} + '].toolNum'"
+                          type="number"
+                          class="validate toolInfo"
+                          th:value="${tool.toolNum}"
+                          placeholder="個数を入力してください" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </span>
+
+            <div class="row col offset-s3 s6">
+              <button id="confirm" class="btn waves-effect waves-light" type="submit">確認</button>
+              <a
+                class="btn waves-effect waves-light back"
+                th:href="${reserveStatus=='create'} ? '/listFacilities' : '/reserve/reserveDetail/' + ${form.reserveManagementId}"
+                >戻る</a
+              >
+            </div>
+          </form>
+        </div>
+      </div>
+      <script>
+        var status = "${reserveStatus}"; // 入口を判断する、新規はcreate、更新はupdate
+
+        window.onload = function () {
+          if (status == "create") {
+            change();
+          }
+        };
+
+        function change() {
+          var value = $("#facilityId").val();
+          if (value == "") {
+            return;
+          }
+          $("#toolLoading").show();
+          $("#toolLoading").attr("class", "progress col offset-s3 s6");
+          $("#confirm").attr("class", "btn waves-effect waves-light disabled");
+          var tool = $("#toolField").empty();
+          $.ajax({
+            type: "get",
+            url: "getSpecTool",
+            data: { id: value },
+            success: function (data) {
+              var str = "\n";
+              if (data.length > 0) {
+                $("#toolHint").hide();
+                $("#toolLoading").hide();
+                $("#confirm").attr("class", "btn waves-effect waves-light");
+                for (var i = 0; i < data.length; i++) {
+                  str +=
+                    '<div class="row">\n' +
+                    '<div class="col offset-s3 s1">\n' +
+                    "<p>" +
+                    data[i].toolName +
+                    "</p>" +
+                    "</div>" +
+                    '<div class="col s5">\n' +
+                    '<div class="input-field">\n' +
+                    '<input name="toolList[' +
+                    i +
+                    '].toolName" type="hidden" class="validate toolInfo" value="' +
+                    data[i].toolName +
+                    '"/>\n' +
+                    '<input name="toolList[' +
+                    i +
+                    '].toolId" type="hidden" class="validate toolInfo" value="' +
+                    data[i].toolId +
+                    '"/>\n' +
+                    '<input placeholder="個数を入力してください" name="toolList[' +
+                    i +
+                    '].toolNum" type="number" class="validate toolInfo" />\n' +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+                }
+              } else {
+                $("#toolHint").show();
+              }
+
+              $("#toolField").html(str);
+            },
+          });
+        }
+      </script>
+    </main>
+  </body>
+</html>
