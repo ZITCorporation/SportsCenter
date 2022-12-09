@@ -203,7 +203,7 @@ public class ReserveController {
         return returnList;
     }
 
-    // 予約一覧
+    // 管理者・予約一覧
     @RequestMapping("/reserve/findAll")
     public String usersReserve(HttpSession session, Model model) {
         List<ReserveManagement> rm = reserveManegementRepository.findAll(Sort.by("startTime").descending());
