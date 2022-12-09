@@ -9103,7 +9103,7 @@ main {
   flex: 1 0 auto;
 }
 
-form.confirm div.row div.input-field input{
+form.confirm div.row div.input-field input, div.input-field input.confirm{
   border-bottom: 1px dotted rgba(0,0,0,0.42);
   color:#bdbdbd  ; 
 }

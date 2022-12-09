@@ -17,6 +17,7 @@
           <form class="center" method="post">
             <div class="row">
               <div class="input-field col offset-s3 s6">
+                <input readonly hidden type="text" name="reserveManagementId" th:value="${rm.reserveManagementId}" />
                 <input readonly hidden type="text" name="facilityId" th:value="${rm.facilityId.facilityId}" />
                 <input readonly type="text" name="facilityName" th:value="${rm.facilityId.facilityName}" />
                 <label>施設</label>
@@ -57,7 +58,7 @@
                   <div class="col s5">
                     <div class="input-field">
                       <input readonly th:name="'toolList[' + ${toolStat.index} + '].toolName'" type="hidden" th:value="${tool.toolId.toolName}" />
-                      <input readonly th:name="'toolList[' + ${toolStat.index} + '].toolId'" type="hidden" th:value="${tool.toolId}" />
+                      <input readonly th:name="'toolList[' + ${toolStat.index} + '].toolId'" type="hidden" th:value="${tool.toolId.toolId}" />
                       <input readonly th:name="'toolList[' + ${toolStat.index} + '].toolNum'" type="number" th:value="${tool.toolNumber}" />
                     </div>
                   </div>
@@ -66,8 +67,8 @@
             </span>
 
             <div class="row">
-              <button class="btn waves-effect waves-light" type="submit" formaction="/reserve/create/complete">変更</button>
-              <button class="btn waves-effect waves-light" type="submit" formaction="/reserve/create/complete">削除</button>
+              <button class="btn waves-effect waves-light" type="submit" formaction="/reserve/update/input">変更</button>
+              <button class="btn waves-effect waves-light" type="submit" formaction="/reserve/update/complete">削除</button>
               <button th:if="${session.user.authority==1}" class="btn waves-effect waves-light back" type="submit" formaction="/reserve/findAll">戻る</button>
               <button th:if="${session.user.authority==0}" class="btn waves-effect waves-light back" type="submit" formaction="/reserve/findByUser">戻る</button>
             </div>

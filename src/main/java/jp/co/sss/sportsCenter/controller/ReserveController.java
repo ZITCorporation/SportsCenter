@@ -178,18 +178,29 @@ public class ReserveController {
     }
 
     private List<ToolManagement> formToToolManagementList(List<ToolManagement> list, ReserveForm form) {
+        List<ToolManagement>returnList = new ArrayList<ToolManagement>();
         // 利用した道具のIDを取得、一つずつ道具予約Entityに登録
         for (ToolForm tf : form.getToolList()) {
             int toolId = tf.getToolId();
             int toolNum = tf.getToolNum();
-            ToolManagement tm = new ToolManagement();
-            Optional<LendingTool> optionalEntity = lendingToolRepository.findById(toolId);
-            LendingTool tool = optionalEntity.get();
-            tm.setToolId(tool);
-            tm.setToolNumber(toolNum);
-            list.add(tm);
+            ToolManagement tm = null;
+            if (list.size()>0) {
+                for (int i = 0; i < list.size(); i++) {
+                    tm = list.get(i);
+                    if (tm.getToolId().getToolId()==toolId){
+                        tm.setToolNumber(toolNum);
+                        break;
+                    }
+                }
+            } else {
+                tm = new ToolManagement();
+                LendingTool tool = lendingToolRepository.findById(toolId).get();
+                tm.setToolId(tool);
+                tm.setToolNumber(toolNum);
+            }
+            returnList.add(tm);
         }
-        return list;
+        return returnList;
     }
 
     // 予約一覧
@@ -219,5 +230,49 @@ public class ReserveController {
         model.addAttribute("toolList", toolList);
         return "/reserve/search/reserve_detail";
     }
+
+    // 予約変更
+    @RequestMapping("/reserve/update/input")
+    public String reserveUpdate(@Valid ReserveForm form,HttpSession session, Model model ) {
+        session.setAttribute("reserveStatus", "update");
+        model.addAttribute("form", form);
+        return "/reserve/input";
+    }
+
+    // 予約変更確認
+    @RequestMapping("/reserve/update/confirm")
+    public String reserveUpdateConfirm(@Valid ReserveForm form,HttpSession session, Model model ) {
+        model.addAttribute("form", form);
+        return "/reserve/confirm";
+    }
+
+    // 予約変更確認から戻る
+    @RequestMapping("/reserve/update/back")
+    public String reserveUpdateConfirmBack(@Valid ReserveForm form,HttpSession session, Model model ) {
+        model.addAttribute("form", form);
+        return "/reserve/input.html";
+    }
+
+    // 予約変更完了
+    @RequestMapping("/reserve/update/complete")
+    public String reserveUpdateComplete(@Valid ReserveForm form,HttpSession session, Model model ) {
+        int id = form.getReserveManagementId();
+        Optional<ReserveManagement> op = reserveManegementRepository.findById(id);
+        ReserveManagement reserveManagement = op.get();
+        List<ToolManagement> toolManagementList = toolManagementRepository.findByReserveManagementId(reserveManagement);
+
+        toolManagementList = formToToolManagementList(toolManagementList, form);
+        reserveManagement =  formToReserve(session, reserveManagement, form);
+
+        reserveManegementRepository.save(reserveManagement);
+
+        // 道具情報に予約IDを登録
+        for (ToolManagement tm : toolManagementList) {
+            tm.setReserveManagementId(reserveManagement);
+            toolManagementRepository.save(tm);
+        }
+        return "/reserve/complete";
+    }
+
 
 }
