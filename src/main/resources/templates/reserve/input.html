@@ -16,43 +16,32 @@
 
         <div class="row">
           <form class="center" method="post" th:action="${session.reserveStatus=='create'} ? '/reserve/create/confirm' : '/reserve/update/confirm'">
+            <input disabled th:if="${session.reserveStatus!=null}" hidden id="reserveStatus" th:value="${session.reserveStatus}" />
+            <input th:if="${preSelectFacilityId!=null}" hidden id="preSelectFacilityId" th:value="${preSelectFacilityId}" />
+            <input disabled th:if="${form!=null}" hidden id="form" th:value="${form}" />
+            <input disabled th:if="${form!=null}" hidden id="formFacilityId" th:value="${form.facilityId}" />
+
             <div class="row">
-              <div class="input-field col offset-s3 s6">
-                <span th:if="${form}==null">
-                  <span th:if="${preSelectFacilityId}==null">
-                    <select class="validate" name="facilityId" id="facilityId" tabindex="-1" onchange="change()">
-                      <option value="" selected>予約したい施設を選んでくだいさい</option>
-                      <option value="1">アーチェリー</option>
-                      <option value="2">ジム</option>
-                      <option value="3">テニスコート</option>
-                      <option value="4">バスケットボール</option>
-                      <option value="5">プール</option>
-                    </select>
-                    <label>施設</label>
-                  </span>
-                  <span th:unless="${preSelectFacilityId}==null">
-                    <select class="validate" name="facilityId" id="facilityId" tabindex="-1" onchange="change()">
-                      <option value="" selected>予約したい施設を選んでくだいさい</option>
-                      <option value="1" th:selected="${preSelectFacilityId==1}">アーチェリー</option>
-                      <option value="2" th:selected="${preSelectFacilityId==2}">ジム</option>
-                      <option value="3" th:selected="${preSelectFacilityId==3}">テニスコート</option>
-                      <option value="4" th:selected="${preSelectFacilityId==4}">バスケットボール</option>
-                      <option value="5" th:selected="${preSelectFacilityId==5}">プール</option>
-                    </select>
-                    <label>施設</label>
-                  </span>
-                </span>
-                <input th:if="${form}!=null" readonly name="reserveManagementId" type="text" th:value="${form.reserveManagementId}" hidden />
-                <input th:if="${form}!=null" readonly name="facilityId" type="text" th:value="${form.facilityId}" hidden />
-                <input th:if="${form}!=null" readonly name="facilityName" type="text" th:value="${form.facilityName}" class="confirm" />
-                <label th:if="${form}!=null" for="facilityName">施設</label>
+              <div class="input-field col offset-s3 s6" th:if="${session.reserveStatus=='update'}">
+                <input hidden name="reserveManagementId" type="number" th:value="${form.reserveManagementId}" />
+                <input hidden name="facilityId" type="number" th:value="${form.facilityId}" />
+                <input readonly name="facilityName" type="text" th:value="${form.facilityName}" class="confirm" />
+                <label for="facilityName">施設</label>
+              </div>
+
+              <div class="input-field col offset-s3 s6" th:if="${session.reserveStatus=='create'}">
+                <select class="validate" id="facilityId" name="facilityId" tabindex="-1" onchange="change()">
+                  <option value="" id="hintOption">予約したい施設を選んでくだいさい</option>
+                  <label>施設</label>
+                </select>
+                <input th:if="${form != null}" hidden id="facilityName" name="facilityName" type="text" th:value="${form.facilityName}" />
+                <input th:if="${form == null}" hidden id="facilityName" name="facilityName" type="text" />
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
                 <input name="date" type="text" class="datepicker validate" th:value="${form == null ? '' : form.date}" />
-                <!-- <input name="date" type="text" class="datepicker validate" th:if="${form == null}" /> -->
                 <label for="date">日付</label>
               </div>
             </div>
@@ -60,7 +49,6 @@
             <div class="row">
               <div class="input-field col offset-s3 s6">
                 <input name="startTime" type="text" class="timepicker validate" th:value="${form == null ? '' : form.startTime}" />
-                <!-- <input name="startTime" type="text" class="timepicker validate" th:if="${form == null}" /> -->
                 <label for="startTime">開始時間</label>
               </div>
             </div>
@@ -68,7 +56,6 @@
             <div class="row">
               <div class="input-field col offset-s3 s6">
                 <input name="endingTime" type="text" class="timepicker validate" th:value="${form == null ? '' : form.endingTime}" />
-                <!-- <input name="endingTime" type="text" class="timepicker validate" th:if="${form == null}" /> -->
                 <label for="endingTime">終了時間</label>
               </div>
             </div>
@@ -85,7 +72,7 @@
             </div>
 
             <span id="toolField">
-              <div th:if="${form!=null}">
+              <div th:if="${form != null}">
                 <div th:each="tool,toolStat:${form.toolList}">
                   <div class="row">
                     <div class="col offset-s3 s1">
@@ -120,29 +107,80 @@
 
             <div class="row col offset-s3 s6">
               <button id="confirm" class="btn waves-effect waves-light" type="submit">確認</button>
+              <a class="btn waves-effect waves-light back" th:if="${session.reserveStatus=='create'}" href="/listFacilities">戻る</a>
               <a
                 class="btn waves-effect waves-light back"
-                th:href="${reserveStatus=='create'} ? '/listFacilities' : '/reserve/reserveDetail/' + ${form.reserveManagementId}"
+                th:if="${session.reserveStatus=='update'}"
+                th:href="'/reserve/reserveDetail/' + ${form.reserveManagementId}"
                 >戻る</a
               >
             </div>
           </form>
         </div>
       </div>
+
       <script>
-        var status = "${reserveStatus}"; // 入口を判断する、新規はcreate、更新はupdate
+        var status = $("#reserveStatus").val(); // 入口を判断する、新規はcreate、更新はupdate
+        var preSelectFacilityId = $("#preSelectFacilityId").val();
+        var form = $("#form").val();
 
         window.onload = function () {
           if (status == "create") {
-            change();
+            initFacilities();
           }
         };
 
+        function initFacilities() {
+          $.ajax({
+            type: "get",
+            url: "getFacilities",
+            data: {},
+            success: function (data) {
+              if (preSelectFacilityId != "null") {
+                $("#hintOption").attr("selected");
+              }
+              var id = $("#formFacilityId").val();
+              data.forEach((f) => {
+                if (form != null) {
+                  // form优先
+                  if (id == f.facilityId) {
+                    $("#facilityId").append('<option value="' + f.facilityId + '" selected >' + f.facilityName + "</option>");
+                  } else {
+                    $("#facilityId").append('<option value="' + f.facilityId + '">' + f.facilityName + "</option>");
+                  }
+                } else {
+                  if (preSelectFacilityId != "null") {
+                    if (preSelectFacilityId == f.facilityId) {
+                      // preSelect优先
+                      $("#facilityId").append('<option value="' + f.facilityId + '" selected >' + f.facilityName + "</option>");
+                    } else {
+                      $("#facilityId").append('<option value="' + f.facilityId + '">' + f.facilityName + "</option>");
+                    }
+                  } else {
+                    // default
+                    $("#facilityId").append('<option value="' + f.facilityId + '" ">' + f.facilityName + "</option>");
+                  }
+                }
+              });
+              $(document).ready(function () {
+                $("select").formSelect();
+              });
+              if (form == null) {
+                change();
+              }
+            },
+          });
+        }
+
         function change() {
+          var facilityName = $("#facilityId option:selected").text();
+          $("#facilityName").attr("value", facilityName);
+
           var value = $("#facilityId").val();
           if (value == "") {
             return;
           }
+
           $("#toolLoading").show();
           $("#toolLoading").attr("class", "progress col offset-s3 s6");
           $("#confirm").attr("class", "btn waves-effect waves-light disabled");

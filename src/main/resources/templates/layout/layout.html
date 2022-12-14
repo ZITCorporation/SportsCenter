@@ -18,6 +18,8 @@
     <!-- </div> -->
     <div id="footer" th:replace="~{layout/footer :: layout-footer}"></div>
 
+    <!-- <input hidden id="userStatus" th:if="session!=null && session.user!=null" th:value="session.user">
+    <input hidden id="userStatus" th:if="session==null" th:value="required"> -->
     <script>
       M.AutoInit();
       document.addEventListener("DOMContentLoaded", function () {
@@ -52,6 +54,18 @@
           showClearBtn: true,
         });
       });
+
+      // function checkLogin() {
+      //   var userStatus = $("#userStatus").val();
+      //   if (userStatus=="required") {
+      //     $.ajax({
+      //       type: "get",
+      //       url: "doLogin",
+      //       data: {},
+      //       success: function () {}
+      //     })
+      //   }
+      // }
     </script>
   </body>
 </html>
