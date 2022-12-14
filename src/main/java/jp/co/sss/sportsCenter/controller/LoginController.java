@@ -23,7 +23,7 @@ public class LoginController {
     
     @RequestMapping(path = "/login", method = RequestMethod.GET)
     public String login() {
-        return "/users/login/login";
+        return "/user/login";
     }
 
     @RequestMapping(path = "/doLogin", method = RequestMethod.POST)
@@ -38,7 +38,7 @@ public class LoginController {
             model.addAttribute("errormessage", "メールアドレス、またはパスワードが間違っています。");
             System.out.println("failed!");
             System.out.println(form.getEmail() + " " + form.getPassword());
-            return "/users/login/login";
+            return "/user/login";
         }
     }
 

@@ -68,13 +68,42 @@
 
             <div class="row">
               <button class="btn waves-effect waves-light" type="submit" formaction="/reserve/update/input">変更</button>
-              <button class="btn waves-effect waves-light" type="submit" formaction="/reserve/update/complete">削除</button>
-              <button th:if="${session.user.authority==1}" class="btn waves-effect waves-light back" type="submit" formaction="/reserve/findAll">戻る</button>
-              <button th:if="${session.user.authority==0}" class="btn waves-effect waves-light back" type="submit" formaction="/reserve/findByUser">戻る</button>
+              <a class="btn waves-effect waves-light" href="#" th:onclick="reserveDelete([[${rm.reserveManagementId}]])">削除</a>
+              <!-- <button class="btn waves-effect waves-light" type="submit" formaction="/reserve/delete/confirm">削除</button> -->
+              <button th:if="${session.user.authority==1}" class="btn waves-effect waves-light back" type="submit" formaction="/reserve/findAll">
+                戻る
+              </button>
+              <button th:if="${session.user.authority==0}" class="btn waves-effect waves-light back" type="submit" formaction="/reserve/findByUser">
+                戻る
+              </button>
             </div>
           </form>
         </div>
       </div>
+
+      <script>
+        function reserveDelete(index) {
+          if (confirmDelete()) {
+            $.ajax({
+              type: "post",
+              url: "/bbs/delete",
+              async: false,
+              dataType: "text",
+              data: { index: index },
+              success: function (data) {
+              },
+            });
+          }
+        }
+
+        function confirmDelete() {
+          if (confirm("削除をご確認ください")) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      </script>
     </main>
   </body>
 </html>

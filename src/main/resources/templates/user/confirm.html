@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::body/content()})}">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body>
+    <main>
+      <div class="container">
+        <div class="row center">
+          <h3 th:if="${session.userStatus=='create'}">ユーザー 新規登録 確認</h3>
+          <h3 th:if="${session.userStatus=='update'}">ユーザー 情報変更 確認</h3>
+        </div>
+
+        <div class="row center">
+          <form class="confirm" method="post">
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input readonly name="name" th:value="${form.name}" type="text" />
+                <label for="name">名前</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input readonly name="password" th:value="${form.password}" type="text" />
+                <label for="password">パスワード</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input readonly name="email" th:value="${form.email}" type="email" />
+                <label for="email">メールアドレス</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input readonly name="phoneNumber" th:value="${form.phoneNumber}" type="text" />
+                <label for="phoneNumber">電話番号</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input readonly name="post" th:value="${form.post}" type="number" />
+                <label for="post">郵便番号</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input readonly name="domicile" th:value="${form.domicile}" type="text" />
+                <label for="domicile">住所</label>
+              </div>
+            </div>
+            <div class="row">
+              <div th:if="${!(session.user == null) && session.user.authority == 1}">
+                <div class="input-field col offset-s3 s6">
+                  <input hidden name="authority" th:value="${form.authority}" type="number" />
+                  <input readonly th:value="${form.authority==0?'なし':'あり'}" type="text" />
+                  <label for="authority">権限</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="input-field col offset-s3 s6">
+            <p>ユーザーを登録しますか？</p>
+          </div> -->
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <button
+                  class="btn waves-effect waves-light"
+                  type="submit"
+                  th:formaction="${session.userStatus=='create'} ? '/user/create/complete' : '/user/update/complete'"
+                  th:text="${session.userStatus=='create'} ? '新規' : '更新'"></button>
+                <button class="btn waves-effect waves-light back" type="submit" formaction="/user/create/back">戻る</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

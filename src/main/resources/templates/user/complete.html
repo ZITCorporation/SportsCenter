@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::body/content()})}">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body>
+    <main>
+      <div class="container">
+        <div class="row center">
+          <h3 th:if="${session.userStatus=='create'}">ユーザー 新規登録 完了</h3>
+          <h3 th:if="${session.userStatus=='update'}">ユーザー 情報変更 完了</h3>
+        </div>
+      </div>
+
+      <div class="row center">
+        <a
+          th:if="${session.userStatus=='create'}"
+          class="btn waves-effect waves-light back"
+          th:href="${session.user.authority == 0} ? '/login' : '/user/findAll'">
+          戻る
+        </a>
+        <a
+          th:if="${session.userStatus=='update'}"
+          class="btn waves-effect waves-light back"
+          th:href="${session.user.authority == 0} ? '/userDetail'+ ${session.user.userId} : '/user/findAll' ">
+          戻る
+        </a>
+      </div>
+    </main>
+  </body>
+</html>
