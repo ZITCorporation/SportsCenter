@@ -3,7 +3,7 @@ package jp.co.sss.sportsCenter.form;
 import java.util.List;
 
 public class ReserveForm {
-    private int reserveManagementId;
+    private Integer reserveManagementId;
     private Integer facilityId;
     private String facilityName;
     private String date;
@@ -11,7 +11,7 @@ public class ReserveForm {
     private String endingTime;
     private List<ToolForm> toolList;
 
-    public int getReserveManagementId() {
+    public Integer getReserveManagementId() {
         return reserveManagementId;
     }
 

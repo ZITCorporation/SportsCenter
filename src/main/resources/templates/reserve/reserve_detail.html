@@ -14,7 +14,7 @@
         </div>
 
         <div class="row">
-          <form class="center" method="post">
+          <form class="center confirm" method="post">
             <div class="row">
               <div class="input-field col offset-s3 s6">
                 <input readonly hidden type="text" name="reserveManagementId" th:value="${rm.reserveManagementId}" />
@@ -27,7 +27,7 @@
             <div class="row">
               <div class="input-field col offset-s3 s6">
                 <input readonly type="text" name="date" th:value="${#dates.format(rm.startTime,'yyyy-MM-dd')}" />
-                <label for="startTime">日付</label>
+                <label for="date">日付</label>
               </div>
             </div>
 

@@ -1,10 +1,14 @@
 package jp.co.sss.sportsCenter.controller;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jp.co.sss.sportsCenter.entity.User;
@@ -25,7 +29,7 @@ public class UserController {
     public String showUserList(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
         if (user.getAuthority() == 1) {
-            model.addAttribute("users", repository.findAll());
+            model.addAttribute("users", repository.findAll(Sort.by("userId").descending()));
             return "/users/search/user_list"; // 管理者権限を持つ、すべてのユーザー詳細画面のhtmlファイルのパス
         } else {
             return "/error";
@@ -34,8 +38,17 @@ public class UserController {
 
     @RequestMapping(value = "/users/detail")
     public String showUser(HttpSession session, Model model) {
-        int id = ((User) session.getAttribute("user")).getUserId();
-        User user = repository.getReferenceById(id);
+        // int id = ((User) session.getAttribute("user")).getUserId();
+        // Optional<User> op = repository.findById(id);
+        // User user = op.get();
+        // model.addAttribute("user", user);
+        return "/users/search/user_detail"; // ユーザー詳細画面のhtmlファイルのパス
+    }
+
+    @RequestMapping(value = "/users/detail/{id}")
+    public String showUserById(HttpSession session, Model model,@PathVariable("id") int id) {
+        Optional<User> op = repository.findById(id);
+        User user = op.get();
         model.addAttribute("user", user);
         return "/users/search/user_detail"; // ユーザー詳細画面のhtmlファイルのパス
     }
