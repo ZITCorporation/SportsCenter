@@ -1,21 +1,21 @@
 package jp.co.sss.sportsCenter.form;
 
 public class UserForm {
-    private int id;
+    private Integer userId;
     private String name;
     private String password;
     private String email;
     private String phoneNumber;
-    private int post;
+    private Integer post;
     private String domicile;
-    private int authority;
+    private Integer authority;
 
-    public int getId() {
-        return id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -50,11 +50,11 @@ public class UserForm {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getPost() {
+    public Integer getPost() {
         return post;
     }
 
-    public void setPost(int post) {
+    public void setPost(Integer post) {
         this.post = post;
     }
 
@@ -66,11 +66,11 @@ public class UserForm {
         this.domicile = domicile;
     }
 
-    public int getAuthority() {
+    public Integer getAuthority() {
         return authority;
     }
 
-    public void setAuthority(int authority) {
+    public void setAuthority(Integer authority) {
         this.authority = authority;
     }
 }

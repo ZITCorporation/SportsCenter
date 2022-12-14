@@ -9,11 +9,11 @@
           <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
             <div th:if="${session.user == null}">
-              <li><a class="btn waves-effect waves-teal" href="/users/create/input">新規登録</a></li>
+              <li><a class="btn waves-effect waves-teal" href="/user/create">新規登録</a></li>
               <li><a class="btn waves-effect waves-light" href="/login">ログイン</a></li>
             </div>
             <div th:unless="${session.user == null}">
-              <li><a class="btn waves-effect waves-light" th:href="@{/users/detail/}" th:text="${session.user.name}"></a></li>
+              <li><a class="btn waves-effect waves-light" th:href="@{'/user/detail/'+${session.user.userId}}" th:text="${session.user.name}"></a></li>
               <li><a class="btn waves-effect waves-light back" href="/logout">ログアウト</a></li>
             </div>
           </ul>
@@ -31,7 +31,7 @@
             <li class="tab"><a href="/bbs/listAllBBS">お知らせ</a></li>
             <li class="tab"><a href="#test4">Q&A</a></li>
             <li th:if="${session.user != null && session.user.authority == 0}" class="tab"><a href="/reserve/findByUser">予約確認</a></li>
-            <li th:if="${session.user != null && session.user.authority == 1}" class="tab"><a href="/users/findAll">ユーザー一覧</a></li>
+            <li th:if="${session.user != null && session.user.authority == 1}" class="tab"><a href="/user/findAll">ユーザー一覧</a></li>
             <li th:if="${session.user != null && session.user.authority == 1}" class="tab"><a href="/reserve/findAll">予約一覧</a></li>
           </ul>
         </div>
@@ -41,14 +41,13 @@
       <div th:switch="${session.user}">
         <span th:if="${session.user == null}">
           <li><a href="/login">ログイン</a></li>
-          <li><a href="/users/create/input">新規登録</a></li>
+          <li><a href="/user/create/input">新規登録</a></li>
         </span>
         <span th:unless="${session.user == null}">
           <li class="center">
             <h5>WELCOME</h5>
           </li>
-          <li><a href="/users/detail/" th:text="${session.user.name}"></a></li>
-          <!-- <li><a href="/users/detail/">ユーザー詳細</a></li> -->
+          <li><a th:href="@{'/user/detail/'+${session.user.userId}}" th:text="${session.user.name}"></a></li>
           <li><a href="/logout">ログアウト</a></li>
         </span>
       </div>
