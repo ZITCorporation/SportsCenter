@@ -25,7 +25,7 @@
         <a
           th:if="${session.userStatus=='update'}"
           class="btn waves-effect waves-light back"
-          th:href="${session.authority == 0} ? '/userDetail'+ ${session.id} : '/user/findAll' ">
+          th:href="${session.authority == 0} ? '/user/detail/'+ ${session.id} : '/user/findAll' ">
           戻る
         </a>
       </div>
