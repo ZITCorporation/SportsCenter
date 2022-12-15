@@ -1,66 +1,114 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::body/content()})}">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
 
-<head>
-  <title></title>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-</head>
+  <body>
+    <main>
+      <div class="container">
+        <div class="row center">
+          <h3>ユーザー詳細</h3>
+        </div>
 
-<body>
-  <main>
-    <div class="container">
-      <div class="row center">
-        <h3>ユーザー詳細</h3>
-      </div>
-
-      <div class="row" th:unless="${session.user==null}">
-        <form class="center">
-          <div th:if="${session.user.authority == 1}">
-            <div class="input-field col offset-s3 s6">
-              <input disabled th:value="${user!=null ? user.userId : session.user.userId}" name="id" type="text" class="validate" />
-              <label for="id">ID</label>
+        <div class="row">
+          <form class="center confirm">
+            <div class="row" th:if="${session.authority == 1}">
+              <div class="input-field col offset-s3 s6">
+                <input readonly type="text" name="userId" th:value="${user.userId}" />
+                <label for="userId">ユーザーID</label>
+              </div>
             </div>
-          </div>
-          <div class="input-field col offset-s3 s6">
-            <input disabled th:value="${session.user.name}" name="name" type="text" class="validate" />
-            <label for="name">名前</label>
-          </div>
-          <div class="input-field col offset-s3 s6">
-            <input disabled th:value="${session.user.password}" name="password" type="text" class="validate" />
-            <label for="password">パスワード</label>
-          </div>
-          <div class="input-field col offset-s3 s6">
-            <input disabled th:value="${session.user.email}" name="email" type="text" class="validate" />
-            <label for="email">メールアドレス</label>
-          </div>
-          <div class="input-field col offset-s3 s6">
-            <input disabled th:value="${session.user.phoneNumber}" name="phoneNumber" type="text" class="validate" />
-            <label for="phoneNumber">電話番号</label>
-          </div>
-          <div class="input-field col offset-s3 s6">
-            <input disabled th:value="${session.user.post}" name="post" type="text" class="validate" />
-            <label for="post">郵便番号</label>
-          </div>
-          <div class="input-field col offset-s3 s6">
-            <input disabled th:value="${session.user.domicile}" name="domicile" type="text" class="validate" />
-            <label for="domicile">住所</label>
-          </div>
+            <div th:unless="${session.authority == 1}">
+              <input readonly hidden type="text" name="userId" th:value="${user.userId}" />
+            </div>
 
-          <div th:if="${session.user.authority == 1}" class="input-field col offset-s3 s6">
-            <input disabled th:value="${session.user.authority}" name="authority" type="text" class="validate" />
-            <label for="authority">権限</label>
-          </div>
-        </form>
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input readonly th:value="${user.name}" name="name" type="text" class="validate" />
+                <label for="name">名前</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input readonly th:value="${user.password}" name="password" type="text" class="validate" />
+                <label for="password">パスワード</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input readonly th:value="${user.email}" name="email" type="text" class="validate" />
+                <label for="email">メールアドレス</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input readonly th:value="${user.phoneNumber}" name="phoneNumber" type="text" class="validate" />
+                <label for="phoneNumber">電話番号</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input readonly th:value="${user.post}" name="post" type="text" class="validate" />
+                <label for="post">郵便番号</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col offset-s3 s6">
+                <input readonly th:value="${user.domicile}" name="domicile" type="text" class="validate" />
+                <label for="domicile">住所</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div th:if="${session.authority == 1}" class="input-field col offset-s3 s6">
+                <input readonly hidden th:value="${user.authority}" name="authority" type="text" class="validate" />
+                <input readonly disabled th:value="${user.authority==0?'なし':'あり'}" type="text" />
+                <label for="authority">権限</label>
+              </div>
+              <div th:unless="${session.authority == 1}">
+                <input readonly hidden th:value="${user.authority}" name="authority" type="text" />
+              </div>
+            </div>
+
+            <div class="row center">
+              <button class="btn waves-effect waves-light" type="submit" formaction="/user/update/input/" formmethod="post">変更</button>
+              <a class="btn waves-effect waves-light" href="#" th:onclick="userDelete([[${user.userId}]])">削除</a>
+              <a th:if="${session.authority==1}" class="btn waves-effect waves-light back" href="/user/findAll"> 戻る </a>
+              <a th:if="${session.authority==0}" class="btn waves-effect waves-light back" href="/">戻る</a>
+            </div>
+          </form>
+        </div>
       </div>
+      <script>
+        function userDelete(index) {
+          if (confirmDelete()) {
+            $.ajax({
+              type: "post",
+              url: "/user/delete",
+              async: false,
+              dataType: "text",
+              data: { index: index },
+              success: function (data) {},
+            });
+          }
+        }
 
-      <div class="row center">
-        <a class="btn waves-effect waves-light" href="/user/update/input/">更新</a>
-        <a class="btn waves-effect waves-light" href="/user/delete/confirm/">削除</a>
-        <a th:if="${session.user.authority==1}" class="btn waves-effect waves-light back" href="/user/findAll">戻る</a>
-        <a th:if="${session.user.authority==0}" class="btn waves-effect waves-light back" href="/">戻る</a>
-      </div>
-  </main>
-</body>
-
+        function confirmDelete() {
+          if (confirm("削除をご確認ください")) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      </script>
+    </main>
+  </body>
 </html>

@@ -1,6 +1,6 @@
 <meta charset="UTF-8" />
 <div id="footer" th:fragment="layout-footer">
-    <footer th:class="${session.user == null or session.user.authority == 0} ? ${'page-footer grey darken-2'} : ${'page-footer'}">
+    <footer th:class="${session.login == null or session.authority == 0} ? ${'page-footer grey darken-2'} : ${'page-footer'}">
         <div class="container">
             <div class="row">
                 <div class="col l6 s12">

@@ -18,8 +18,8 @@
             <thead>
               <tr class="center">
                 <th>予約ID</th>
-                <th th:if="${session.user != null && session.user.authority == 1}">ユーザーID</th>
-                <th th:if="${session.user != null && session.user.authority == 1}">ユーザー名</th>
+                <th th:if="${session.login != null && session.authority == 1}">ユーザーID</th>
+                <th th:if="${session.login != null && session.authority == 1}">ユーザー名</th>
                 <th>施設名</th>
                 <th>日付</th>
                 <th>開始時間</th>
@@ -29,8 +29,8 @@
             <tbody>
               <tr th:each="rm: ${rm}">
                 <td th:text="${rm.reserveManagementId}"></td>
-                <td th:text="${rm.userId.userId}" th:if="${session.user != null && session.user.authority == 1}"></td>
-                <td th:text="${rm.userId.name}" th:if="${session.user != null && session.user.authority == 1}"></td>
+                <td th:text="${rm.userId.userId}" th:if="${session.login != null && session.authority == 1}"></td>
+                <td th:text="${rm.userId.name}" th:if="${session.login != null && session.authority == 1}"></td>
                 <td th:text="${rm.facilityId.facilityName}"></td>
                 <td th:text="${#dates.format(rm.startTime,'yyyy-MM-dd')}"></td>
                 <td th:text="${#dates.format(rm.startTime,'HH:MM')}"></td>

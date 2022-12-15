@@ -18,7 +18,7 @@
       <div class="row center">
         <a
           class="btn waves-effect waves-light back"
-          th:href="${session.user.authority == 0} ? '/reserve/findByUser' : '/reserve/findAll'">
+          th:href="${session.authority == 0} ? '/reserve/findByUser' : '/reserve/findAll'">
           戻る
         </a>
       </div>

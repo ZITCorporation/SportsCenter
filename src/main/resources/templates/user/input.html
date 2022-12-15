@@ -21,6 +21,7 @@
             <input disabled th:if="${form!=null}" hidden id="form" th:value="${form}" />
             <input disabled th:if="${form!=null}" hidden id="userId" th:value="${form.userId}" />
 
+            <input hidden name="userId" type="text" class="validate" th:value="${form == null ? '' : form.userId}" />
             <div class="row">
               <div class="input-field col offset-s3 s6">
                 <input name="name" type="text" class="validate" th:value="${form == null ? '' : form.name}" />
@@ -63,7 +64,7 @@
               </div>
             </div>
 
-            <div class="row" th:if="${!(session.user == null) && session.user.authority == 1}">
+            <div class="row" th:if="${!(session.login == null) && session.authority == 1}">
               <div class="col offset-s3 s6">
                 <div style="color: #9e9e9e;">権限</div>
                 <div class="input-field inline">
@@ -80,11 +81,14 @@
                 </div>
               </div>
             </div>
+            <div th:unless="${!(session.login == null) && session.authority == 1}">
+              <input name="authority" type="text" th:value="${form == null ? '' : form.authority}" />
+            </div>
 
             <div class="row center">
               <div class="input-field col offset-s3 s6">
                 <button class="btn waves-effect waves-light" type="submit">確認</button>
-                <a class="btn waves-effect waves-light back" th:href="${session.user.authority == 0} ? '/' : '/user/findAll'" href="/">戻る</a>
+                <a class="btn waves-effect waves-light back" th:href="${session.authority == 0} ? '/' : '/user/findAll'" href="/">戻る</a>
               </div>
             </div>
           </form>

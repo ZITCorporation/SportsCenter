@@ -19,13 +19,13 @@
         <a
           th:if="${session.userStatus=='create'}"
           class="btn waves-effect waves-light back"
-          th:href="${session.user.authority == 0} ? '/login' : '/user/findAll'">
+          th:href="${session.authority == 0} ? '/login' : '/user/findAll'">
           戻る
         </a>
         <a
           th:if="${session.userStatus=='update'}"
           class="btn waves-effect waves-light back"
-          th:href="${session.user.authority == 0} ? '/userDetail'+ ${session.user.userId} : '/user/findAll' ">
+          th:href="${session.authority == 0} ? '/userDetail'+ ${session.id} : '/user/findAll' ">
           戻る
         </a>
       </div>

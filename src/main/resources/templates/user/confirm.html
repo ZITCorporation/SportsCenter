@@ -16,6 +16,7 @@
 
         <div class="row center">
           <form class="confirm" method="post">
+            <input hidden name="userId" th:value="${form.userId}" type="text" />
             <div class="row">
               <div class="input-field col offset-s3 s6">
                 <input readonly name="name" th:value="${form.name}" type="text" />
@@ -53,13 +54,13 @@
               </div>
             </div>
             <div class="row">
-              <div th:if="${!(session.user == null) && session.user.authority == 1}">
+              <div th:if="${!(session.login == null) && session.authority == 1}">
                 <div class="input-field col offset-s3 s6">
-                  <input hidden name="authority" th:value="${form.authority}" type="number" />
                   <input readonly th:value="${form.authority==0?'なし':'あり'}" type="text" />
                   <label for="authority">権限</label>
                 </div>
               </div>
+              <input hidden name="authority" th:value="${form.authority}" type="number" />
             </div>
 
             <!-- <div class="input-field col offset-s3 s6">

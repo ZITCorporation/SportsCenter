@@ -7,22 +7,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import jp.co.sss.sportsCenter.entity.User;
-
-
 @Controller
 public class IndexController {
-    
-// cd sportsCenter
-// mvn spring-boot:run
-// http://localhost:7777/
+
+    // cd sportsCenter
+    // mvn spring-boot:run
+    // http://localhost:7777/
 
     // ホーム
     @RequestMapping("/")
     public String index(HttpSession session, Model model) {
-        if (session.getAttribute("user") != null) {
-            User user = ((User) session.getAttribute("user"));
-            model.addAttribute("sample", "Welcome Back, " + user.getName());
+        if (session.getAttribute("login") != null) {
+            model.addAttribute("sample", "Welcome Back, " + (String) session.getAttribute("name"));
         } else {
             model.addAttribute("sample", "ログインしましょう！");
         }
@@ -32,8 +28,7 @@ public class IndexController {
     // エラー
     // @RequestMapping(value="/error", method=RequestMethod.GET)
     // public String errorPage() {
-    //     return "/error";
-    //  }
-    
+    // return "/error";
+    // }
 
 }
