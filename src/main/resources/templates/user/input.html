@@ -82,7 +82,7 @@
               </div>
             </div>
             <div th:unless="${!(session.login == null) && session.authority == 1}">
-              <input name="authority" type="text" th:value="${form == null ? '' : form.authority}" />
+              <input hidden name="authority" type="text" th:value="${form == null ? '' : form.authority}" />
             </div>
 
             <div class="row center">
