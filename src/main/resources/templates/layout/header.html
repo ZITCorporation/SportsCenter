@@ -4,7 +4,7 @@
   <header>
     <div class="navbar-fixed">
       <nav class="nav-extended">
-        <div th:class="${session.authority == 1} ? ${'nav-wrapper'} : ${'nav-wrapper grey darken-2'}">
+        <div th:class="${session.authority == 1} ? ${'nav-wrapper red lighten-1'} : ${'nav-wrapper grey darken-2'}">
           <a href="/" class="brand-logo">スポーツセンター(仮)</a>
           <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -19,12 +19,7 @@
           </ul>
         </div>
 
-        <!-- <div th:if="${session.login == null}">
-                </div>
-                <div th:unless="${session.login == null}">
-                </div> -->
-
-        <div th:class="${session.login == null or session.authority == 0} ? ${'nav-content grey darken-2'} : ${'nav-content'}">
+        <div th:class="${session.authority == 1} ? ${'nav-content red lighten-1'} : ${'nav-content grey darken-2'}">
           <ul class="tabs tabs-transparent no-autoinit">
             <li class="tab"><a href="/">HOME</a></li>
             <li class="tab"><a href="/listFacilities">施設</a></li>
@@ -38,24 +33,17 @@
       </nav>
     </div>
     <ul class="sidenav" id="mobile-demo">
-        <span th:if="${session.login == null}">
-          <li><a href="/login">ログイン</a></li>
-          <li><a href="/user/create/input">新規登録</a></li>
-        </span>
-        <span th:unless="${session.login == null}">
-          <li class="center">
-            <h5>WELCOME</h5>
-          </li>
-          <li><a href="/user/detail" th:text="${session.name}"></a></li>
-          <li><a href="/logout">ログアウト</a></li>
-        </span>
+      <span th:if="${session.login == null}">
+        <li><a href="/login">ログイン</a></li>
+        <li><a href="/user/create/input">新規登録</a></li>
+      </span>
+      <span th:unless="${session.login == null}">
+        <li class="center">
+          <h5>WELCOME</h5>
+        </li>
+        <li><a href="/user/detail" th:text="${session.name}"></a></li>
+        <li><a href="/logout">ログアウト</a></li>
+      </span>
     </ul>
-
-    <!-- <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var elems = document.querySelectorAll(".sidenav");
-        var instances = M.Sidenav.init(elems, {});
-      });
-    </script> -->
   </header>
 </div>

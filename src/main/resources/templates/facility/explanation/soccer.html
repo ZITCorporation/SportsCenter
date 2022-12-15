@@ -4,14 +4,14 @@
     <main>
       <div class="container">
         <div class="row center">
-          <h3>アーチェリー</h3>
+          <h3>サッカー</h3>
         </div>
 
         <!--内容-->
 
         <div class="row center">
           <a th:if="${session.login == null}" class="btn waves-effect waves-light" href="/login">ログイン</a>
-          <a th:unless="${session.login == null}" class="btn waves-effect waves-light" href="/reserve/create/1">予約</a>
+          <a th:unless="${session.login == null}" class="btn waves-effect waves-light" href="/reserve/create/2">予約</a>
           <a class="btn waves-effect waves-light back" href="/listFacilities">戻る</a>
         </div>
       </div>

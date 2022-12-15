@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::body/content()})}">
   <head>
-    <title>予約詳細</title>
+    <title>予約・詳細</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
@@ -10,15 +10,16 @@
     <main>
       <div class="container">
         <div class="row center">
-          <h3>予約詳細</h3>
+          <h3>予約・詳細</h3>
         </div>
 
         <div class="row">
           <form class="center confirm">
             <div class="row" th:if="${session.authority == 1}">
               <div class="input-field col offset-s3 s6">
-                <input readonly type="text" name="reserveManagementId" th:value="${rm.reserveManagementId}" />
-                <label for="facilityName">予約ID</label>
+                <i class="material-icons prefix">info_outline</i>
+                <input readonly id="reserveManagementIdInput" type="text" name="reserveManagementId" th:value="${rm.reserveManagementId}" />
+                <label for="reserveManagementIdInput">予約ID</label>
               </div>
             </div>
             <div th:unless="${session.authority == 1}">
@@ -27,30 +28,34 @@
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
+                <i class="material-icons prefix">account_balance</i>
                 <input readonly hidden type="text" name="facilityId" th:value="${rm.facilityId.facilityId}" />
-                <input readonly type="text" name="facilityName" th:value="${rm.facilityId.facilityName}" />
-                <label for="facilityName">施設</label>
+                <input readonly id="facilityNameInput" type="text" name="facilityName" th:value="${rm.facilityId.facilityName}" />
+                <label for="facilityNameInput">施設</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input readonly type="text" name="date" th:value="${#dates.format(rm.startTime,'yyyy-MM-dd')}" />
-                <label for="date">日付</label>
+                <i class="material-icons prefix">date_range</i>
+                <input readonly id="dateInput" type="text" name="date" th:value="${#dates.format(rm.startTime,'yyyy-MM-dd')}" />
+                <label for="dateInput">日付</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input readonly type="text" name="startTime" th:value="${#dates.format(rm.startTime,'HH:MM')}" />
-                <label for="startTime">開始時間</label>
+                <i class="material-icons prefix">brightness_5</i>
+                <input readonly id="startTimeInput" type="text" name="startTime" th:value="${#dates.format(rm.startTime,'HH:MM')}" />
+                <label for="startTimeInput">開始時間</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input readonly type="text" name="endingTime" th:value="${#dates.format(rm.endingTime,'HH:MM')}" />
-                <label for="endTime">終了時間</label>
+                <i class="material-icons prefix">brightness_4</i>
+                <input readonly id="endTimeInput" type="text" name="endingTime" th:value="${#dates.format(rm.endingTime,'HH:MM')}" />
+                <label for="endTimeInput">終了時間</label>
               </div>
             </div>
 

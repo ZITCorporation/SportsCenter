@@ -10,8 +10,8 @@
     <main>
       <div class="container">
         <div class="row center">
-          <h3 th:if="${session.userStatus=='create'}">ユーザー 新規登録</h3>
-          <h3 th:if="${session.userStatus=='update'}">ユーザー 情報変更</h3>
+          <h3 th:if="${session.userStatus=='create'}">ユーザー・新規登録</h3>
+          <h3 th:if="${session.userStatus=='update'}">ユーザー・情報変更</h3>
         </div>
 
         <div class="row">
@@ -22,62 +22,111 @@
             <input disabled th:if="${form!=null}" hidden id="userId" th:value="${form.userId}" />
 
             <input hidden name="userId" type="text" class="validate" th:value="${form == null ? '' : form.userId}" />
+
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input name="name" type="text" class="validate" th:value="${form == null ? '' : form.name}" />
-                <label for="name">名前</label>
+                <i class="material-icons prefix">account_box</i>
+                <input
+                  id="nameInput"
+                  name="name"
+                  type="text"
+                  class="validate"
+                  th:value="${form == null ? '' : form.name}"
+                  data-length="25"
+                  required />
+                <label for="nameInput">名前(漢字またはひらがな)</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input name="password" type="password" class="validate" th:value="${form == null ? '' : form.password}" />
-                <label for="password">パスワード</label>
+                <i class="material-icons prefix">fingerprint</i>
+                <input
+                  id="passwordInput"
+                  name="password"
+                  type="password"
+                  class="validate"
+                  th:value="${form == null ? '' : form.password}"
+                  minlength="5"
+                  data-length="15"
+                  required />
+                <label for="passwordInput">パスワード</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input name="email" type="email" class="validate" th:value="${form == null ? '' : form.email}" />
-                <label for="email">メールアドレス</label>
+                <i class="material-icons prefix">email</i>
+                <input
+                  id="emailInput"
+                  name="email"
+                  type="email"
+                  class="validate"
+                  th:value="${form == null ? '' : form.email}"
+                  data-length="128"
+                  required />
+                <label for="emailInput">メールアドレス</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input name="phoneNumber" type="text" class="validate" th:value="${form == null ? '' : form.phoneNumber}" />
-                <label for="phoneNumber">電話番号</label>
+                <i class="material-icons prefix">phone</i>
+                <input
+                  id="phoneNumberInput"
+                  name="phoneNumber"
+                  type="text"
+                  class="validate"
+                  th:value="${form == null ? '' : form.phoneNumber}"
+                  data-length="11"
+                  required />
+                <label for="phoneNumberInput">電話番号(-なし)</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input name="post" type="number" class="validate" th:value="${form == null ? '' : form.post}" />
-                <label for="post">郵便番号</label>
+                <i class="material-icons prefix">code</i>
+                <input
+                  id="postInput"
+                  name="post"
+                  type="number"
+                  class="validate"
+                  th:value="${form == null ? '' : form.post}"
+                  data-length="7"
+                  required />
+                <label for="postInput">郵便番号(-なし)</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input name="domicile" type="text" class="validate" th:value="${form == null ? '' : form.domicile}" />
-                <label for="domicile">住所</label>
+                <i class="material-icons prefix">location_on</i>
+                <input
+                  id="domicileInput"
+                  name="domicile"
+                  type="text"
+                  class="validate"
+                  th:value="${form == null ? '' : form.domicile}"
+                  data-length="100"
+                  required />
+                <label for="domicileInput">住所</label>
               </div>
             </div>
 
             <div class="row" th:if="${!(session.login == null) && session.authority == 1}">
-              <div class="col offset-s3 s6">
-                <div style="color: #9e9e9e;">権限</div>
-                <div class="input-field inline">
-                  <div class="switch">
-                    <label>
-                      なし
-                      <input id="switchOption1" name="authority" type="checkbox" th:checked="${form!=null and form.authority==1}" value="1" />
-                      <span class="lever"></span>
-                      あり
-                    </label>
-                    <!-- submitのときswitchは「あり」なら，form中に「authority=1」があり，
+              <div class="input-field col offset-s3 s6 valign-wrapper">
+                <i class="material-icons prefix">security</i>
+                <p style="color: #9e9e9e; margin-left: 45px">権限</p>
+                <div class="switch" style="margin-left: 45px">
+                  <label>
+                    なし
+                    <input id="switchOption1" name="authority" type="checkbox" th:checked="${form!=null and form.authority==1}" value="1" />
+                    <span class="lever"></span>
+                    あり
+                  </label>
+                  <!-- submitのときswitchは「あり」なら，form中に「authority=1」があり，
                       「なし」なら、form中にauthorityはない，だからControllerでデフォルト「authority=0」を設定する必要があり -->
-                  </div>
                 </div>
               </div>
             </div>
@@ -94,6 +143,12 @@
           </form>
         </div>
       </div>
+      <script type="text/javascript" src="/js/picker.js"></script>
+      <script>
+        $(document).ready(function () {
+          $("input#nameInput,input#passwordInput,input#emailInput,input#phoneNumberInput,input#postInput,input#domicileInput").characterCounter();
+        });
+      </script>
     </main>
   </body>
 </html>

@@ -10,12 +10,12 @@
     <main>
       <div class="container">
         <div class="row center">
-          <h3 th:if="${session.reserveStatus=='create'}">予約 新規登録</h3>
-          <h3 th:if="${session.reserveStatus=='update'}">予約 情報変更</h3>
+          <h3 th:if="${session.reserveStatus=='create'}">予約・新規登録</h3>
+          <h3 th:if="${session.reserveStatus=='update'}">予約・情報変更</h3>
         </div>
 
         <div class="row">
-          <form class="center" method="post" th:action="${session.reserveStatus=='create'} ? '/reserve/create/confirm' : '/reserve/update/confirm'">
+          <form method="post" th:action="${session.reserveStatus=='create'} ? '/reserve/create/confirm' : '/reserve/update/confirm'">
             <input disabled th:if="${session.reserveStatus!=null}" hidden id="reserveStatus" th:value="${session.reserveStatus}" />
             <input th:if="${preSelectFacilityId!=null}" hidden id="preSelectFacilityId" th:value="${preSelectFacilityId}" />
             <input disabled th:if="${form!=null}" hidden id="form" th:value="${form}" />
@@ -23,14 +23,16 @@
 
             <div class="row">
               <div class="input-field col offset-s3 s6" th:if="${session.reserveStatus=='update'}">
+                <i class="material-icons prefix">account_balance</i>
                 <input hidden name="reserveManagementId" type="number" th:value="${form.reserveManagementId}" />
                 <input hidden name="facilityId" type="number" th:value="${form.facilityId}" />
-                <input readonly name="facilityName" type="text" th:value="${form.facilityName}" class="confirm" />
-                <label for="facilityName">施設</label>
+                <input readonly id="facilityNameInput" name="facilityName" type="text" th:value="${form.facilityName}" class="confirm" />
+                <label for="facilityNameInput">施設</label>
               </div>
 
               <div class="input-field col offset-s3 s6" th:if="${session.reserveStatus=='create'}">
-                <select class="validate" id="facilityId" name="facilityId" tabindex="-1" onchange="change()">
+                <i class="material-icons prefix">account_balance</i>
+                <select required class="validate" id="facilityId" name="facilityId" tabindex="-1" onchange="change()">
                   <option value="" id="hintOption">予約したい施設を選んでくだいさい</option>
                   <label>施設</label>
                 </select>
@@ -41,22 +43,37 @@
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input name="date" type="text" class="datepicker validate" th:value="${form == null ? '' : form.date}" />
-                <label for="date">日付</label>
+                <i class="material-icons prefix">date_range</i>
+                <input required name="date" id="dateInput" type="text" class="datepicker validate" th:value="${form == null ? '' : form.date}" />
+                <label for="dateInput">日付</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input name="startTime" type="text" class="timepicker validate" th:value="${form == null ? '' : form.startTime}" />
-                <label for="startTime">開始時間</label>
+                <i class="material-icons prefix">brightness_5</i>
+                <input
+                  required
+                  id="startTimeInput"
+                  name="startTime"
+                  type="text"
+                  class="timepicker validate"
+                  th:value="${form == null ? '' : form.startTime}" />
+                <label for="startTimeInput">開始時間</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input name="endingTime" type="text" class="timepicker validate" th:value="${form == null ? '' : form.endingTime}" />
-                <label for="endingTime">終了時間</label>
+                <i class="material-icons prefix">brightness_4</i>
+                <input
+                  required
+                  id="endTimeInput"
+                  name="endingTime"
+                  type="text"
+                  class="timepicker validate"
+                  th:value="${form == null ? '' : form.endingTime}" />
+                <label for="endTimeInput">終了時間</label>
               </div>
             </div>
 
@@ -105,8 +122,9 @@
               </div>
             </span>
 
-            <div class="row col offset-s3 s6">
-              <button id="confirm" class="btn waves-effect waves-light" type="submit">確認</button>
+            <div class="row col offset-s3 s6 center">
+              <button th:if="${form!=null}" id="confirm" class="btn waves-effect waves-light" type="submit">確認</button>
+              <button th:if="${form==null}" id="confirm" class="btn waves-effect waves-light disabled" type="submit">確認</button>
               <a class="btn waves-effect waves-light back" th:if="${session.reserveStatus=='create'}" href="/listFacilities">戻る</a>
               <a
                 class="btn waves-effect waves-light back"
@@ -119,118 +137,8 @@
         </div>
       </div>
 
-      <script>
-        var status = $("#reserveStatus").val(); // 入口を判断する、新規はcreate、更新はupdate
-        var preSelectFacilityId = $("#preSelectFacilityId").val();
-        var form = $("#form").val();
-
-        window.onload = function () {
-          if (status == "create") {
-            initFacilities();
-          }
-        };
-
-        function initFacilities() {
-          $.ajax({
-            type: "get",
-            url: "getFacilities",
-            data: {},
-            success: function (data) {
-              if (preSelectFacilityId != "null") {
-                $("#hintOption").attr("selected");
-              }
-              var id = $("#formFacilityId").val();
-              data.forEach((f) => {
-                if (form != null) {
-                  // form优先
-                  if (id == f.facilityId) {
-                    $("#facilityId").append('<option value="' + f.facilityId + '" selected >' + f.facilityName + "</option>");
-                  } else {
-                    $("#facilityId").append('<option value="' + f.facilityId + '">' + f.facilityName + "</option>");
-                  }
-                } else {
-                  if (preSelectFacilityId != "null") {
-                    if (preSelectFacilityId == f.facilityId) {
-                      // preSelect优先
-                      $("#facilityId").append('<option value="' + f.facilityId + '" selected >' + f.facilityName + "</option>");
-                    } else {
-                      $("#facilityId").append('<option value="' + f.facilityId + '">' + f.facilityName + "</option>");
-                    }
-                  } else {
-                    // default
-                    $("#facilityId").append('<option value="' + f.facilityId + '" ">' + f.facilityName + "</option>");
-                  }
-                }
-              });
-              $(document).ready(function () {
-                $("select").formSelect();
-              });
-              if (form == null) {
-                change();
-              }
-            },
-          });
-        }
-
-        function change() {
-          var facilityName = $("#facilityId option:selected").text();
-          $("#facilityName").attr("value", facilityName);
-
-          var value = $("#facilityId").val();
-          if (value == "") {
-            return;
-          }
-
-          $("#toolLoading").show();
-          $("#toolLoading").attr("class", "progress col offset-s3 s6");
-          $("#confirm").attr("class", "btn waves-effect waves-light disabled");
-          var tool = $("#toolField").empty();
-          $.ajax({
-            type: "get",
-            url: "getSpecTool",
-            data: { id: value },
-            success: function (data) {
-              var str = "\n";
-              if (data.length > 0) {
-                $("#toolHint").hide();
-                $("#toolLoading").hide();
-                $("#confirm").attr("class", "btn waves-effect waves-light");
-                for (var i = 0; i < data.length; i++) {
-                  str +=
-                    '<div class="row">\n' +
-                    '<div class="col offset-s3 s1">\n' +
-                    "<p>" +
-                    data[i].toolName +
-                    "</p>" +
-                    "</div>" +
-                    '<div class="col s5">\n' +
-                    '<div class="input-field">\n' +
-                    '<input name="toolList[' +
-                    i +
-                    '].toolName" type="hidden" class="validate toolInfo" value="' +
-                    data[i].toolName +
-                    '"/>\n' +
-                    '<input name="toolList[' +
-                    i +
-                    '].toolId" type="hidden" class="validate toolInfo" value="' +
-                    data[i].toolId +
-                    '"/>\n' +
-                    '<input placeholder="個数を入力してください" name="toolList[' +
-                    i +
-                    '].toolNum" type="number" class="validate toolInfo" />\n' +
-                    "</div>" +
-                    "</div>" +
-                    "</div>";
-                }
-              } else {
-                $("#toolHint").show();
-              }
-
-              $("#toolField").html(str);
-            },
-          });
-        }
-      </script>
+      <script type="text/javascript" src="/js/reserve/picker.js"></script>
+      <script type="text/javascript" src="/js/reserve/input.js"></script>
     </main>
   </body>
 </html>

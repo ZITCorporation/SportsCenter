@@ -10,8 +10,8 @@
     <main>
       <div class="container">
         <div class="row center">
-          <h3 th:if="${session.userStatus=='create'}">ユーザー 新規登録 確認</h3>
-          <h3 th:if="${session.userStatus=='update'}">ユーザー 情報変更 確認</h3>
+          <h3 th:if="${session.userStatus=='create'}">ユーザー・新規登録 確認</h3>
+          <h3 th:if="${session.userStatus=='update'}">ユーザー・情報変更 確認</h3>
         </div>
 
         <div class="row center">
@@ -19,45 +19,52 @@
             <input hidden name="userId" th:value="${form.userId}" type="text" />
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input readonly name="name" th:value="${form.name}" type="text" />
-                <label for="name">名前</label>
+                <i class="material-icons prefix">account_box</i>
+                <input readonly id="nameInput" name="name" th:value="${form.name}" type="text" />
+                <label for="nameInput">名前(漢字またはひらがな)</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input readonly name="password" th:value="${form.password}" type="text" />
-                <label for="password">パスワード</label>
+                <i class="material-icons prefix">fingerprint</i>
+                <input readonly id="passwordInput" name="password" th:value="${form.password}" type="text" />
+                <label for="passwordInput">パスワード</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input readonly name="email" th:value="${form.email}" type="email" />
-                <label for="email">メールアドレス</label>
+                <i class="material-icons prefix">email</i>
+                <input readonly id="emailInput" name="email" th:value="${form.email}" type="email" />
+                <label for="emailInput">メールアドレス</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input readonly name="phoneNumber" th:value="${form.phoneNumber}" type="text" />
-                <label for="phoneNumber">電話番号</label>
+                <i class="material-icons prefix">phone</i>
+                <input readonly id="phoneNumberInput" name="phoneNumber" th:value="${form.phoneNumber}" type="text" />
+                <label for="phoneNumberInput">電話番号(-なし)</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input readonly name="post" th:value="${form.post}" type="number" />
-                <label for="post">郵便番号</label>
+                <i class="material-icons prefix">code</i>
+                <input readonly id="postInput" name="post" th:value="${form.post}" type="number" />
+                <label for="postInput">郵便番号(-なし)</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input readonly name="domicile" th:value="${form.domicile}" type="text" />
-                <label for="domicile">住所</label>
+                <i class="material-icons prefix">location_on</i>
+                <input readonly id="domicileInput" name="domicile" th:value="${form.domicile}" type="text" />
+                <label for="domicileInput">住所</label>
               </div>
             </div>
             <div class="row">
               <div th:if="${!(session.login == null) && session.authority == 1}">
                 <div class="input-field col offset-s3 s6">
-                  <input readonly th:value="${form.authority==0?'なし':'あり'}" type="text" />
-                  <label for="authority">権限</label>
+                  <i class="material-icons prefix">security</i>
+                  <input readonly id="authorityInput" th:value="${form.authority==0?'なし':'あり'}" type="text" />
+                  <label for="authorityInput">権限</label>
                 </div>
               </div>
               <input hidden name="authority" th:value="${form.authority}" type="number" />
