@@ -31,8 +31,9 @@ public class LoginController {
         User user = repository.findByEmailAndPassword(form.getEmail(), form.getPassword());
         if (user != null) {
             session.setAttribute("id", user.getUserId());
-            session.setAttribute("user", user);
-            session.setAttribute("loginStatus", 1);
+            session.setAttribute("name", user.getName());
+            session.setAttribute("authority", user.getAuthority());
+            session.setAttribute("login", "1");
             return "redirect:/";
         } else {
             model.addAttribute("errormessage", "メールアドレス、またはパスワードが間違っています。");

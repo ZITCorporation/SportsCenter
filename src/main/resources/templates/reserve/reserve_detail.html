@@ -14,13 +14,22 @@
         </div>
 
         <div class="row">
-          <form class="center confirm" method="post">
+          <form class="center confirm">
+            <div class="row" th:if="${session.authority == 1}">
+              <div class="input-field col offset-s3 s6">
+                <input readonly type="text" name="reserveManagementId" th:value="${rm.reserveManagementId}" />
+                <label for="facilityName">予約ID</label>
+              </div>
+            </div>
+            <div th:unless="${session.authority == 1}">
+              <input readonly hidden type="text" name="reserveManagementId" th:value="${rm.reserveManagementId}" />
+            </div>
+
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input readonly hidden type="text" name="reserveManagementId" th:value="${rm.reserveManagementId}" />
                 <input readonly hidden type="text" name="facilityId" th:value="${rm.facilityId.facilityId}" />
                 <input readonly type="text" name="facilityName" th:value="${rm.facilityId.facilityName}" />
-                <label>施設</label>
+                <label for="facilityName">施設</label>
               </div>
             </div>
 
@@ -67,13 +76,15 @@
             </span>
 
             <div class="row">
-              <button class="btn waves-effect waves-light" type="submit" formaction="/reserve/update/input">変更</button>
+              <button class="btn waves-effect waves-light" type="submit" formaction="/reserve/update/input" formmethod="post">変更</button>
               <a class="btn waves-effect waves-light" href="#" th:onclick="reserveDelete([[${rm.reserveManagementId}]])">削除</a>
-              <!-- <button class="btn waves-effect waves-light" type="submit" formaction="/reserve/delete/confirm">削除</button> -->
-              <button th:if="${session.user.authority==1}" class="btn waves-effect waves-light back" type="submit" formaction="/reserve/findAll">
-                戻る
-              </button>
-              <button th:if="${session.user.authority==0}" class="btn waves-effect waves-light back" type="submit" formaction="/reserve/findByUser">
+              <a th:if="${session.authority==1}" class="btn waves-effect waves-light back" href="/reserve/findAll"> 戻る </a>
+              <button
+                th:if="${session.authority==0}"
+                class="btn waves-effect waves-light back"
+                type="submit"
+                formaction="/reserve/findByUser"
+                formmethod="get">
                 戻る
               </button>
             </div>
@@ -86,12 +97,11 @@
           if (confirmDelete()) {
             $.ajax({
               type: "post",
-              url: "/bbs/delete",
+              url: "/reserve/delete",
               async: false,
               dataType: "text",
               data: { index: index },
-              success: function (data) {
-              },
+              success: function (data) {},
             });
           }
         }

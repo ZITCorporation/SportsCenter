@@ -30,7 +30,7 @@ public class UserController {
     // Find 検索
     // @RequestMapping("/users/findAll")
     // public String showUserList(HttpSession session, Model model) {
-    // User user = (User) session.getAttribute("user");
+    // User user = (User) session.getAttribute("login");
     // if (user.getAuthority() == 1) {
     // model.addAttribute("users",
     // userRepository.findAll(Sort.by("userId").descending()));
@@ -43,7 +43,7 @@ public class UserController {
     // //
     // @RequestMapping(value = "/users/detail")
     // public String showUser(HttpSession session, Model model) {
-    // // int id = ((User) session.getAttribute("user")).getUserId();
+    // // int id = ((User) session.getAttribute("login")).getUserId();
     // // Optional<User> op = userRepository.findById(id);
     // // User user = op.get();
     // // model.addAttribute("user", user);
@@ -101,7 +101,7 @@ public class UserController {
     // @RequestMapping(value = "/users/update/confirm", method = RequestMethod.POST)
     // public String updateConfirm(HttpSession session, UserForm form, Model model)
     // {
-    // int id = ((User) session.getAttribute("user")).getUserId();
+    // int id = ((User) session.getAttribute("login")).getUserId();
     // User user = userRepository.getReferenceById(id);
     // user = form2User(user, form);
     // user.setAuthority(form.getAuthority());
@@ -120,7 +120,7 @@ public class UserController {
     // @RequestMapping(value = "/users/update/complete", method =
     // RequestMethod.POST)
     // public String updateComplete(HttpSession session, UserForm form) {
-    // int id = ((User) session.getAttribute("user")).getUserId();
+    // int id = ((User) session.getAttribute("login")).getUserId();
     // User user = userRepository.getReferenceById(id);
     // user = form2User(user, form);
     // userRepository.save(user);
@@ -137,7 +137,7 @@ public class UserController {
 
     // @RequestMapping(value = "/users/delete/complete", method = RequestMethod.GET)
     // public String deleteCompelete(HttpSession session) {
-    // int id = ((User) session.getAttribute("user")).getUserId();
+    // int id = ((User) session.getAttribute("login")).getUserId();
     // userRepository.deleteById(id);
     // return "/users/delete/complete"; // ユーザー削除成功画面のhtmlファイルのパス
     // }
@@ -155,7 +155,7 @@ public class UserController {
 
     // 管理者・ユーザー一覧
     @GetMapping("/user/findAll")
-    public String usersUser(HttpSession session, Model model) {
+    public String listAllUser(HttpSession session, Model model) {
 
         // 権限チェック
 
@@ -164,9 +164,19 @@ public class UserController {
         return "/user/user_list";
     }
 
-    // ユーザー詳細
-    @GetMapping("/user/userDetail/{id}")
-    public String usersUserDetail(@PathVariable("id") int id, HttpSession session, Model model) {
+    // 当前ユーザー詳細
+    @GetMapping("/user/detail")
+    public String userDetail(HttpSession session, Model model) {
+        int id = (int) session.getAttribute("id");
+        Optional<User> op = userRepository.findById(id);
+        User user = op.get();
+        model.addAttribute("user", user); // rmからuserまで
+        return "/user/user_detail";
+    }
+
+    // 指定ユーザー詳細d
+    @GetMapping("/user/detail/{id}")
+    public String userDetailById(@PathVariable("id") int id, HttpSession session, Model model) {
 
         // 権限について、管理者はすべてのユーザーをアクセスができ、普通ユーザーは自分のIDで検索できると考えばいい。
 
@@ -220,6 +230,9 @@ public class UserController {
     // ユーザー変更確認
     @PostMapping("/user/update/confirm")
     public String userUpdateConfirm(@Valid UserForm form, HttpSession session, Model model) {
+        if (form.getAuthority() == null) {
+            form.setAuthority(0);
+        }
         model.addAttribute("form", form);
         return "/user/confirm";
     }

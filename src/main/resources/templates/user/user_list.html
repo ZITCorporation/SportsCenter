@@ -21,7 +21,7 @@
           <table class="highlight responsive-table striped">
             <thead>
               <tr class="center">
-                <th>ID</th>
+                <th>ユーザーID</th>
                 <th>名前</th>
                 <th>パスワード</th>
                 <th>メールアドレス</th>
@@ -32,7 +32,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr th:each="user: ${users}">
+              <tr th:each="user: ${userList}">
                 <td th:text="${user.userId}"></td>
                 <td th:text="${user.name}"></td>
                 <td th:text="${user.password}"></td>
