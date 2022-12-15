@@ -18,9 +18,9 @@ public class FacilityController {// 施設一覧
     }
 
     // ジム
-    @RequestMapping(value = "/gymExplanation", method = RequestMethod.GET)
+    @RequestMapping(value = "/soccerExplanation", method = RequestMethod.GET)
     public String toGymExplanation() {
-        return "facility/explanation/gym";
+        return "facility/explanation/soccer";
     }
 
     // テニス
@@ -39,6 +39,12 @@ public class FacilityController {// 施設一覧
     @RequestMapping(value = "/poolExplanation", method = RequestMethod.GET)
     public String toPoolExplanation() {
         return "facility/explanation/pool";
+    }
+
+    // ゴルフ
+    @RequestMapping(value = "/golfExplanation", method = RequestMethod.GET)
+    public String toGolfExplanation() {
+        return "facility/explanation/golf";
     }
 
 }

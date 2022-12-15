@@ -10,15 +10,16 @@
     <main>
       <div class="container">
         <div class="row center">
-          <h3>ユーザー詳細</h3>
+          <h3>ユーザー・詳細</h3>
         </div>
 
         <div class="row">
           <form class="center confirm">
             <div class="row" th:if="${session.authority == 1}">
               <div class="input-field col offset-s3 s6">
-                <input readonly type="text" name="userId" th:value="${user.userId}" />
-                <label for="userId">ユーザーID</label>
+                <i class="material-icons prefix">info_outline</i>
+                <input readonly id="userIdInput" type="text" name="userId" th:value="${user.userId}" />
+                <label for="userIdInput">ユーザーID</label>
               </div>
             </div>
             <div th:unless="${session.authority == 1}">
@@ -27,51 +28,58 @@
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input readonly th:value="${user.name}" name="name" type="text" class="validate" />
-                <label for="name">名前</label>
+                <i class="material-icons prefix">account_box</i>
+                <input readonly id="nameInput" th:value="${user.name}" name="name" type="text" />
+                <label for="nameInput">名前(漢字またはひらがな)</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input readonly th:value="${user.password}" name="password" type="text" class="validate" />
-                <label for="password">パスワード</label>
+                <i class="material-icons prefix">fingerprint</i>
+                <input readonly id="passwordInput" th:value="${user.password}" name="password" type="text" />
+                <label for="passwordInput">パスワード</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input readonly th:value="${user.email}" name="email" type="text" class="validate" />
-                <label for="email">メールアドレス</label>
+                <i class="material-icons prefix">email</i>
+                <input readonly id="emailInput" th:value="${user.email}" name="email" type="text" />
+                <label for="emailInput">メールアドレス</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input readonly th:value="${user.phoneNumber}" name="phoneNumber" type="text" class="validate" />
-                <label for="phoneNumber">電話番号</label>
+                <i class="material-icons prefix">phone</i>
+                <input readonly id="phoneNumberInput" th:value="${user.phoneNumber}" name="phoneNumber" type="text" />
+                <label for="phoneNumberInput">電話番号(-なし)</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input readonly th:value="${user.post}" name="post" type="text" class="validate" />
-                <label for="post">郵便番号</label>
+                <i class="material-icons prefix">code</i>
+                <input readonly id="postInput" th:value="${user.post}" name="post" type="text" />
+                <label for="postInput">郵便番号(-なし)</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col offset-s3 s6">
-                <input readonly th:value="${user.domicile}" name="domicile" type="text" class="validate" />
-                <label for="domicile">住所</label>
+                <i class="material-icons prefix">location_on</i>
+                <input readonly id="domicileInput" th:value="${user.domicile}" name="domicile" type="text" />
+                <label for="domicileInput">住所</label>
               </div>
             </div>
 
             <div class="row">
               <div th:if="${session.authority == 1}" class="input-field col offset-s3 s6">
-                <input readonly hidden th:value="${user.authority}" name="authority" type="text" class="validate" />
-                <input readonly disabled th:value="${user.authority==0?'なし':'あり'}" type="text" />
-                <label for="authority">権限</label>
+                <i class="material-icons prefix">security</i>
+                <input readonly hidden th:value="${user.authority}" name="authority" type="text" />
+                <input readonly disabled id="authorityInput" th:value="${user.authority==0?'なし':'あり'}" type="text" />
+                <label for="authorityInput">権限</label>
               </div>
               <div th:unless="${session.authority == 1}">
                 <input readonly hidden th:value="${user.authority}" name="authority" type="text" />

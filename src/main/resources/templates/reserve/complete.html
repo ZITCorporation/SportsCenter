@@ -10,17 +10,14 @@
     <main>
       <div class="container">
         <div class="row center">
-          <h3 th:if="${session.reserveStatus=='create'}">予約 新規登録 完了</h3>
-          <h3 th:if="${session.reserveStatus=='update'}">予約 情報変更 完了</h3>
+          <h3 th:if="${session.reserveStatus=='create'}">予約・新規登録</h3>
+          <h3 th:if="${session.reserveStatus=='update'}">予約・情報変更</h3>
+          <h3>完了</h3>
         </div>
       </div>
 
       <div class="row center">
-        <a
-          class="btn waves-effect waves-light back"
-          th:href="${session.authority == 0} ? '/reserve/findByUser' : '/reserve/findAll'">
-          戻る
-        </a>
+        <a class="btn waves-effect waves-light back" th:href="${session.authority == 0} ? '/reserve/findByUser' : '/reserve/findAll'"> 戻る </a>
       </div>
     </main>
   </body>

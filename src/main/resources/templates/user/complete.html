@@ -10,8 +10,9 @@
     <main>
       <div class="container">
         <div class="row center">
-          <h3 th:if="${session.userStatus=='create'}">ユーザー 新規登録 完了</h3>
-          <h3 th:if="${session.userStatus=='update'}">ユーザー 情報変更 完了</h3>
+          <h3 th:if="${session.userStatus=='create'}">ユーザー・新規登録</h3>
+          <h3 th:if="${session.userStatus=='update'}">ユーザー・情報変更</h3>
+          <h3>完了</h3>
         </div>
       </div>
 
