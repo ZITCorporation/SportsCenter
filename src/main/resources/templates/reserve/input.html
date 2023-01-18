@@ -22,7 +22,7 @@
             <input disabled th:if="${form!=null}" hidden id="formFacilityId" th:value="${form.facilityId}" />
 
             <div class="row">
-              <div class="input-field col offset-s3 s6" th:if="${session.reserveStatus=='update'}">
+              <div class="input-field col offset-m1 m10 s12" th:if="${session.reserveStatus=='update'}">
                 <i class="material-icons prefix">account_balance</i>
                 <input hidden name="reserveManagementId" type="number" th:value="${form.reserveManagementId}" />
                 <input hidden name="facilityId" type="number" th:value="${form.facilityId}" />
@@ -30,7 +30,7 @@
                 <label for="facilityNameInput">施設</label>
               </div>
 
-              <div class="input-field col offset-s3 s6" th:if="${session.reserveStatus=='create'}">
+              <div class="input-field col offset-m1 m10 s12" th:if="${session.reserveStatus=='create'}">
                 <i class="material-icons prefix">account_balance</i>
                 <select required class="validate" id="facilityId" name="facilityId" tabindex="-1" onchange="change()">
                   <option value="" id="hintOption">予約したい施設を選んでくだいさい</option>
@@ -42,7 +42,7 @@
             </div>
 
             <div class="row">
-              <div class="input-field col offset-s3 s6">
+              <div class="input-field col offset-m1 m10 s12">
                 <i class="material-icons prefix">date_range</i>
                 <input required name="date" id="dateInput" type="text" class="datepicker validate" th:value="${form == null ? '' : form.date}" />
                 <label for="dateInput">日付</label>
@@ -50,7 +50,7 @@
             </div>
 
             <div class="row">
-              <div class="input-field col offset-s3 s6">
+              <div class="input-field col offset-m1 m10 s12">
                 <i class="material-icons prefix">brightness_5</i>
                 <input
                   required
@@ -64,7 +64,7 @@
             </div>
 
             <div class="row">
-              <div class="input-field col offset-s3 s6">
+              <div class="input-field col offset-m1 m10 s12">
                 <i class="material-icons prefix">brightness_4</i>
                 <input
                   required
