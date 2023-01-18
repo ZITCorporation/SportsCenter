@@ -104,7 +104,9 @@
               async: false,
               dataType: "text",
               data: { index: index },
-              success: function (data) {},
+              success: function (data) {
+                location.href = "/user/delete/complete";
+              },
             });
           }
         }

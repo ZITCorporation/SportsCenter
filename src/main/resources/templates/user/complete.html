@@ -12,6 +12,7 @@
         <div class="row center">
           <h3 th:if="${session.userStatus=='create'}">ユーザー・新規登録</h3>
           <h3 th:if="${session.userStatus=='update'}">ユーザー・情報変更</h3>
+          <h3 th:if="${session.userStatus=='delete'}">ユーザー・削除</h3>
           <h3>完了</h3>
         </div>
       </div>
@@ -27,6 +28,12 @@
           th:if="${session.userStatus=='update'}"
           class="btn waves-effect waves-light back"
           th:href="${session.authority == 0} ? '/user/detail/'+ ${session.id} : '/user/findAll' ">
+          戻る
+        </a>
+        <a
+          th:if="${session.userStatus=='delete'}"
+          class="btn waves-effect waves-light back"
+          th:href="${session.authority == 0} ? '/' : '/user/findAll' ">
           戻る
         </a>
       </div>

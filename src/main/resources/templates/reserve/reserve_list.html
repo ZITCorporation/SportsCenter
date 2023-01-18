@@ -14,7 +14,15 @@
         </div>
 
         <div class="row center">
-          <a class="waves-effect waves-light green btn" href="/reserve/create">新規登録</a>
+          <a
+            th:if="${listStatus == 'normal' && session.adminCreateFlag == true}"
+            class="waves-effect waves-light green btn"
+            th:href="@{'/reserve/createAdmin/'+${session.adminCreateId}}"
+            >新規登録</a
+          >
+          <a th:if="${listStatus == 'normal' && session.adminCreateFlag == false}" class="waves-effect waves-light green btn" href="/reserve/create"
+            >新規登録</a
+          >
         </div>
 
         <div class="row">
