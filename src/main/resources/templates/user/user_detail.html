@@ -16,7 +16,7 @@
         <div class="row">
           <form class="center confirm">
             <div class="row" th:if="${session.authority == 1}">
-              <div class="input-field col offset-s3 s6">
+              <div class="input-field col offset-m1 m10 s12">
                 <i class="material-icons prefix">info_outline</i>
                 <input readonly id="userIdInput" type="text" name="userId" th:value="${user.userId}" />
                 <label for="userIdInput">ユーザーID</label>
@@ -27,7 +27,7 @@
             </div>
 
             <div class="row">
-              <div class="input-field col offset-s3 s6">
+              <div class="input-field col offset-m1 m10 s12">
                 <i class="material-icons prefix">account_box</i>
                 <input readonly id="nameInput" th:value="${user.name}" name="name" type="text" />
                 <label for="nameInput">名前(漢字またはひらがな)</label>
@@ -35,7 +35,7 @@
             </div>
 
             <div class="row">
-              <div class="input-field col offset-s3 s6">
+              <div class="input-field col offset-m1 m10 s12">
                 <i class="material-icons prefix">fingerprint</i>
                 <input readonly id="passwordInput" th:value="${user.password}" name="password" type="text" />
                 <label for="passwordInput">パスワード</label>
@@ -43,7 +43,7 @@
             </div>
 
             <div class="row">
-              <div class="input-field col offset-s3 s6">
+              <div class="input-field col offset-m1 m10 s12">
                 <i class="material-icons prefix">email</i>
                 <input readonly id="emailInput" th:value="${user.email}" name="email" type="text" />
                 <label for="emailInput">メールアドレス</label>
@@ -51,7 +51,7 @@
             </div>
 
             <div class="row">
-              <div class="input-field col offset-s3 s6">
+              <div class="input-field col offset-m1 m10 s12">
                 <i class="material-icons prefix">phone</i>
                 <input readonly id="phoneNumberInput" th:value="${user.phoneNumber}" name="phoneNumber" type="text" />
                 <label for="phoneNumberInput">電話番号(-なし)</label>
@@ -59,7 +59,7 @@
             </div>
 
             <div class="row">
-              <div class="input-field col offset-s3 s6">
+              <div class="input-field col offset-m1 m10 s12">
                 <i class="material-icons prefix">code</i>
                 <input readonly id="postInput" th:value="${user.post}" name="post" type="text" />
                 <label for="postInput">郵便番号(-なし)</label>
@@ -67,7 +67,7 @@
             </div>
 
             <div class="row">
-              <div class="input-field col offset-s3 s6">
+              <div class="input-field col offset-m1 m10 s12">
                 <i class="material-icons prefix">location_on</i>
                 <input readonly id="domicileInput" th:value="${user.domicile}" name="domicile" type="text" />
                 <label for="domicileInput">住所</label>
@@ -75,7 +75,7 @@
             </div>
 
             <div class="row">
-              <div th:if="${session.authority == 1}" class="input-field col offset-s3 s6">
+              <div th:if="${session.authority == 1}" class="input-field col offset-m1 m10 s12">
                 <i class="material-icons prefix">security</i>
                 <input readonly hidden th:value="${user.authority}" name="authority" type="text" />
                 <input readonly disabled id="authorityInput" th:value="${user.authority==0?'なし':'あり'}" type="text" />
