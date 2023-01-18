@@ -42,6 +42,7 @@
                 <td th:text="${user.domicile}"></td>
                 <td th:text="${user.authority == 0} ? ${'なし'} : ${'あり'}"></td>
                 <td><a class="waves-effect waves-light btn" th:href="@{'/user/detail/'+${user.userId}}">詳細</a></td>
+                <td><a class="waves-effect waves-light btn" th:href="@{'/reserve/findByUser'+${user.userId}}">予約一覧</a></td>
               </tr>
             </tbody>
           </table>
