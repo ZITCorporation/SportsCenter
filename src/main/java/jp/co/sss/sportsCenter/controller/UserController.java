@@ -174,7 +174,7 @@ public class UserController {
         return "/user/user_detail";
     }
 
-    // 指定ユーザー詳細d
+    // 指定ユーザー詳細
     @GetMapping("/user/detail/{id}")
     public String userDetailById(@PathVariable("id") int id, HttpSession session, Model model) {
 
@@ -264,6 +264,13 @@ public class UserController {
         session.setAttribute("userStatus", "delete");
         String index = request.getParameter("index");
         userRepository.deleteById(Integer.parseInt(index));
+        return "/user/complete";
+    }
+
+    // ユーザー削除完了
+    @GetMapping("/user/delete/complete")
+    public String userDeleteComplete(HttpSession session) {
+        session.setAttribute("userStatus", "delete");
         return "/user/complete";
     }
 }

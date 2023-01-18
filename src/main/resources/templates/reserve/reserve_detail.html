@@ -106,7 +106,9 @@
               async: false,
               dataType: "text",
               data: { index: index },
-              success: function (data) {},
+              success: function (data) {
+                location.href = "/reserve/delete/complete";
+              },
             });
           }
         }

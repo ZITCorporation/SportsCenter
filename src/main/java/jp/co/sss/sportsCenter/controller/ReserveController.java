@@ -64,7 +64,12 @@ public class ReserveController {
         Timestamp timestamp2 = Timestamp.valueOf(et);
 
         // 外部参照の為の準備
-        User user = userRepository.getReferenceById(Integer.parseInt(String.valueOf(session.getAttribute("id"))));
+        User user = new User();
+        if ((Boolean) (session.getAttribute("adminCreateFlag"))) { // 管理者として新規予約の場合はユーザーIDを指定
+            user = userRepository.getReferenceById(Integer.parseInt(String.valueOf(session.getAttribute("adminCreateId"))));
+        } else { // 他の場合は、今登録したユーザーのIDをSessionから取る
+            user = userRepository.getReferenceById(Integer.parseInt(String.valueOf(session.getAttribute("id"))));
+        }
         System.out.println("ユーザーID:" + user.getUserId());
 
         Optional<LendingFacility> optionalEntity = lendingFacilityRepository.findById(form.getFacilityId());
@@ -142,6 +147,25 @@ public class ReserveController {
 
         List<ReserveManagement> rm = reserveManegementRepository.findAll(Sort.by("reserveManagementId").descending());
         model.addAttribute("rm", rm);
+        model.addAttribute("listStatus", "admin");
+        session.setAttribute("adminCreateFlag", false);
+        return "/reserve/reserve_list";
+    }
+
+    // 管理者・指定ユーザー・予約一覧
+    @GetMapping("/reserve/findByUser/{id}")
+    public String findByUserAdmin(@PathVariable("id") int id, HttpSession session, Model model) {
+
+        // 権限について、管理者はすべてのユーザーをアクセスができ
+
+        Optional<User> op = userRepository.findById(id);
+        User user = op.get();
+        List<ReserveManagement> rm = reserveManegementRepository.findByUserId(user,
+                Sort.by("reserveManagementId").descending());
+        model.addAttribute("rm", rm); // rmからuserListまで
+        model.addAttribute("listStatus", "normal");
+        session.setAttribute("adminCreateFlag", true);
+        session.setAttribute("adminCreateId", id);
         return "/reserve/reserve_list";
     }
 
@@ -155,6 +179,8 @@ public class ReserveController {
         List<ReserveManagement> rm = reserveManegementRepository.findByUserId(user,
                 Sort.by("reserveManagementId").descending());
         model.addAttribute("rm", rm);
+        model.addAttribute("listStatus", "normal");
+        session.setAttribute("adminCreateFlag", false);
         return "/reserve/reserve_list";
     }
 
@@ -176,14 +202,25 @@ public class ReserveController {
     @GetMapping("/reserve/create")
     public String createInput(HttpSession session) {
         session.setAttribute("reserveStatus", "create");
+        session.setAttribute("adminCreateFlag", false);
+        return "/reserve/input";
+    }
+
+    // 管理者としての新規予約
+    @GetMapping("/reserve/createAdmin/{id}")
+    public String createInputAdmin(HttpSession session, @PathVariable("id") int id) {
+        session.setAttribute("reserveStatus", "create");
+        session.setAttribute("adminCreateFlag", true);
+        session.setAttribute("adminCreateId", id);
         return "/reserve/input";
     }
 
     // 施設画面から新規予約画面へ進む場合は、施設IDを指定する
     @GetMapping("/reserve/create/{id}")
-    public String createInputWithId(HttpSession session, Model model, @PathVariable("id") int id) {
+    public String createInputWithId(HttpSession session, Model model, @PathVariable("id") int facilityId) {
         session.setAttribute("reserveStatus", "create");
-        model.addAttribute("preSelectFacilityId", id);
+        model.addAttribute("preSelectFacilityId", facilityId);
+        session.setAttribute("adminCreateFlag", false);
         return "/reserve/input";
     }
 
@@ -278,6 +315,13 @@ public class ReserveController {
         session.setAttribute("reserveStatus", "delete");
         String index = request.getParameter("index");
         reserveManegementRepository.deleteById(Integer.parseInt(index));
+        return "/reserve/complete";
+    }
+
+    // 予約削除完了
+    @GetMapping("/reserve/delete/complete")
+    public String reserveDeleteComplete(HttpSession session) {
+        session.setAttribute("reserveStatus", "delete");
         return "/reserve/complete";
     }
 }

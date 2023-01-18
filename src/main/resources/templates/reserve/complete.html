@@ -12,6 +12,7 @@
         <div class="row center">
           <h3 th:if="${session.reserveStatus=='create'}">予約・新規登録</h3>
           <h3 th:if="${session.reserveStatus=='update'}">予約・情報変更</h3>
+          <h3 th:if="${session.userStatus=='delete'}">予約・削除</h3>
           <h3>完了</h3>
         </div>
       </div>
