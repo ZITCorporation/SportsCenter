@@ -79,6 +79,7 @@ public class ReserveController {
         reserveManagement.setFacilityId(facility);
         reserveManagement.setStartTime(timestamp1);
         reserveManagement.setEndingTime(timestamp2);
+        reserveManagement.setCreateTime(new Timestamp(System.currentTimeMillis()));
 
         return reserveManagement;
     }

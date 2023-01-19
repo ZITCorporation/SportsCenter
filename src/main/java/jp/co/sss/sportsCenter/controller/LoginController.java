@@ -37,8 +37,8 @@ public class LoginController {
             return "redirect:/";
         } else {
             model.addAttribute("errormessage", "メールアドレス、またはパスワードが間違っています。");
-            System.out.println("failed!");
-            System.out.println(form.getEmail() + " " + form.getPassword());
+            // System.out.println("failed!");
+            // System.out.println(form.getEmail() + " " + form.getPassword());
             return "/user/login";
         }
     }

@@ -35,14 +35,10 @@ public class ReserveManagement {
     @JoinColumn(name = "facility_id", referencedColumnName = "facilityId")
     private LendingFacility facilityId;
 
-    public ReserveManagement() {
-    }
+    @Column(name = "create_time")
+    private Timestamp createTime;
 
-    public ReserveManagement(User userId, Timestamp startTime, Timestamp endingTime, LendingFacility facilityId) {
-        this.userId = userId;
-        this.startTime = startTime;
-        this.endingTime = endingTime;
-        this.facilityId = facilityId;
+    public ReserveManagement() {
     }
 
     public Integer getReserveManagementId() {
@@ -83,6 +79,14 @@ public class ReserveManagement {
 
     public void setFacilityId(LendingFacility facilityId) {
         this.facilityId = facilityId;
+    }
+
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
 }

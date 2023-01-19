@@ -26,16 +26,17 @@
         </div>
 
         <div class="row">
-          <table class="highlight responsive-table striped">
+          <table class="highlight responsive-table striped centered">
             <thead>
               <tr class="center">
                 <th>予約ID</th>
                 <th th:if="${session.login != null && session.authority == 1}">ユーザーID</th>
                 <th th:if="${session.login != null && session.authority == 1}">ユーザー名</th>
                 <th>施設名</th>
-                <th>日付</th>
+                <th>予約日付</th>
                 <th>開始時間</th>
                 <th>終了時間</th>
+                <th>新規時間</th>
               </tr>
             </thead>
             <tbody>
@@ -45,8 +46,9 @@
                 <td th:text="${rm.userId.name}" th:if="${session.login != null && session.authority == 1}"></td>
                 <td th:text="${rm.facilityId.facilityName}"></td>
                 <td th:text="${#dates.format(rm.startTime,'yyyy-MM-dd')}"></td>
-                <td th:text="${#dates.format(rm.startTime,'HH:MM')}"></td>
-                <td th:text="${#dates.format(rm.endingTime,'HH:MM')}"></td>
+                <td th:text="${#dates.format(rm.startTime,'HH:mm')}"></td>
+                <td th:text="${#dates.format(rm.endingTime,'HH:mm')}"></td>
+                <td th:text="${#dates.format(rm.createTime,'yyyy-MM-dd HH:mm')}"></td>
                 <td><a class="waves-effect waves-light btn" th:href="@{'/reserve/reserveDetail/'+${rm.reserveManagementId}}">詳細</a></td>
               </tr>
             </tbody>
