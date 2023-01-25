@@ -155,7 +155,7 @@
             <div class="row center">
               <div class="input-field col offset-m1 m10 s12">
                 <button class="btn waves-effect waves-light" type="submit">確認</button>
-                <a
+                <!-- <a
                   th:if="${session.userStatus=='create'}"
                   class="btn waves-effect waves-light back"
                   th:href="${session.authority == 0} ? '/' : '/user/findAll'"
@@ -166,7 +166,8 @@
                   class="btn waves-effect waves-light back"
                   th:href="@{'/user/detail/'}+${form.userId}"
                   >戻る</a
-                >
+                > -->
+              <a class="btn waves-effect waves-light back" href="javascript:history.back();">戻る</a>
               </div>
             </div>
           </form>

@@ -1,15 +1,15 @@
-document.addEventListener("DOMContentLoaded", function () {
-  var elems = document.querySelectorAll(".timepicker");
-  var instances = M.Timepicker.init(elems, {
-    showClearBtn: true,
-    i18n: {
-      clear: "消去",
-      cancel: "閉める",
-      done: "確認",
-    },
-    twelveHour: false,
-  });
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//   var elems = document.querySelectorAll(".timepicker");
+//   var instances = M.Timepicker.init(elems, {
+//     showClearBtn: true,
+//     i18n: {
+//       clear: "消去",
+//       cancel: "閉める",
+//       done: "確認",
+//     },
+//     twelveHour: false,
+//   });
+// });
 
 document.addEventListener("DOMContentLoaded", function () {
   var date = new Date();
@@ -30,6 +30,6 @@ document.addEventListener("DOMContentLoaded", function () {
     format: "yyyy-mm-dd",
     formatSubmit: "yyyy-mm-dd",
     showClearBtn: true,
-    defaultDate: date,
+    minDate: date,
   });
 });

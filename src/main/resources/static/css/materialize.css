@@ -9120,3 +9120,10 @@ div.card-like-loading{
   height: 150px;
   vertical-align: middle;
 }
+table.timeTable,table.timeTable th, table.timeTable td{
+  border: #e0e0e0 1px solid;
+}
+
+table.timeTable [type="checkbox"] + span:not(.lever){
+  padding-left:16px ;
+}

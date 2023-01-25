@@ -89,8 +89,9 @@
             <div class="row center">
               <button class="btn waves-effect waves-light" type="submit" formaction="/user/update/input/" formmethod="post">変更</button>
               <a class="btn waves-effect waves-light" href="#" th:onclick="userDelete([[${user.userId}]])">削除</a>
-              <a th:if="${session.authority==1}" class="btn waves-effect waves-light back" href="/user/findAll"> 戻る </a>
-              <a th:if="${session.authority==0}" class="btn waves-effect waves-light back" href="/">戻る</a>
+              <!-- <a th:if="${session.authority==1}" class="btn waves-effect waves-light back" href="/user/findAll"> 戻る </a>
+              <a th:if="${session.authority==0}" class="btn waves-effect waves-light back" href="/">戻る</a> -->
+              <a class="btn waves-effect waves-light back" href="javascript:history.back();">戻る</a>
             </div>
           </form>
         </div>

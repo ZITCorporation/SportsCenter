@@ -15,17 +15,22 @@
         </div>
 
         <div class="row">
-          <form method="post" th:action="${session.reserveStatus=='create'} ? '/reserve/create/confirm' : '/reserve/update/confirm'">
-            <input disabled th:if="${session.reserveStatus!=null}" hidden id="reserveStatus" th:value="${session.reserveStatus}" />
+          <form id="inputForm" method="post" th:action="${session.reserveStatus=='create'} ? '/reserve/create/confirm' : '/reserve/update/confirm'">
+            <!-- 隠しドメイン -->
+            <input th:if="${form!=null}" hidden disabled id="formHidden" th:value="${form}" />
+            <input th:if="${form!=null}" hidden disabled id="backHidden" th:value="${back}" />
+            <input th:if="${form!=null}" hidden disabled id="hourListHidden" th:value="${hourList}" />
+            <input th:if="${session.reserveStatus!=null}" hidden disabled id="reserveStatus" th:value="${session.reserveStatus}" />
             <input th:if="${preSelectFacilityId!=null}" hidden id="preSelectFacilityId" th:value="${preSelectFacilityId}" />
-            <input disabled th:if="${form!=null}" hidden id="form" th:value="${form}" />
-            <input disabled th:if="${form!=null}" hidden id="formFacilityId" th:value="${form.facilityId}" />
+            <input th:if="${form!=null}" hidden disabled id="form" th:value="${form}" />
+            <input th:if="${form!=null}" hidden disabled id="formFacilityId" th:value="${form.facilityId}" />
+            <!-- 隠しドメイン -->
 
             <div class="row">
               <div class="input-field col offset-m1 m10 s12" th:if="${session.reserveStatus=='update'}">
                 <i class="material-icons prefix">account_balance</i>
                 <input hidden name="reserveManagementId" type="number" th:value="${form.reserveManagementId}" />
-                <input hidden name="facilityId" type="number" th:value="${form.facilityId}" />
+                <input hidden name="facilityId" id="hiddenUpdateFacilityId" type="number" th:value="${form.facilityId}" />
                 <input readonly id="facilityNameInput" name="facilityName" type="text" th:value="${form.facilityName}" class="confirm" />
                 <label for="facilityNameInput">施設</label>
               </div>
@@ -34,8 +39,8 @@
                 <i class="material-icons prefix">account_balance</i>
                 <select required class="validate" id="facilityId" name="facilityId" tabindex="-1" onchange="change()">
                   <option value="" id="hintOption">予約したい施設を選んでくだいさい</option>
-                  <label>施設</label>
                 </select>
+                <!-- <label>施設</label> -->
                 <input th:if="${form != null}" hidden id="facilityName" name="facilityName" type="text" th:value="${form.facilityName}" />
                 <input th:if="${form == null}" hidden id="facilityName" name="facilityName" type="text" />
               </div>
@@ -44,41 +49,127 @@
             <div class="row">
               <div class="input-field col offset-m1 m10 s12">
                 <i class="material-icons prefix">date_range</i>
-                <input required name="date" id="dateInput" type="text" class="datepicker validate" th:value="${form == null ? '' : form.date}" />
+                <input
+                  required
+                  name="date"
+                  id="dateInput"
+                  type="text"
+                  class="datepicker validate"
+                  th:value="${form == null ? '' : form.date}"
+                  onchange="checkStartTimeSelect()" />
                 <label for="dateInput">日付</label>
               </div>
             </div>
 
-            <div class="row">
-              <div class="input-field col offset-m1 m10 s12">
-                <i class="material-icons prefix">brightness_5</i>
-                <input
-                  required
-                  id="startTimeInput"
-                  name="startTime"
-                  type="text"
-                  class="timepicker validate"
-                  th:value="${form == null ? '' : form.startTime}" />
-                <label for="startTimeInput">開始時間</label>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="input-field col offset-m1 m10 s12">
-                <i class="material-icons prefix">brightness_4</i>
-                <input
-                  required
-                  id="endTimeInput"
-                  name="endingTime"
-                  type="text"
-                  class="timepicker validate"
-                  th:value="${form == null ? '' : form.endingTime}" />
-                <label for="endTimeInput">終了時間</label>
-              </div>
+            <div class="row center">
+              <h5>予約時間帯選択（1時間単位、複数選択可）</h5>
             </div>
 
             <div class="row center">
-              <h5>道具</h5>
+              <table
+                id="hourTable"
+                class="timeTable centered col offset-m1 m10 s12 tooltipped"
+                data-position="top"
+                data-tooltip="先に施設と日付を選択してください！">
+                <thead>
+                  <tr>
+                    <th>時間帯</th>
+                    <th>9時-10時</th>
+                    <th>10時-11時</th>
+                    <th>11時-12時</th>
+                    <th>12時-13時</th>
+                    <th>13時-14時</th>
+                    <th>14時-15時</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td rowspan="3">予約選択</td>
+                    <td>
+                      <label>
+                        <input type="checkbox" id="time9" name="time9" disabled />
+                        <span></span>
+                      </label>
+                    </td>
+                    <td>
+                      <label>
+                        <input type="checkbox" id="time10" name="time10" disabled />
+                        <span></span>
+                      </label>
+                    </td>
+                    <td>
+                      <label>
+                        <input type="checkbox" id="time11" name="time11" disabled />
+                        <span></span>
+                      </label>
+                    </td>
+                    <td>
+                      <label>
+                        <input type="checkbox" id="time12" name="time12" disabled />
+                        <span></span>
+                      </label>
+                    </td>
+                    <td>
+                      <label>
+                        <input type="checkbox" id="time13" name="time13" disabled />
+                        <span></span>
+                      </label>
+                    </td>
+                    <td>
+                      <label>
+                        <input type="checkbox" id="time14" name="time14" disabled />
+                        <span></span>
+                      </label>
+                    </td>
+                  </tr>
+                  <tr style="font-weight: bold">
+                    <td>15時-16時</td>
+                    <td>16時-17時</td>
+                    <td>17時-18時</td>
+                    <td>18時-19時</td>
+                    <td>19時-20時</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>
+                        <input type="checkbox" id="time15" name="time15" disabled />
+                        <span></span>
+                      </label>
+                    </td>
+                    <td>
+                      <label>
+                        <input type="checkbox" id="time16" name="time16" disabled />
+                        <span></span>
+                      </label>
+                    </td>
+                    <td>
+                      <label>
+                        <input type="checkbox" id="time17" name="time17" disabled />
+                        <span></span>
+                      </label>
+                    </td>
+                    <td>
+                      <label>
+                        <input type="checkbox" id="time18" name="time18" disabled />
+                        <span></span>
+                      </label>
+                    </td>
+                    <td>
+                      <label>
+                        <input type="checkbox" id="time19" name="time19" disabled />
+                        <span></span>
+                      </label>
+                    </td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="row center">
+              <h5>道具借り出し</h5>
             </div>
             <div class="row center" id="toolHint" th:if="${form==null}">
               <p>予約したい施設を選んでくだいさい</p>
@@ -114,7 +205,10 @@
                           type="number"
                           class="validate toolInfo"
                           th:value="${tool.toolNum}"
-                          placeholder="個数を入力してください" />
+                          placeholder="個数を入力してください" 
+                          minlength="1"
+                          required/>
+                        <span class="helper-text" data-error="半角英数字を正しく入力してください">半角英数字，いらない場合は0を入力してください</span>
                       </div>
                     </div>
                   </div>
@@ -123,15 +217,16 @@
             </span>
 
             <div class="row col offset-s3 s6 center">
-              <button th:if="${form!=null}" id="confirm" class="btn waves-effect waves-light" type="submit">確認</button>
-              <button th:if="${form==null}" id="confirm" class="btn waves-effect waves-light disabled" type="submit">確認</button>
-              <a class="btn waves-effect waves-light back" th:if="${session.reserveStatus=='create'}" href="/listFacilities">戻る</a>
+              <a th:if="${form!=null}" id="confirm" class="btn waves-effect waves-light" onclick="doSubmitForm()">確認</a>
+              <a th:if="${form==null}" id="confirm" class="btn waves-effect waves-light disabled" onclick="doSubmitForm()">確認</a>
+              <!-- <a class="btn waves-effect waves-light back" th:if="${session.reserveStatus=='create'}" href="/listFacilities">戻る</a>
               <a
                 class="btn waves-effect waves-light back"
                 th:if="${session.reserveStatus=='update'}"
                 th:href="'/reserve/reserveDetail/' + ${form.reserveManagementId}"
                 >戻る</a
-              >
+              > -->
+              <a class="btn waves-effect waves-light back" href="javascript:history.back();">戻る</a>
             </div>
           </form>
         </div>

@@ -1,5 +1,6 @@
 package jp.co.sss.sportsCenter.repository;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -12,7 +13,9 @@ import jp.co.sss.sportsCenter.entity.User;
 
 public interface ReserveManegementRepository extends JpaRepository<ReserveManagement, Integer> {
     ReserveManagement findByUserIdAndStartTimeAndEndingTime(User userId , Timestamp startTime, Timestamp endingTime);
-    List<ReserveManagement> findByUserId(User userId,Sort sort);
     ReserveManagement findByFacilityId(LendingFacility facilityId);
+    List<ReserveManagement> findAllByUserId(User userId,Sort sort);
+    List<ReserveManagement> findAllByFacilityIdAndReserveDate(LendingFacility facilityId,Timestamp date,Sort sort);
+    ReserveManagement findByUserIdAndReserveDateAndHourList(User userId, Date reserveDate, String hourList);
 
 }

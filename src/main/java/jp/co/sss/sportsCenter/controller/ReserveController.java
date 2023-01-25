@@ -1,7 +1,10 @@
 package jp.co.sss.sportsCenter.controller;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Optional;
 
 import jp.co.sss.sportsCenter.entity.LendingFacility;
@@ -46,44 +51,108 @@ public class ReserveController {
     @Autowired
     ToolManagementRepository toolManagementRepository;
 
+    // private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    /**
+     * 予約ページからの予約情報を内部処理し、正しい形のReserveManagementに書き換え
+     * 
+     * @param session           sessionをページに適用するための
+     * @param reserveManagement 処理前のreserveManagement
+     * @param form              予約ページからのForm情報
+     * @return 正しい形のReserveManagement
+     */
     private ReserveManagement form2Reserve(HttpSession session, ReserveManagement reserveManagement,
             ReserveForm form) {
-        String st = form.getStartTime();
-        String et = form.getEndingTime();
-        System.out.println(st + " start1\nend" + et);
 
-        // 日付と時刻を結合
-        String d = form.getDate();
-        st = d + " " + st + ":00";
-        et = d + " " + et + ":00";
-
-        System.out.println(st + " start2\nend" + et);
-
-        // String型からTimestamp型に変換
-        Timestamp timestamp1 = Timestamp.valueOf(st);
-        Timestamp timestamp2 = Timestamp.valueOf(et);
-
-        // 外部参照の為の準備
+        // 外部参照の為のユーザーEntity準備
         User user = new User();
         if ((Boolean) (session.getAttribute("adminCreateFlag"))) { // 管理者として新規予約の場合はユーザーIDを指定
-            user = userRepository.getReferenceById(Integer.parseInt(String.valueOf(session.getAttribute("adminCreateId"))));
-        } else { // 他の場合は、今登録したユーザーのIDをSessionから取る
-            user = userRepository.getReferenceById(Integer.parseInt(String.valueOf(session.getAttribute("id"))));
+            user = userRepository
+                    .getReferenceById(Integer.parseInt(String.valueOf(session.getAttribute("adminCreateId"))));
+        } else { // 更新の場合は、当ユーザーの情報を取る
+            if (session.getAttribute("reserveStatus").equals("update")) {
+                user = reserveManagement.getUserId();
+            } else {
+                // 他の場合は、今登録したユーザーのIDをSessionから取る
+                user = userRepository.getReferenceById(Integer.parseInt(String.valueOf(session.getAttribute("id"))));
+            }
         }
-        System.out.println("ユーザーID:" + user.getUserId());
+        // System.out.println("ユーザーID:" + user.getUserId());
 
+        // 外部参照の為の施設Entity準備
         Optional<LendingFacility> optionalEntity = lendingFacilityRepository.findById(form.getFacilityId());
         LendingFacility facility = optionalEntity.get();
 
+        // 予約日付準備
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
+        java.sql.Date date = null;
+        try {
+            date = new java.sql.Date(sdfDate.parse(form.getDate()).getTime());
+        } catch (ParseException e) {
+            System.out.println("SQLDate時間転換失敗");
+        }
+
+        // 予約時間準備
+        String stringFromList = form2HourListString(form);
+
         reserveManagement.setUserId(user);
         reserveManagement.setFacilityId(facility);
-        reserveManagement.setStartTime(timestamp1);
-        reserveManagement.setEndingTime(timestamp2);
+        reserveManagement.setReserveDate(date);
+        reserveManagement.setHourList(stringFromList);
         reserveManagement.setCreateTime(new Timestamp(System.currentTimeMillis()));
 
         return reserveManagement;
     }
 
+    private String form2HourListString(ReserveForm form) {
+        List<String> times = new ArrayList<>();
+        try {
+            if (form.getTime9() != null) {
+                times.add("9");
+            }
+            if (form.getTime10() != null) {
+                times.add("10");
+            }
+            if (form.getTime11() != null) {
+                times.add("11");
+            }
+            if (form.getTime12() != null) {
+                times.add("12");
+            }
+            if (form.getTime13() != null) {
+                times.add("13");
+            }
+            if (form.getTime14() != null) {
+                times.add("14");
+            }
+            if (form.getTime15() != null) {
+                times.add("15");
+            }
+            if (form.getTime16() != null) {
+                times.add("16");
+            }
+            if (form.getTime17() != null) {
+                times.add("17");
+            }
+            if (form.getTime18() != null) {
+                times.add("18");
+            }
+            if (form.getTime19() != null) {
+                times.add("19");
+            }
+        } catch (Exception e) {
+        }
+        String stringFromList = String.join(",", times);
+        return stringFromList;
+    }
+
+    /**
+     * 予約ページからのTool情報を内部処理し、正しい形のToolManagementのListに書き換え
+     * 
+     * @param list 処理前のToolManagementのList
+     * @param form 予約ページからのForm情報
+     * @return 正しい形のToolManagementのList
+     */
     private List<ToolManagement> form2ToolManagementList(List<ToolManagement> list, ReserveForm form) {
         List<ToolManagement> returnList = new ArrayList<ToolManagement>();
         // 利用した道具のIDを取得、一つずつ道具予約Entityに登録
@@ -110,7 +179,13 @@ public class ReserveController {
         return returnList;
     }
 
-    // AJAXを利用して、施設を選んだら、データベースから関連道具を検索
+    /**
+     * AJAXを利用して、施設を選んだら、データベースから関連道具を検索
+     * 
+     * @param request ajaxからのデータ
+     * @param session sessionをページに適用するための
+     * @return
+     */
     @ResponseBody
     @GetMapping("/reserve/create/getSpecTool")
     public List<LendingTool> getSpecTool(HttpServletRequest request, HttpSession session) {
@@ -127,10 +202,52 @@ public class ReserveController {
         return toolList;
     }
 
-    // AJAXを利用して、施設を検索
+    /**
+     * AJAXを利用して、施設と日付を選んだら、データベースから関連のすべての予約を検索し、予約可能の時間帯を返す
+     * 
+     * @param request ajaxからのデータ
+     * @param session sessionをページに適用するための
+     * @return 予約可能の時間帯をMap(String,Boolean)として返す
+     * @throws ParseException
+     */
+    @ResponseBody
+    @GetMapping("/reserve/create/getReserveByFacilityIdAndDate")
+    public Map<String, Boolean> getReserveByFacilityIdAndDate(HttpServletRequest request, HttpSession session)
+            throws ParseException {
+        Map<String, Boolean> hourMap = new HashMap<>();
+        for (int i = 9; i < 20; i++) {
+            hourMap.put(String.valueOf(i), false);
+        }
+
+        int facilityId = Integer.parseInt(request.getParameter("facilityId"));
+        String dateString = request.getParameter("date");
+        Timestamp dateStamp = Timestamp.valueOf(dateString + " 00:00:00");
+
+        Optional<LendingFacility> optionalEntity = lendingFacilityRepository.findById(facilityId);
+        LendingFacility facility = optionalEntity.get();
+
+        List<ReserveManagement> reserveManagementList = reserveManegementRepository.findAllByFacilityIdAndReserveDate(
+                facility,
+                dateStamp, Sort.by("reserveManagementId").descending());
+        for (ReserveManagement reserveManagement : reserveManagementList) {
+            String hourString = reserveManagement.getHourList();
+            List<String> hourStringList = Arrays.asList(hourString.split(",")); // "9,10,17,19"
+            for (String hour : hourStringList) { // "9"
+                hourMap.replace(hour, true); // Map<"9",true>
+            }
+        }
+
+        return hourMap; // Model use ${mymap['keyaccess']}
+    }
+
+    /**
+     * AJAXを利用して、すべての施設を検索
+     * 
+     * @return すべての施設のList
+     */
     @ResponseBody
     @GetMapping("/reserve/create/getFacilities")
-    public List<LendingFacility> getFacilities(HttpSession session) {
+    public List<LendingFacility> getFacilities() {
         List<LendingFacility> facilityList = null;
         try {
             facilityList = lendingFacilityRepository.findAll();
@@ -149,7 +266,7 @@ public class ReserveController {
         List<ReserveManagement> rm = reserveManegementRepository.findAll(Sort.by("reserveManagementId").descending());
         model.addAttribute("rm", rm);
         model.addAttribute("listStatus", "admin");
-        session.setAttribute("adminCreateFlag", false);
+        session.setAttribute("adminCreateFlag", true);
         return "/reserve/reserve_list";
     }
 
@@ -161,12 +278,13 @@ public class ReserveController {
 
         Optional<User> op = userRepository.findById(id);
         User user = op.get();
-        List<ReserveManagement> rm = reserveManegementRepository.findByUserId(user,
+        List<ReserveManagement> rm = reserveManegementRepository.findAllByUserId(user,
                 Sort.by("reserveManagementId").descending());
         model.addAttribute("rm", rm); // rmからuserListまで
         model.addAttribute("listStatus", "normal");
         session.setAttribute("adminCreateFlag", true);
         session.setAttribute("adminCreateId", id);
+        model.addAttribute("userName", user.getName());
         return "/reserve/reserve_list";
     }
 
@@ -177,7 +295,7 @@ public class ReserveController {
         // 権限チェック
 
         User user = userRepository.getReferenceById(Integer.parseInt(String.valueOf(session.getAttribute("id"))));
-        List<ReserveManagement> rm = reserveManegementRepository.findByUserId(user,
+        List<ReserveManagement> rm = reserveManegementRepository.findAllByUserId(user,
                 Sort.by("reserveManagementId").descending());
         model.addAttribute("rm", rm);
         model.addAttribute("listStatus", "normal");
@@ -196,6 +314,7 @@ public class ReserveController {
         List<ToolManagement> toolList = toolManagementRepository.findByReserveManagementId(rm);
         model.addAttribute("rm", rm);
         model.addAttribute("toolList", toolList);
+        model.addAttribute("hourList", rm.getHourList());
         return "/reserve/reserve_detail";
     }
 
@@ -236,6 +355,7 @@ public class ReserveController {
     @PostMapping("/reserve/create/back")
     public String backToCreateInput(@ModelAttribute("form") @Valid ReserveForm form, Model model, HttpSession session) {
         model.addAttribute("form", form);
+        model.addAttribute("back", true);
         return "/reserve/input";
     }
 
@@ -252,8 +372,8 @@ public class ReserveController {
         reserveManegementRepository.save(reserveManagement);
 
         // 外部参照の為の準備
-        reserveManagement = reserveManegementRepository.findByUserIdAndStartTimeAndEndingTime(
-                reserveManagement.getUserId(), reserveManagement.getStartTime(), reserveManagement.getEndingTime());
+        reserveManagement = reserveManegementRepository.findByUserIdAndReserveDateAndHourList(
+                reserveManagement.getUserId(), reserveManagement.getReserveDate(), reserveManagement.getHourList());
 
         // 道具情報に予約IDを登録
         for (ToolManagement tm : toolManagementList) {
@@ -268,6 +388,21 @@ public class ReserveController {
     @PostMapping("/reserve/update/input")
     public String reserveUpdate(@Valid ReserveForm form, HttpSession session, Model model) {
         session.setAttribute("reserveStatus", "update");
+        String stringFromList = form2HourListString(form);
+        model.addAttribute("hourList", stringFromList);
+        model.addAttribute("form", form);
+        return "/reserve/input";
+    }
+
+    // 管理者としての予約変更
+    @PostMapping("/reserve/update/input/{id}")
+    public String reserveUpdateAdmin(@Valid ReserveForm form, HttpSession session, @PathVariable("id") int id,
+            Model model) {
+        session.setAttribute("reserveStatus", "update");
+        session.setAttribute("adminCreateFlag", true);
+        session.setAttribute("adminCreateId", id);
+        String stringFromList = form2HourListString(form);
+        model.addAttribute("hourList", stringFromList);
         model.addAttribute("form", form);
         return "/reserve/input";
     }

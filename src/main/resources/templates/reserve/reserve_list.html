@@ -11,6 +11,7 @@
       <div class="container">
         <div class="row center">
           <h3>予約・一覧</h3>
+          <h5 th:if="userName != null" th:text="'指定ユーザー：' + ${userName==null?'なし':userName}"></h5>
         </div>
 
         <div class="row center">
@@ -34,8 +35,7 @@
                 <th th:if="${session.login != null && session.authority == 1}">ユーザー名</th>
                 <th>施設名</th>
                 <th>予約日付</th>
-                <th>開始時間</th>
-                <th>終了時間</th>
+                <th>時間帯</th>
                 <th>新規時間</th>
               </tr>
             </thead>
@@ -45,9 +45,8 @@
                 <td th:text="${rm.userId.userId}" th:if="${session.login != null && session.authority == 1}"></td>
                 <td th:text="${rm.userId.name}" th:if="${session.login != null && session.authority == 1}"></td>
                 <td th:text="${rm.facilityId.facilityName}"></td>
-                <td th:text="${#dates.format(rm.startTime,'yyyy-MM-dd')}"></td>
-                <td th:text="${#dates.format(rm.startTime,'HH:mm')}"></td>
-                <td th:text="${#dates.format(rm.endingTime,'HH:mm')}"></td>
+                <td th:text="${#dates.format(rm.reserveDate,'yyyy-MM-dd')}"></td>
+                <td th:text="${rm.hourList}"></td>
                 <td th:text="${#dates.format(rm.createTime,'yyyy-MM-dd HH:mm')}"></td>
                 <td><a class="waves-effect waves-light btn" th:href="@{'/reserve/reserveDetail/'+${rm.reserveManagementId}}">詳細</a></td>
               </tr>

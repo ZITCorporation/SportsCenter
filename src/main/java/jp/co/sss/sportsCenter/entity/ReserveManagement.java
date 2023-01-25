@@ -1,6 +1,7 @@
 package jp.co.sss.sportsCenter.entity;
 
 import java.sql.Timestamp;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,6 +38,12 @@ public class ReserveManagement {
 
     @Column(name = "create_time")
     private Timestamp createTime;
+
+    @Column(name = "reserve_date")
+    private Date reserveDate;
+
+    @Column(name = "hour_list")
+    private String hourList;
 
     public ReserveManagement() {
     }
@@ -87,6 +94,22 @@ public class ReserveManagement {
 
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getReserveDate() {
+        return reserveDate;
+    }
+
+    public void setReserveDate(Date reserveDate) {
+        this.reserveDate = reserveDate;
+    }
+
+    public String getHourList() {
+        return hourList;
+    }
+
+    public void setHourList(String hourList) {
+        this.hourList = hourList;
     }
 
 }
