@@ -70,5 +70,28 @@
   </div><!-- /slider-pro -->
 
     </main>
+    
+    <script>
+$( document ).ready(function( $ ) {
+  $('#top_slide').sliderPro({
+    width: 1400,
+    arrows: true,
+	buttons: true,
+    aspectRatio: 1.8,
+    slideDistance:0,
+	fadeDuration: 1000,
+	smallSize: 640,
+	visibleSize:"100%",
+    breakpoints: {
+      640: {
+	  width: '100%',
+	  arrows: false,
+	  aspectRatio: 1.6,
+      }
+    }
+  });
+});
+</script>
+    
   </body>
 </html>
