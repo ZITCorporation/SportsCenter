@@ -216,28 +216,28 @@ public class ReserveController {
             throws ParseException {
         Map<String, Boolean> hourMap = new HashMap<>();
         for (int i = 9; i < 20; i++) {
-            hourMap.put(String.valueOf(i), false);
+            hourMap.put(String.valueOf(i), false); // 9時から19時の判断MAP、デフォルトはfalse
         }
 
-        int facilityId = Integer.parseInt(request.getParameter("facilityId"));
-        String dateString = request.getParameter("date");
-        Timestamp dateStamp = Timestamp.valueOf(dateString + " 00:00:00");
+        int facilityId = Integer.parseInt(request.getParameter("facilityId")); // ページからの施設IDを取る
+        String dateString = request.getParameter("date"); // ページからの日付を取る
+        Timestamp dateStamp = Timestamp.valueOf(dateString + " 00:00:00");// 日付のStringをTimestampに変換
 
         Optional<LendingFacility> optionalEntity = lendingFacilityRepository.findById(facilityId);
-        LendingFacility facility = optionalEntity.get();
+        LendingFacility facility = optionalEntity.get(); // 施設IDを通じて、データベースから施設のEntityを探す
 
         List<ReserveManagement> reserveManagementList = reserveManegementRepository.findAllByFacilityIdAndReserveDate(
                 facility,
-                dateStamp, Sort.by("reserveManagementId").descending());
-        for (ReserveManagement reserveManagement : reserveManagementList) {
-            String hourString = reserveManagement.getHourList();
-            List<String> hourStringList = Arrays.asList(hourString.split(",")); // "9,10,17,19"
+                dateStamp, Sort.by("reserveManagementId").descending()); // 施設のEntityと日付を通じて、関連のすべての予約を検索する、Listに保存
+        for (ReserveManagement reserveManagement : reserveManagementList) {// Listから一つ一つの予約を取る
+            String hourString = reserveManagement.getHourList();// 予約の中のString形の時間帯を取る、例は"9,10,17,19"
+            List<String> hourStringList = Arrays.asList(hourString.split(",")); // "9,10,17,19"＞{9,10,17,19}
             for (String hour : hourStringList) { // "9"
                 hourMap.replace(hour, true); // Map<"9",true>
             }
         }
 
-        return hourMap; // Model use ${mymap['keyaccess']}
+        return hourMap; // MAPをページに渡す
     }
 
     /**
