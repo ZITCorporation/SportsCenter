@@ -24,7 +24,6 @@
             <li class="tab"><a href="/">HOME</a></li>
             <li class="tab"><a href="/listFacilities">施設</a></li>
             <li class="tab"><a href="/bbs/listAllBBS">お知らせ</a></li>
-            <li class="tab"><a href="#test4">Q&A</a></li>
             <li th:if="${session.login != null && session.authority == 0}" class="tab"><a href="/reserve/findByUser">予約確認</a></li>
             <li th:if="${session.login != null && session.authority == 1}" class="tab"><a href="/user/findAll">ユーザー一覧</a></li>
             <li th:if="${session.login != null && session.authority == 1}" class="tab"><a href="/reserve/findAll">予約一覧</a></li>
