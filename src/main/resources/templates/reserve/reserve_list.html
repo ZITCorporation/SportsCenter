@@ -11,7 +11,7 @@
       <div class="container">
         <div class="row center">
           <h3>予約・一覧</h3>
-          <h5 th:if="userName != null" th:text="'指定ユーザー：' + ${userName==null?'なし':userName}"></h5>
+          <h5 th:if="${session.authority == 1}" th:text="'指定ユーザー：' + ${userName==null?'なし':userName}"></h5>
         </div>
 
         <div class="row center">

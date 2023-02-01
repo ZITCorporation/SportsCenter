@@ -20,7 +20,7 @@ public class LoginController {
 
     @Autowired
     HttpSession session;
-    
+
     @RequestMapping(path = "/login", method = RequestMethod.GET)
     public String login() {
         return "/user/login";

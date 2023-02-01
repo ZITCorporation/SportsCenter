@@ -12,7 +12,6 @@ import jp.co.sss.sportsCenter.entity.ReserveManagement;
 import jp.co.sss.sportsCenter.entity.User;
 
 public interface ReserveManegementRepository extends JpaRepository<ReserveManagement, Integer> {
-    ReserveManagement findByUserIdAndStartTimeAndEndingTime(User userId , Timestamp startTime, Timestamp endingTime);
     ReserveManagement findByFacilityId(LendingFacility facilityId);
     List<ReserveManagement> findAllByUserId(User userId,Sort sort);
     List<ReserveManagement> findAllByFacilityIdAndReserveDate(LendingFacility facilityId,Timestamp date,Sort sort);

@@ -26,12 +26,6 @@ public class ReserveManagement {
     @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private User userId;
 
-    @Column(name = "start_time")
-    private Timestamp startTime;
-
-    @Column(name = "ending_time")
-    private Timestamp endingTime;
-
     @ManyToOne
     @JoinColumn(name = "facility_id", referencedColumnName = "facilityId")
     private LendingFacility facilityId;
@@ -62,22 +56,6 @@ public class ReserveManagement {
 
     public void setUserId(User userId) {
         this.userId = userId;
-    }
-
-    public Timestamp getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Timestamp startTime) {
-        this.startTime = startTime;
-    }
-
-    public Timestamp getEndingTime() {
-        return endingTime;
-    }
-
-    public void setEndingTime(Timestamp endingTime) {
-        this.endingTime = endingTime;
     }
 
     public LendingFacility getFacilityId() {
