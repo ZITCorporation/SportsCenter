@@ -21,19 +21,19 @@
         <a
           th:if="${session.userStatus=='create'}"
           class="btn waves-effect waves-light back"
-          th:href="${session.authority == 0} ? '/login' : '/user/findAll'">
+          th:href="${session.authority == 1} ? '/user/findAll' : '/login'">
           戻る
         </a>
         <a
           th:if="${session.userStatus=='update'}"
           class="btn waves-effect waves-light back"
-          th:href="${session.authority == 0} ? '/user/detail/'+ ${session.id} : '/user/findAll' ">
+          th:href="${session.authority == 1} ? '/user/findAll : '/user/detail/'+ ${session.id} ">
           戻る
         </a>
         <a
           th:if="${session.userStatus=='delete'}"
           class="btn waves-effect waves-light back"
-          th:href="${session.authority == 0} ? '/' : '/user/findAll' ">
+          th:href="${session.authority == 0} ? '/user/findAll' : '/' ">
           戻る
         </a>
       </div>
