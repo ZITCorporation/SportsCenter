@@ -15,6 +15,18 @@
 
         <div class="row">
           <form class="center confirm">
+
+            <!-- 隠しドメイン -->
+            <input th:if="${form!=null}" hidden disabled id="formHidden" th:value="${form}" />
+            <input th:if="${form!=null}" hidden disabled id="backHidden" th:value="${back}" />
+            <input th:if="${form!=null}" hidden disabled id="hourListHidden" th:value="${hourList}" />
+            <input th:if="${session.reserveStatus!=null}" hidden disabled id="reserveStatus" th:value="${session.reserveStatus}" />
+            <input th:if="${preSelectFacilityId!=null}" hidden id="preSelectFacilityId" th:value="${preSelectFacilityId}" />
+            <input th:if="${form!=null}" hidden disabled id="form" th:value="${form}" />
+            <input th:if="${form!=null}" hidden disabled id="formFacilityId" th:value="${form.facilityId}" />
+            <input th:if="${reserveManagementId!=null}" hidden name="reserveManagementId" th:value="${reserveManagementId}"/>
+            <!-- 隠しドメイン -->
+
             <div class="row" th:if="${session.authority == 1}">
               <div class="input-field col offset-m1 m10 s12">
                 <i class="material-icons prefix">info_outline</i>
@@ -179,10 +191,20 @@
 
             <div class="row">
               <button
+                th:if="${session.authority==0}"
                 id="changeBtn"
                 class="btn waves-effect waves-light"
                 type="submit"
                 formaction="/reserve/update/input"
+                formmethod="post">
+                変更
+              </button>
+              <button
+                th:if="${session.authority==1}"
+                id="changeBtn"
+                class="btn waves-effect waves-light"
+                type="submit"
+                th:formaction="${'/reserve/update/input/'+rm.reserveManagementId}"
                 formmethod="post">
                 変更
               </button>
